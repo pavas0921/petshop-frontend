@@ -1,0 +1,17 @@
+@import url("https://fonts.googleapis.com/css?family=Atma");
+.navbar_main {
+  background-color: #f4b9b8;
+  font-family: "Atma";
+  font-size: 20px;
+}
+
+.div_img {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+}
+
+.img_logo {
+  border-radius: 50px;
+}
