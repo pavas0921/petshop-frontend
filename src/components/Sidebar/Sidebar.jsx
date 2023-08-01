@@ -1,5 +1,10 @@
-import React, { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import React, { useEffect, useState } from "react";
+import Container from "react-bootstrap/Container";
+import Nav from "react-bootstrap/Nav";
+import NavDropdown from "react-bootstrap/NavDropdown";
+import Navbar from "react-bootstrap/Navbar";
+import { useDispatch, useSelector } from "react-redux";
+import logo from "../../assets/logo.jpg";
 import {
   getAllAnimal,
   selectAnimalState,
@@ -8,18 +13,20 @@ import {
   getAllAnimalProduct,
   selectAnimalProductState,
 } from "../../features/animalProduct/animalProductSlice";
-import Container from "react-bootstrap/Container";
-import Nav from "react-bootstrap/Nav";
-import Navbar from "react-bootstrap/Navbar";
-import NavDropdown from "react-bootstrap/NavDropdown";
 import "./styles.css";
-import logo from "../../assets/logo.jpg";
 
 const Sidebar = () => {
   const animalData = useSelector(selectAnimalState);
   const animalProductData = useSelector(selectAnimalProductState);
   const { animalProduct } = animalProductData;
   const { data } = animalProduct;
+  const [products, setProducts] = useState([]);
+  const [selectedAnimal, setSelectedAnimal] = useState(null);
+
+  const handleAnimalClick = (animalId) => {
+    const selectedProducts = data.filter((row) => animalId === row.id_animal);
+    setProducts(selectedProducts.map((row) => row.product));
+  };
 
   //const { animal } = data;
   //const { status, item } = animal;
@@ -30,11 +37,7 @@ const Sidebar = () => {
     dispatch(getAllAnimalProduct());
   }, []);
 
-  useEffect(() => {
-    if (data) {
-      console.log(",,,,,", data);
-    }
-  }, [animalProductData]);
+  useEffect(() => {});
 
   return (
     <Navbar expand="lg" className="navbar_main">
@@ -53,24 +56,21 @@ const Sidebar = () => {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            {data &&
-              data.map((row, index) => (
+            {animalData.animal.data &&
+              animalData.animal.data.map((row, index) => (
                 <NavDropdown
                   key={index}
                   title={row.name}
+                  onClick={() => handleAnimalClick(row.id)}
                   id="basic-nav-dropdown"
                 >
-                  <NavDropdown.Item href="#action/3.1"></NavDropdown.Item>
-                  <NavDropdown.Item href="#action/3.2">
-                    Another action
-                  </NavDropdown.Item>
-                  <NavDropdown.Item href="#action/3.3">
-                    Something
-                  </NavDropdown.Item>
-                  <NavDropdown.Divider />
-                  <NavDropdown.Item href="#action/3.4">
-                    Separated link
-                  </NavDropdown.Item>
+                  {products &&
+                    products.length > 0 &&
+                    products.map((row, index) => (
+                      <NavDropdown.Item key={index} href={`#action/3.${index}`}>
+                        {row}
+                      </NavDropdown.Item>
+                    ))}
                 </NavDropdown>
               ))}
           </Nav>
