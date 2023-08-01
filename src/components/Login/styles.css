@@ -26,6 +26,7 @@
   justify-content: center;
   align-items: center;
   background-color: #f7f7f7;
+  
 }
 
 .img-form {
@@ -38,6 +39,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
 }
 
 /* Media query para pantallas más pequeñas, por ejemplo, tablets y dispositivos móviles */
