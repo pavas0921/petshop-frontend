@@ -1,16 +1,12 @@
-import React from "react";
+import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
-import { Sidebar } from "./components/Sidebar";
+import { CustomRouterProvider } from "./router";
 
 function App() {
   return (
-    <>
-      <div className="div_main">
-        <div>
-          <Sidebar />
-        </div>
-      </div>
-    </>
+    <div className="div_main">
+      <CustomRouterProvider />
+    </div>
   );
 }
 

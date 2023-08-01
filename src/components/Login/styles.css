@@ -1,0 +1,53 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.login-form {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-form-left {
+  width: 60%; /* Utilizamos 50% para que ocupen el mismo espacio en pantallas más grandes */
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.login-form-right {
+  width: 50%; /* Utilizamos 50% para que ocupen el mismo espacio en pantallas más grandes */
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f7f7f7;
+}
+
+.img-form {
+  width: 100%;
+  max-width: 100%; /* Establecemos un ancho máximo para la imagen */
+}
+
+.form-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Media query para pantallas más pequeñas, por ejemplo, tablets y dispositivos móviles */
+@media screen and (max-width: 768px) {
+  .login-form {
+    flex-direction: column; /* Cambiamos la dirección del flexbox para apilar los elementos verticalmente */
+  }
+
+  .login-form-left,
+  .login-form-right {
+    width: 100%; /* Hacemos que ocupen todo el ancho en pantallas más pequeñas */
+  }
+}

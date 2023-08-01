@@ -1,12 +1,16 @@
-import { createBrowserRouter } from "react-router-dom";
-import { RouterProvider } from "react-router-dom";
-import App from "../App";
-
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { Sidebar } from "../components/Sidebar";
+import { Login } from "../pages/";
 const router = createBrowserRouter([
   {
+    path: "/login",
+    element: <Login />,
+    errorElement: <div> Hubo un error!!</div>,
+  },
+  {
     path: "/",
-    element: <App />,
-    errorElement: <div>Page not found!</div>,
+    element: <Sidebar />,
+    errorElement: <div> Hubo un error!!</div>,
   },
 ]);
 

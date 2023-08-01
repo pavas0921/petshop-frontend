@@ -1,4 +1,10 @@
 @import url("https://fonts.googleapis.com/css?family=Atma");
+* {
+  margin: 0%;
+  padding: 0%;
+  box-sizing: border-box;
+}
+
 .navbar_main {
   background-color: #f4b9b8;
   font-family: "Atma";
