@@ -28,12 +28,10 @@ const LoginForm = () => {
 
 
   useEffect(() => {
-    console.log(loading)
    if(token){
-    console.log(token)
     goToFavs();
    }
-  }, [loginData, token, data]);
+  }, [token]);
 
  const handleSubmit = (e) => {
     e.preventDefault();

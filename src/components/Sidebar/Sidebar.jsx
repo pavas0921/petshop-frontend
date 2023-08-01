@@ -1,9 +1,12 @@
+import { faCog } from "@fortawesome/free-solid-svg-icons"; // Icono de configuración
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import Navbar from "react-bootstrap/Navbar";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import logo from "../../assets/logo.jpg";
 import {
   getAllAnimal,
@@ -13,15 +16,19 @@ import {
   getAllAnimalProduct,
   selectAnimalProductState,
 } from "../../features/animalProduct/animalProductSlice";
+import { selectLoginState } from "../../features/login/loginSlice";
 import "./styles.css";
 
 const Sidebar = () => {
+  const navigate = useNavigate();
   const animalData = useSelector(selectAnimalState);
   const animalProductData = useSelector(selectAnimalProductState);
   const { animalProduct } = animalProductData;
   const { data } = animalProduct;
   const [products, setProducts] = useState([]);
   const [selectedAnimal, setSelectedAnimal] = useState(null);
+  const dataLogin = useSelector(selectLoginState);
+  const token = dataLogin?.user?.data?.token
 
   const handleAnimalClick = (animalId) => {
     const selectedProducts = data.filter((row) => animalId === row.id_animal);
@@ -33,9 +40,16 @@ const Sidebar = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getAllAnimal());
+    if(token){
+      sessionStorage.setItem("token", token)
+      dispatch(getAllAnimal());
     dispatch(getAllAnimalProduct());
-  }, []);
+    }else{
+      navigate("/login");
+    }
+    
+    
+  }, [token]);
 
   useEffect(() => {});
 
@@ -75,6 +89,18 @@ const Sidebar = () => {
               ))}
           </Nav>
         </Navbar.Collapse>
+
+
+      
+        <Navbar.Collapse className="justify-content-end">
+        
+        <Nav className="ml-auto">
+            <Nav.Link eventKey={2} href="#memes">
+            <FontAwesomeIcon icon={faCog} />            </Nav.Link>
+          </Nav>
+         
+        </Navbar.Collapse>
+
       </Container>
     </Navbar>
   );
