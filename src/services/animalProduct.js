@@ -1,6 +1,6 @@
 export const getAllAnimalProductAPI = async () => {
   try {
-    const request = await fetch(`http://localhost:4000/animalProduct`, {
+    const request = await fetch(`https://muezzapets-backend.onrender.com/animalProduct`, {
       method: "GET",
       headers: {
         //Authorization: `Bearer ${token}`,
