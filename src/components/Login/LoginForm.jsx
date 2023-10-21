@@ -15,30 +15,28 @@ import "./styles.css";
 
 const LoginForm = () => {
   const [credentials, setCredentials] = useState({
-    email: "",
+    username: "",
     password: "",
   });
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const loginData = useSelector(selectLoginState);
-  const {user} = loginData;
-  const {data} = user;
-  const token = data?.token;   
+  const { user } = loginData;
+  const { data } = user;
+  const token = data?.token;
   const loading = loginData.loading;
 
-
   useEffect(() => {
-    console.log(loading)
-   if(token){
-    console.log(token)
-    goToFavs();
-   }
+    console.log(loginData);
+    if (token) {
+      goToFavs();
+    }
   }, [loginData, token, data]);
 
- const handleSubmit = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(Login(credentials));
-  }
+  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -50,23 +48,24 @@ const LoginForm = () => {
 
   const goToFavs = () => {
     navigate("/");
-  }
-
-
+  };
 
   return (
     <div className="login-form">
-     
       <div className="login-form-left">
         <Image className="img-form" src={Img} />
       </div>
       <div className="login-form-right">
-      
         <div className="form-container">
-        <div>
-        <Image style={{width: "200px", height: "200px", marginBottom: "20px"}} src={Logo} roundedCircle/>
-        </div>
-          <Form onSubmit={handleSubmit}
+          <div>
+            <Image
+              style={{ width: "200px", height: "200px", marginBottom: "20px" }}
+              src={Logo}
+              roundedCircle
+            />
+          </div>
+          <Form
+            onSubmit={handleSubmit}
             style={{
               width: "100%",
               display: "flex",
@@ -82,9 +81,13 @@ const LoginForm = () => {
                 marginBottom: "20px",
               }}
             >
-              <Form.Control type="email" placeholder="Correo Electrónico" name="email"
-              value={credentials.email}
-              onChange={handleInputChange} />
+              <Form.Control
+                type="text"
+                placeholder="Nombre de usuario"
+                name="username"
+                value={credentials.email}
+                onChange={handleInputChange}
+              />
             </Form.Group>
             <Form.Group
               controlId="loginForm.password"
@@ -93,8 +96,13 @@ const LoginForm = () => {
                 marginBottom: "20px",
               }}
             >
-              <Form.Control type="password" placeholder="Contraseña" name="password" value={credentials.password}
-              onChange={handleInputChange} />
+              <Form.Control
+                type="password"
+                placeholder="Contraseña"
+                name="password"
+                value={credentials.password}
+                onChange={handleInputChange}
+              />
             </Form.Group>
             <Form.Group
               controlId="loginForm.button"
@@ -104,17 +112,26 @@ const LoginForm = () => {
                 justifyContent: "center",
                 alignItems: "center",
                 flexDirection: "column",
-                
               }}
             >
-              <Button variant="primary" style={{backgroundColor: "#f19fad", border: "none", width:"25%", color: "black", marginBottom: "20px" }} type="submit">INGRESAR</Button>
+              <Button
+                variant="primary"
+                style={{
+                  backgroundColor: "#f19fad",
+                  border: "none",
+                  width: "25%",
+                  color: "black",
+                  marginBottom: "20px",
+                }}
+                type="submit"
+              >
+                INGRESAR
+              </Button>
               {user && user.error && user.message && (
-      <AlertMessage variant="warning" message={user.message} />
-      
-     )
-     }
+                <AlertMessage variant="warning" message={user.message} />
+              )}
 
-     {loading && <Loader/>}
+              {loading && <Loader />}
             </Form.Group>
           </Form>
         </div>

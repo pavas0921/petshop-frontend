@@ -1,9 +1,9 @@
 //const API_BASE_URL = "https://muezzapets-backend.onrender.com";
 const API_BASE_URL = "http://localhost:4000";
 
-export const loginAPI = async (body) => {
+export const createUserAPI = async (body) => {
   try {
-    const url = `${API_BASE_URL}/user/login`;
+    const url = `${API_BASE_URL}/user`;
     const req = await fetch(url, {
       method: "POST",
       headers: {

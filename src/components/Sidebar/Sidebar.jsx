@@ -1,44 +1,11 @@
-import React, { useEffect, useState } from "react";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
-import NavDropdown from "react-bootstrap/NavDropdown";
 import Navbar from "react-bootstrap/Navbar";
-import { useDispatch, useSelector } from "react-redux";
-import logo from "../../assets/logo.jpg";
-import {
-  getAllAnimal,
-  selectAnimalState,
-} from "../../features/animal/animalSlice";
-import {
-  getAllAnimalProduct,
-  selectAnimalProductState,
-} from "../../features/animalProduct/animalProductSlice";
+import NavDropdown from "react-bootstrap/NavDropdown";
 import "./styles.css";
+import logo from "../../assets/logo.jpg";
 
 const Sidebar = () => {
-  const animalData = useSelector(selectAnimalState);
-  const animalProductData = useSelector(selectAnimalProductState);
-  const { animalProduct } = animalProductData;
-  const { data } = animalProduct;
-  const [products, setProducts] = useState([]);
-  const [selectedAnimal, setSelectedAnimal] = useState(null);
-
-  const handleAnimalClick = (animalId) => {
-    const selectedProducts = data.filter((row) => animalId === row.id_animal);
-    setProducts(selectedProducts.map((row) => row.product));
-  };
-
-  //const { animal } = data;
-  //const { status, item } = animal;
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(getAllAnimal());
-    dispatch(getAllAnimalProduct());
-  }, []);
-
-  useEffect(() => {});
-
   return (
     <Navbar expand="lg" className="navbar_main">
       <Container>
@@ -56,23 +23,36 @@ const Sidebar = () => {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            {animalData.animal.data &&
-              animalData.animal.data.map((row, index) => (
-                <NavDropdown
-                  key={index}
-                  title={row.name}
-                  onClick={() => handleAnimalClick(row.id)}
-                  id="basic-nav-dropdown"
-                >
-                  {products &&
-                    products.length > 0 &&
-                    products.map((row, index) => (
-                      <NavDropdown.Item key={index} href={`#action/3.${index}`}>
-                        {row}
-                      </NavDropdown.Item>
-                    ))}
-                </NavDropdown>
-              ))}
+            <NavDropdown title="Perros" id="perros">
+              <NavDropdown.Item>Concentrados</NavDropdown.Item>
+              <NavDropdown.Item>Snacks</NavDropdown.Item>
+              <NavDropdown.Item>Accesorios</NavDropdown.Item>
+              <NavDropdown.Item>Cuidado e Higiene</NavDropdown.Item>
+              <NavDropdown.Item>MediPets</NavDropdown.Item>
+              <NavDropdown.Item>Desparasitantes</NavDropdown.Item>
+            </NavDropdown>
+            <NavDropdown title="Gatos" id="perros">
+              <NavDropdown.Item>Concentrados</NavDropdown.Item>
+              <NavDropdown.Item>Arenas</NavDropdown.Item>
+              <NavDropdown.Item>Snacks</NavDropdown.Item>
+              <NavDropdown.Item>Accesorios</NavDropdown.Item>
+              <NavDropdown.Item>Cuidado e Higiene</NavDropdown.Item>
+              <NavDropdown.Item>MediPets</NavDropdown.Item>
+              <NavDropdown.Item>Desparasitantes</NavDropdown.Item>
+            </NavDropdown>
+            <NavDropdown title="Otras Especies" id="perros">
+              <NavDropdown.Item>Concentrados</NavDropdown.Item>
+              <NavDropdown.Item>Snacks</NavDropdown.Item>
+              <NavDropdown.Item>Accesorios</NavDropdown.Item>
+              <NavDropdown.Item>Aseo</NavDropdown.Item>
+              <NavDropdown.Item>Medicamentos</NavDropdown.Item>
+              <NavDropdown.Item>Desparasitantes</NavDropdown.Item>
+            </NavDropdown>
+            <NavDropdown title="Servicios" id="perros">
+              <NavDropdown.Item>Consulta Veterinaria</NavDropdown.Item>
+              <NavDropdown.Item>Desparasitación</NavDropdown.Item>
+              <NavDropdown.Item>Vacunación</NavDropdown.Item>
+            </NavDropdown>
           </Nav>
         </Navbar.Collapse>
       </Container>

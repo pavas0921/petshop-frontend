@@ -1,15 +1,16 @@
 //const API_BASE_URL = "https://muezzapets-backend.onrender.com";
 const API_BASE_URL = "http://localhost:4000";
 
-export const loginAPI = async (body) => {
+//localhost:4000/categoria
+
+export const getAllCategoryAPI = async () => {
   try {
-    const url = `${API_BASE_URL}/user/login`;
+    const url = `${API_BASE_URL}/categoria`;
     const req = await fetch(url, {
-      method: "POST",
+      method: "GET",
       headers: {
-        "Content-Type": "application/json",
+        //Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify(body),
     });
     const data = await req.json();
     return Promise.resolve(data);

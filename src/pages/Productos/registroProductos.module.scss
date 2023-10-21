@@ -1,0 +1,20 @@
+.div_main {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .div_registroProductos {
+    width: 45%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .div_registroDetalleProducto {
+    width: 45%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}

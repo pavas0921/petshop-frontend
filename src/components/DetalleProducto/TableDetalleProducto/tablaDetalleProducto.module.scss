@@ -1,0 +1,15 @@
+.box_main {
+  width: 80%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  .div_title {
+    margin-bottom: 20px;
+  }
+
+  .datagrid {
+    background-color: white;
+  }
+}
