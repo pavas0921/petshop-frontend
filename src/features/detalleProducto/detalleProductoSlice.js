@@ -10,6 +10,14 @@ const initialState = {
   loading: false,
 };
 
+export const getAllDetalleProducto = createAsyncThunk(
+  "get/getAllDetalleProducto",
+  async () => {
+    const data = await getAllDetalleProductoAPI();
+    return data;
+  }
+);
+
 export const getDetalleByProductId = createAsyncThunk(
   "get/getDetalleByProductId",
   async (body) => {
@@ -33,6 +41,13 @@ export const DetalleProductoSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
+      .addCase(getAllDetalleProducto.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getAllDetalleProducto.fulfilled, (state, action) => {
+        state.loading = true;
+        state.detalleProductos = action.payload;
+      })
       .addCase(getDetalleByProductId.pending, (state) => {
         state.loading = true;
       })

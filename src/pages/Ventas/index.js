@@ -1,3 +1,4 @@
 import Ventas from "./Ventas";
+import NewSale from "./NewSale";
 
-export { Ventas };
+export { Ventas, NewSale };

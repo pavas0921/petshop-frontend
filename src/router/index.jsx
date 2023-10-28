@@ -5,7 +5,7 @@ import { RegistroProductos, VerProductos } from "../pages/Productos";
 import { DetalleProducto } from "../pages/DetalleProducto";
 import { Register } from "../pages/User";
 import { Dashboard } from "../pages/Dashboard";
-import { Ventas } from "../pages/Ventas";
+import { NewSale, Ventas } from "../pages/Ventas";
 const router = createBrowserRouter([
   {
     path: "/login",
@@ -45,6 +45,11 @@ const router = createBrowserRouter([
   {
     path: "ventas",
     element: <Ventas />,
+    errorElement: <div> Hubo un error!!</div>,
+  },
+  {
+    path: "new-sale",
+    element: <NewSale />,
     errorElement: <div> Hubo un error!!</div>,
   },
 ]);

@@ -63,10 +63,10 @@ const FormRegistroProuctos = () => {
   useEffect(() => {
     if (productResponse && productResponse.productos._id) {
       sessionStorage.setItem("productId", productResponse.productos._id);
-
       console.log("producto", sessionStorage.getItem("productId"));
     }
   }, [productResponse]);
+
   return (
     <div className={styles.div_main}>
       <div className={styles.div_card}>
