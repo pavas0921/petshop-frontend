@@ -1,21 +1,18 @@
 import Box from "@mui/material/Box";
 import { DataGrid } from "@mui/x-data-grid";
-import React, { useEffect } from "react";
+import React from "react";
 import styles from "./ventaTable.module.scss";
 
 const VentaTable = (props) => {
   const { rows } = props;
 
-  useEffect(() => {
-    console.log(rows)
-  }, [rows]);
 
 
   const columns = [
-    { field: "id", headerName: "Item", width: 50 },
+    { field: "detalleProducto", headerName: "Item", width: 50 },
 
     {
-      field: "producto",
+      field: "nombreProducto",
       headerName: "Producto",
       width: 400,
       editable: false,
@@ -47,6 +44,7 @@ const VentaTable = (props) => {
       <DataGrid
         rows={rows}
         columns={columns}
+        getRowId={(rows) => rows.detalleProducto}
         initialState={{
           pagination: {
             paginationModel: {

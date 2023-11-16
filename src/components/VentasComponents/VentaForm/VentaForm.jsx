@@ -6,8 +6,13 @@ import {
   getAllDetalleProducto,
   selectDetalleProductoState,
 } from "../../../features/detalleProducto/detalleProductoSlice";
+import {
+  createVenta,
+  selectVentasState
+} from "../../../features/venta/ventaSlice";
 import { adicionarCantidad } from "../../../helpers/adicionarCantidad";
 import { buscarProducto } from "../../../helpers/buscarProducto";
+import { calcularTotal } from "../../../helpers/calcularTotal";
 import { VentaTable } from "../VentaTable";
 import styles from "./ventaForm.module.scss";
 
@@ -26,15 +31,32 @@ const VentaForm = () => {
   const detalleProductoResponse = useSelector(selectDetalleProductoState);
   const { detalleProductos } = detalleProductoResponse;
   const { item } = detalleProductos;
+  const ventaResponse = useSelector(selectVentasState);
+
 
   useEffect(() => {
     dispatch(getAllDetalleProducto());
   }, []);
 
+  useEffect(() => {
+    console.log(ventaResponse)
+  }, [ventaResponse]);
 
   useEffect(() => {
-    console.log(rows);
-    console.log(calcularTotal());
+    console.log(headerVenta)
+  }, [headerVenta]);
+
+
+  useEffect(() => {
+    const total = calcularTotal(rows);
+    setHeaderVenta((prevHeaderVenta) => ({
+      ...prevHeaderVenta,
+      totalVenta: total,
+    }));
+    setHeaderVenta((prevHeaderVenta) => ({
+      ...prevHeaderVenta,
+      detalleVenta: rows,
+    }));
   }, [rows]);
 
   useEffect(() => {
@@ -43,46 +65,32 @@ const VentaForm = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setHeaderVenta((prevHeaderVenta) => ({
-      ...prevHeaderVenta,
-      [name]: value,
-    }));
-  };
+    if (name === "date") {
+      const formattedDate = new Date(value).toISOString();
+      setHeaderVenta(prevState => ({ ...prevState, [name]: formattedDate }));
+    } else {
+      setHeaderVenta((prevHeaderVenta) => ({
+        ...prevHeaderVenta,
+        [name]: value,
+      }));
+    }
 
-  const handleProducto = (e) => {
-    const { name, value } = e.target;
-    setProducto((prevProduct) => ({
-      ...prevProduct,
-      [name]: value,
-    }));
-  };
-
-  const handleCantidad = (e) => {
-    const { name, value } = e.target;
-    setCantidad((prevCantidad) => ({
-      ...prevCantidad,
-      [name]: value,
-    }));
   };
 
   const handleClick = () => {
-
     if (producto && cantidad) {
-
       if (rows.length > 0) {
         const updatedRows = adicionarCantidad(rows, producto, cantidad);
         if (updatedRows) {
           setRows(updatedRows);
         } else {
           const productDetail = buscarProducto(item, producto, cantidad);
-          console.log("****", productDetail);
           setRows([...rows, productDetail]);
           setProducto(""); // Restablecer a un valor vacío
           setCantidad(""); // Restablecer a un valor vacío*/
         }
       } else {
         const productDetail = buscarProducto(item, producto, cantidad);
-        console.log("****", productDetail);
         setRows([...rows, productDetail]);
         setProducto(""); // Restablecer a un valor vacío
         setCantidad(""); // Restablecer a un valor vacío*/
@@ -95,13 +103,13 @@ const VentaForm = () => {
     }
   };
 
-  const calcularTotal = () => {
-    const total = rows.reduce(
-      (acumulador, rows) => acumulador + rows.precioTotal,
-      0
-    );
-    setTotalVenta(total);
-  };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(createVenta(headerVenta));
+  }
+
+
+
 
   return (
     <div className={styles.div_main}>
@@ -109,7 +117,7 @@ const VentaForm = () => {
         <h4>Formulario de Venta</h4>
       </div>
       <div className={styles.div_form}>
-        <form className={styles.form}>
+        <form className={styles.form} onSubmit={handleSubmit}>
           <div className={styles.div_input}>
             <Form.Control
               name="date"
@@ -165,6 +173,9 @@ const VentaForm = () => {
               <Button className={styles.btn} onClick={handleClick}>
                 Agregar Producto
               </Button>
+              <Button className={styles.btn} type="submit">
+                Finalizar Venta
+              </Button>
             </div>
           </div>
         </form>
@@ -177,7 +188,7 @@ const VentaForm = () => {
         )}
 
         <div className={styles.div_totalVenta}>
-          <p>Total Venta: {totalVenta}</p>
+          <p>Total Venta: {headerVenta.totalVenta}</p>
         </div>
       </div>
     </div>

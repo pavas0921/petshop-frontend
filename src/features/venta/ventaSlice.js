@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { getAllVentasAPI } from "../../services/ventas";
+import { createVentaAPI, getAllVentasAPI } from "../../services/ventas";
 
 const initialState = {
   ventas: {},
@@ -11,15 +11,16 @@ export const getVentas = createAsyncThunk("get/ventas", async () => {
   return data;
 });
 
-/*
-export const createProduct = createAsyncThunk(
-  "get/createProduct",
+
+export const createVenta = createAsyncThunk(
+  "post/createVenta",
   async (body) => {
-    const data = await createProductAPI(body);
+    console.log("body", body);
+    const data = await createVentaAPI(body);
     return data;
   }
 );
-*/
+
 
 export const VentaSlice = createSlice({
   name: "venta",
@@ -31,7 +32,14 @@ export const VentaSlice = createSlice({
         state.loading = true;
       })
       .addCase(getVentas.fulfilled, (state, action) => {
+        state.loading = false;
+        state.ventas = action.payload;
+      })
+      .addCase(createVenta.pending, (state) => {
         state.loading = true;
+      })
+      .addCase(createVenta.fulfilled, (state, action) => {
+        state.loading = false;
         state.ventas = action.payload;
       });
   },

@@ -4,7 +4,7 @@
 //Crea una copia del array original (rows) y actualiza en el (updatedRows), la cantidad y el valorTotal.
 
 export const adicionarCantidad = (rows, producto, cantidad) => {
-    const result = rows.findIndex((item) => item.id === producto);
+    const result = rows.findIndex((item) => item.detalleProducto === producto);
     if(result >= 0){
         const newRows = [...rows]
         newRows[result]={

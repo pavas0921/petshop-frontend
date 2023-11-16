@@ -2,10 +2,16 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import Navbar from "react-bootstrap/Navbar";
+import { useNavigate } from "react-router";
 import logo from "../../assets/logo.jpg";
 import styles from "./sidebar.module.scss";
 
 const Sidebar = () => {
+  const navigate = useNavigate();
+
+  const handleVenta = () => {
+    navigate("/new-sale")
+  }
   return (
     <Navbar expand="lg" className={styles.navbar_main}>
       <Container>
@@ -52,6 +58,10 @@ const Sidebar = () => {
               <NavDropdown.Item>Consulta Veterinaria</NavDropdown.Item>
               <NavDropdown.Item>Desparasitación</NavDropdown.Item>
               <NavDropdown.Item>Vacunación</NavDropdown.Item>
+            </NavDropdown>
+            <NavDropdown title="Ventas" id="ventas">
+              <NavDropdown.Item onClick={handleVenta}>Nueva Venta</NavDropdown.Item>
+              <NavDropdown.Item>Maestro de Ventas</NavDropdown.Item>
             </NavDropdown>
           </Nav>
         </Navbar.Collapse>
