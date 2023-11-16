@@ -1,9 +1,7 @@
 import * as React from "react";
-import Box from "@mui/material/Box";
-import { DataGrid } from "@mui/x-data-grid";
 import { AllProducts } from "../../components/Productos/TablaProductos/AllProducts";
-import styles from "./verProductos.module.scss";
 import { Sidebar } from "../../components/Sidebar";
+import styles from "./verProductos.module.scss";
 
 const VerProductos = () => {
   return (

@@ -1,22 +1,22 @@
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
-import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
-import "./styles.css";
+import Navbar from "react-bootstrap/Navbar";
 import logo from "../../assets/logo.jpg";
+import styles from "./sidebar.module.scss";
 
 const Sidebar = () => {
   return (
-    <Navbar expand="lg" className="navbar_main">
+    <Navbar expand="lg" className={styles.navbar_main}>
       <Container>
         <Navbar.Brand href="#home">
-          <div className="div_img">
+          <div className={styles.div_img}>
             <img
               alt=""
               src={logo}
               width="80"
               height="80"
-              className="d-inline-block align-top img_logo"
+              className={styles.img_logo}
             />
           </div>
         </Navbar.Brand>

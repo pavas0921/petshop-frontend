@@ -1,10 +1,16 @@
-import React from "react";
 import Box from "@mui/material/Box";
 import { DataGrid } from "@mui/x-data-grid";
+import React, { useEffect } from "react";
 import styles from "./ventaTable.module.scss";
 
 const VentaTable = (props) => {
   const { rows } = props;
+
+  useEffect(() => {
+    console.log(rows)
+  }, [rows]);
+
+
   const columns = [
     { field: "id", headerName: "Item", width: 50 },
 

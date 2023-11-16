@@ -1,14 +1,15 @@
-import React, { useState, useEffect } from "react";
-import styles from "./ventaForm.module.scss";
-import Form from "react-bootstrap/Form";
+import React, { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
-import { VentaTable } from "../VentaTable";
+import Form from "react-bootstrap/Form";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getAllDetalleProducto,
   selectDetalleProductoState,
 } from "../../../features/detalleProducto/detalleProductoSlice";
+import { adicionarCantidad } from "../../../helpers/adicionarCantidad";
 import { buscarProducto } from "../../../helpers/buscarProducto";
+import { VentaTable } from "../VentaTable";
+import styles from "./ventaForm.module.scss";
 
 const VentaForm = () => {
   const [rows, setRows] = useState([]);
@@ -29,6 +30,7 @@ const VentaForm = () => {
   useEffect(() => {
     dispatch(getAllDetalleProducto());
   }, []);
+
 
   useEffect(() => {
     console.log(rows);
@@ -64,12 +66,28 @@ const VentaForm = () => {
   };
 
   const handleClick = () => {
+
     if (producto && cantidad) {
-      const productDetail = buscarProducto(item, producto, cantidad);
-      console.log("****", productDetail);
-      setRows([...rows, productDetail]);
-      setProducto(""); // Restablecer a un valor vacío
-      setCantidad(""); // Restablecer a un valor vacío
+
+      if (rows.length > 0) {
+        const updatedRows = adicionarCantidad(rows, producto, cantidad);
+        if (updatedRows) {
+          setRows(updatedRows);
+        } else {
+          const productDetail = buscarProducto(item, producto, cantidad);
+          console.log("****", productDetail);
+          setRows([...rows, productDetail]);
+          setProducto(""); // Restablecer a un valor vacío
+          setCantidad(""); // Restablecer a un valor vacío*/
+        }
+      } else {
+        const productDetail = buscarProducto(item, producto, cantidad);
+        console.log("****", productDetail);
+        setRows([...rows, productDetail]);
+        setProducto(""); // Restablecer a un valor vacío
+        setCantidad(""); // Restablecer a un valor vacío*/
+      }
+
     } else {
       console.log(
         "Debe seleccionar un producto antes de agregarlo a la lista."

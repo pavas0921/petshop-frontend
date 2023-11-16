@@ -1,10 +1,9 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import { Sidebar } from "../components/Sidebar";
 import { Login } from "../pages/";
-import { RegistroProductos, VerProductos } from "../pages/Productos";
-import { DetalleProducto } from "../pages/DetalleProducto";
-import { Register } from "../pages/User";
 import { Dashboard } from "../pages/Dashboard";
+import { DetalleProducto } from "../pages/DetalleProducto";
+import { RegistroProductos, VerProductos } from "../pages/Productos";
+import { Register } from "../pages/User";
 import { NewSale, Ventas } from "../pages/Ventas";
 const router = createBrowserRouter([
   {
@@ -14,7 +13,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/",
-    element: <Sidebar />,
+    element: <Dashboard />,
     errorElement: <div> Hubo un error!!</div>,
   },
   {

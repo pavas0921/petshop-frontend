@@ -1,10 +1,10 @@
 import "bootstrap/dist/css/bootstrap.min.css";
-import "./App.css";
+import styles from "./App.module.scss";
 import { CustomRouterProvider } from "./router";
 
 function App() {
   return (
-    <div className="div_main">
+    <div className={styles.div_main}>
       <CustomRouterProvider />
     </div>
   );

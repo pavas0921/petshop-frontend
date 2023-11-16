@@ -1,18 +1,21 @@
-import React, { useEffect, useState } from "react";
-import FormRegistroProuctos from "../../components/Productos/RegistroProductos/FormRegistroProuctos";
+import React from "react";
 import { FormRegistroDetalleProducto } from "../../components/DetalleProducto/RegistroDetalleProducto";
+import FormRegistroProuctos from "../../components/Productos/RegistroProductos/FormRegistroProuctos";
+import { Sidebar } from "../../components/Sidebar";
 import styles from "./registroProductos.module.scss";
 
 const RegistroProductos = () => {
   return (
     <div className={styles.div_main}>
-      <div className={styles.div_registroProductos}>
-        <FormRegistroProuctos />
+      <div className={styles.div_navbar}>
+        <Sidebar />
       </div>
-      <div className={styles.div_registroDetalleProducto}>
+      <div className={styles.div_form}>
+        <FormRegistroProuctos />
         <FormRegistroDetalleProducto />
       </div>
-    </div>
+
+    </div >
   );
 };
 
