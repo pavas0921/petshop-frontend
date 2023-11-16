@@ -20,6 +20,7 @@ const VentaForm = () => {
   });
   const [producto, setProducto] = useState("");
   const [cantidad, setCantidad] = useState("");
+  const [totalVenta, setTotalVenta] = useState("");
   const dispatch = useDispatch();
   const detalleProductoResponse = useSelector(selectDetalleProductoState);
   const { detalleProductos } = detalleProductoResponse;
@@ -31,6 +32,7 @@ const VentaForm = () => {
 
   useEffect(() => {
     console.log(rows);
+    console.log(calcularTotal());
   }, [rows]);
 
   useEffect(() => {
@@ -64,6 +66,7 @@ const VentaForm = () => {
   const handleClick = () => {
     if (producto && cantidad) {
       const productDetail = buscarProducto(item, producto, cantidad);
+      console.log("****", productDetail);
       setRows([...rows, productDetail]);
       setProducto(""); // Restablecer a un valor vacío
       setCantidad(""); // Restablecer a un valor vacío
@@ -72,6 +75,14 @@ const VentaForm = () => {
         "Debe seleccionar un producto antes de agregarlo a la lista."
       );
     }
+  };
+
+  const calcularTotal = () => {
+    const total = rows.reduce(
+      (acumulador, rows) => acumulador + rows.precioTotal,
+      0
+    );
+    setTotalVenta(total);
   };
 
   return (
@@ -146,6 +157,10 @@ const VentaForm = () => {
         ) : (
           <h6>Aún no ha seleccionado ningún producto</h6>
         )}
+
+        <div className={styles.div_totalVenta}>
+          <p>Total Venta: {totalVenta}</p>
+        </div>
       </div>
     </div>
   );
