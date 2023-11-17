@@ -1,15 +1,15 @@
-import React, { useEffect } from "react";
-import Box from "@mui/material/Box";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 import { IconButton } from "@mui/material";
+import Box from "@mui/material/Box";
 import { DataGrid } from "@mui/x-data-grid";
-import styles from "./AllProducts.module.scss";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import {
   getProducts,
   selectProductoState,
 } from "../../../../features/producto/productoSlice";
-import { useDispatch, useSelector } from "react-redux";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import { useNavigate } from "react-router-dom";
+import styles from "./AllProducts.module.scss";
 
 const AllProducts = () => {
   const dispatch = useDispatch();
@@ -80,11 +80,11 @@ const AllProducts = () => {
           initialState={{
             pagination: {
               paginationModel: {
-                pageSize: 5,
+                pageSize: 10,
               },
             },
           }}
-          pageSizeOptions={[5]}
+          pageSizeOptions={[10]}
           checkboxSelection
           disableRowSelectionOnClick
         />

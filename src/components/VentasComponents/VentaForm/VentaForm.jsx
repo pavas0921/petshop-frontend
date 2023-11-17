@@ -13,6 +13,8 @@ import {
 import { adicionarCantidad } from "../../../helpers/adicionarCantidad";
 import { buscarProducto } from "../../../helpers/buscarProducto";
 import { calcularTotal } from "../../../helpers/calcularTotal";
+import ToastAlert from "../../Alerts";
+import { Loader } from "../../LoaderComponent";
 import { VentaTable } from "../VentaTable";
 import styles from "./ventaForm.module.scss";
 
@@ -32,7 +34,9 @@ const VentaForm = () => {
   const { detalleProductos } = detalleProductoResponse;
   const { item } = detalleProductos;
   const ventaResponse = useSelector(selectVentasState);
-
+  const ventaLoading = ventaResponse.loading
+  const { ventas } = ventaResponse || {}
+  const { httpStatus, message, status } = ventas
 
   useEffect(() => {
     dispatch(getAllDetalleProducto());
@@ -113,11 +117,14 @@ const VentaForm = () => {
 
   return (
     <div className={styles.div_main}>
-      <div>
-        <h4>Formulario de Venta</h4>
-      </div>
-      <div className={styles.div_form}>
-        <form className={styles.form} onSubmit={handleSubmit}>
+
+      <form className={styles.form} onSubmit={handleSubmit}>
+
+
+        <div className={styles.div_form}>
+          <div className={styles.div_title}>
+            <h4>Formulario de Venta</h4>
+          </div>
           <div className={styles.div_input}>
             <Form.Control
               name="date"
@@ -173,24 +180,60 @@ const VentaForm = () => {
               <Button className={styles.btn} onClick={handleClick}>
                 Agregar Producto
               </Button>
-              <Button className={styles.btn} type="submit">
-                Finalizar Venta
-              </Button>
+
             </div>
           </div>
-        </form>
-      </div>
-      <div className={styles.div_table}>
-        {rows && rows.length > 0 ? (
-          <VentaTable rows={rows} />
-        ) : (
-          <h6>Aún no ha seleccionado ningún producto</h6>
-        )}
-
-        <div className={styles.div_totalVenta}>
-          <p>Total Venta: {headerVenta.totalVenta}</p>
         </div>
-      </div>
+
+        <div className={styles.card_table}>
+          {rows && rows.length > 0 ? (
+            <div>
+              <VentaTable rows={rows} />
+            </div>
+          ) : (
+            <div>
+              <h6>Aún no ha seleccionado ningún producto</h6>
+            </div>
+          )}
+          <div className={styles.div_footer}>
+            <div className={styles.div_totalVenta}>
+              <p>Total Venta: {headerVenta.totalVenta}</p>
+            </div>
+            <div className={styles.div_finalizarVentaBtn}>
+              {rows.length > 0 && !ventaLoading && (
+                <Button className={styles.btn} type="submit">
+                  Finalizar Venta
+                </Button>
+              )}
+
+            </div>
+
+            {ventaLoading && (
+              <div>
+                <Loader />
+              </div>
+            )}
+
+          </div>
+
+
+        </div>
+
+
+
+      </form>
+
+      {!ventaLoading && message === "Venta registrada con éxito" && httpStatus === 200 && status === "success" && (
+        <div>
+          <ToastAlert
+            message={message}
+            status={status}
+          />
+        </div>
+      )}
+
+
+
     </div>
   );
 };

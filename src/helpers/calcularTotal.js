@@ -5,3 +5,4 @@ export const calcularTotal = (rows) => {
       );
       return total;
 }
+

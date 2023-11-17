@@ -1,9 +1,10 @@
 .div_main {
   width: 100%;
-  height: auto;
+  height: 100vh;
   display: flex;
   align-items: center;
   flex-direction: column;
+  padding-bottom: 30px;
 
   @media (max-width: 820px) {
     width: 100%;
@@ -11,23 +12,7 @@
     display: flex;
   }
 
-  .div_form {
-    width: 70%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #ffffff; /* Color de fondo del contenedor */
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5); /* Sombra */
-    padding: 20px; /* Espacio interno para el contenido */
-    border-radius: 10px;
-    margin-top: 20px;
-
-    @media (max-width: 820px) {
-      width: 95%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
+  
 
     .form {
       width: 100%;
@@ -37,115 +22,146 @@
       flex-direction: column;
       margin-top: 15px;
 
-      .div_input {
-        width: 100%;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 15px;
 
+      .div_form {
+        width: 70%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;        
+        margin-top: 20px;
+        background-color: #ffffff; /* Color de fondo del contenedor */
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5); /* Sombra */
+        padding: 20px; /* Espacio interno para el contenido */
+        border-radius: 10px;
+        margin-top: 5px;
+    
         @media (max-width: 820px) {
+          width: 95%;
+          display: flex;
+          justify-content: center;
+          align-items: center;          
+        }
+
+        .div_title{
           width: 100%;
           display: flex;
           justify-content: center;
           align-items: center;
           flex-direction: column;
+          margin-bottom: 10px;
         }
 
-        .dateInput {
-          width: 30%;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-
-          @media (max-width: 820px) {
-            width: 90%;
-            display: flex;
-            margin-bottom: 15px;
-          }
-        }
-
-        .clientNameInput {
-          width: 65%;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-
-          @media (max-width: 820px) {
-            width: 90%;
-            display: flex;
-          }
-        }
-
-        .productInput {
-          width: 75%;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-
-          @media (max-width: 820px) {
-            width: 90%;
-            display: flex;
-            margin-bottom: 15px;
-          }
-        }
-
-        .qtyInput {
-          width: 20%;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-
-          @media (max-width: 820px) {
-            width: 90%;
-            display: flex;
-          }
-        }
-
-        .div_button {
+        .div_input{
           width: 100%;
           display: flex;
-          justify-content: center;
+          justify-content: space-around;
           align-items: center;
 
-          @media (max-width: 820px) {
-            width: auto;
+          .dateInput{
+            width: 35%;
             display: flex;
+            margin-bottom: 15px;
           }
 
-          .btn {
-            width: auto;
+          .clientNameInput{
+            width: 55%;
+            display: flex;    
+            margin-bottom: 15px;       
+          }
+
+          .productInput {
+            width: 55%;
             display: flex;
-            justify-content: center;
-            align-items: center;
-            background-color: #887bb0;
-            border: none;
+             margin-bottom: 15px;            
+  
+            @media (max-width: 820px) {
+              width: 90%;
+              display: flex;
+              margin-bottom: 15px;
+            }          
+        }
+
+          .qtyInput {
+            width: 35%;
+            display: flex;
+             margin-bottom: 15px;  
+            
 
             @media (max-width: 820px) {
-              width: auto;
+              width: 90%;
               display: flex;
             }
-          }
         }
       }
     }
+        .card_table {
+          width: 70%;
+          height: auto;
+          background-color: #ffffff; /* Color de fondo del contenedor */
+          box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5); /* Sombra */
+          padding: 20px; /* Espacio interno para el contenido */
+          border-radius: 10px;
+          margin-top: 20px;
+      
+          @media (max-width: 820px) {
+            width: 95%;
+            height: auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+          }
+
+          .div_footer{
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            .div_totalVenta{
+              width: 45;
+              display: flex;
+              justify-content: flex-start;
+              align-items: center;
+              margin-top: 20px;
+              padding-left: 2px;
+            }
+            .div_finalizarVentaBtn{
+              width: 45;
+              display: flex;
+              justify-content: flex-end;
+              align-items: center;
+              margin-top: 20px;
+            }
+          }
+        } 
+       } 
+      }
+
+.div_button {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  @media (max-width: 820px) {
+    width: auto;
+    display: flex;
   }
 
-  .div_table {
-    width: 70%;
-    height: auto;
-    background-color: #ffffff; /* Color de fondo del contenedor */
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5); /* Sombra */
-    padding: 20px; /* Espacio interno para el contenido */
-    border-radius: 10px;
-    margin-top: 20px;
+  
+}
 
-    @media (max-width: 820px) {
-      width: 95%;
-      height: auto;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
+.btn {
+  width: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #887bb0;
+  border: none;
+
+  @media (max-width: 820px) {
+    width: auto;
+    display: flex;
   }
 }
