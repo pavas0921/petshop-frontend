@@ -8,7 +8,7 @@ import {
 } from "../../../features/detalleProducto/detalleProductoSlice";
 import {
   createVenta,
-  selectVentasState
+  selectVentasState,
 } from "../../../features/venta/ventaSlice";
 import { adicionarCantidad } from "../../../helpers/adicionarCantidad";
 import { buscarProducto } from "../../../helpers/buscarProducto";
@@ -34,22 +34,21 @@ const VentaForm = () => {
   const { detalleProductos } = detalleProductoResponse;
   const { item } = detalleProductos;
   const ventaResponse = useSelector(selectVentasState);
-  const ventaLoading = ventaResponse.loading
-  const { ventas } = ventaResponse || {}
-  const { httpStatus, message, status } = ventas
+  const ventaLoading = ventaResponse.loading;
+  const { ventas } = ventaResponse || {};
+  const { httpStatus, message, status } = ventas;
 
   useEffect(() => {
     dispatch(getAllDetalleProducto());
   }, []);
 
   useEffect(() => {
-    console.log(ventaResponse)
+    console.log(ventaResponse);
   }, [ventaResponse]);
 
   useEffect(() => {
-    console.log(headerVenta)
+    console.log(headerVenta);
   }, [headerVenta]);
-
 
   useEffect(() => {
     const total = calcularTotal(rows);
@@ -71,14 +70,13 @@ const VentaForm = () => {
     const { name, value } = e.target;
     if (name === "date") {
       const formattedDate = new Date(value).toISOString();
-      setHeaderVenta(prevState => ({ ...prevState, [name]: formattedDate }));
+      setHeaderVenta((prevState) => ({ ...prevState, [name]: formattedDate }));
     } else {
       setHeaderVenta((prevHeaderVenta) => ({
         ...prevHeaderVenta,
         [name]: value,
       }));
     }
-
   };
 
   const handleClick = () => {
@@ -99,7 +97,6 @@ const VentaForm = () => {
         setProducto(""); // Restablecer a un valor vacío
         setCantidad(""); // Restablecer a un valor vacío*/
       }
-
     } else {
       console.log(
         "Debe seleccionar un producto antes de agregarlo a la lista."
@@ -110,17 +107,11 @@ const VentaForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(createVenta(headerVenta));
-  }
-
-
-
+  };
 
   return (
     <div className={styles.div_main}>
-
       <form className={styles.form} onSubmit={handleSubmit}>
-
-
         <div className={styles.div_form}>
           <div className={styles.div_title}>
             <h4>Formulario de Venta</h4>
@@ -180,7 +171,6 @@ const VentaForm = () => {
               <Button className={styles.btn} onClick={handleClick}>
                 Agregar Producto
               </Button>
-
             </div>
           </div>
         </div>
@@ -205,35 +195,25 @@ const VentaForm = () => {
                   Finalizar Venta
                 </Button>
               )}
-
             </div>
-
-            {ventaLoading && (
-              <div>
-                <Loader />
-              </div>
-            )}
-
           </div>
-
-
         </div>
-
-
-
       </form>
 
-      {!ventaLoading && message === "Venta registrada con éxito" && httpStatus === 200 && status === "success" && (
+      {!ventaLoading &&
+        message === "Venta registrada con éxito" &&
+        httpStatus === 200 &&
+        status === "success" && (
+          <div>
+            <ToastAlert message={message} status={status} />
+          </div>
+        )}
+
+      {ventaLoading && (
         <div>
-          <ToastAlert
-            message={message}
-            status={status}
-          />
+          <Loader />
         </div>
       )}
-
-
-
     </div>
   );
 };
