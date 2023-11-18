@@ -31,7 +31,9 @@ const VentaForm = () => {
   const [totalVenta, setTotalVenta] = useState("");
   const dispatch = useDispatch();
   const detalleProductoResponse = useSelector(selectDetalleProductoState);
+
   const { detalleProductos } = detalleProductoResponse;
+  const detalleProductoLoading = detalleProductoResponse.loading;
   const { item } = detalleProductos;
   const ventaResponse = useSelector(selectVentasState);
   const ventaLoading = ventaResponse.loading;
@@ -43,8 +45,8 @@ const VentaForm = () => {
   }, []);
 
   useEffect(() => {
-    console.log(ventaResponse);
-  }, [ventaResponse]);
+    console.log("***", detalleProductoLoading);
+  }, [detalleProductoLoading]);
 
   useEffect(() => {
     console.log(headerVenta);
@@ -111,6 +113,17 @@ const VentaForm = () => {
 
   return (
     <div className={styles.div_main}>
+      {ventaLoading && (
+        <div>
+          <Loader />
+        </div>
+      )}
+
+      {detalleProductoLoading && (
+        <div>
+          <Loader />
+        </div>
+      )}
       <form className={styles.form} onSubmit={handleSubmit}>
         <div className={styles.div_form}>
           <div className={styles.div_title}>
@@ -208,12 +221,6 @@ const VentaForm = () => {
             <ToastAlert message={message} status={status} />
           </div>
         )}
-
-      {ventaLoading && (
-        <div>
-          <Loader />
-        </div>
-      )}
     </div>
   );
 };

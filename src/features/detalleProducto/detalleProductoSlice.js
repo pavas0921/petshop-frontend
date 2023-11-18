@@ -45,21 +45,21 @@ export const DetalleProductoSlice = createSlice({
         state.loading = true;
       })
       .addCase(getAllDetalleProducto.fulfilled, (state, action) => {
-        state.loading = true;
+        state.loading = false;
         state.detalleProductos = action.payload;
       })
       .addCase(getDetalleByProductId.pending, (state) => {
         state.loading = true;
       })
       .addCase(getDetalleByProductId.fulfilled, (state, action) => {
-        state.loading = true;
+        state.loading = false;
         state.detalleProductos = action.payload;
       })
       .addCase(createDetalleProducto.pending, (state) => {
         state.loading = true;
       })
       .addCase(createDetalleProducto.fulfilled, (state, action) => {
-        state.loading = true;
+        state.loading = false;
         state.detalleProductos = action.payload;
       });
   },
