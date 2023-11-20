@@ -21,6 +21,7 @@ import styles from "./ventaForm.module.scss";
 const VentaForm = () => {
   const [rows, setRows] = useState([]);
   const [headerVenta, setHeaderVenta] = useState({
+    originalDate: null,
     date: null,
     cliente: null,
     detalleVenta: [],
@@ -43,6 +44,24 @@ const VentaForm = () => {
   useEffect(() => {
     dispatch(getAllDetalleProducto());
   }, []);
+
+  useEffect(() => {
+    if (
+      httpStatus === 200 &&
+      message === "Venta registrada con éxito" &&
+      status === "success"
+    ) {
+      console.log("limpiar");
+      setRows([]);
+      setHeaderVenta({
+        originalDate: "",  // date "YYYY-MM-DD" format
+        date: "", // date ISO format
+        cliente: "",
+        detalleVenta: [],
+        totalVenta: null,
+      });
+    }
+  }, [ventaResponse]);
 
   useEffect(() => {
     console.log("***", detalleProductoLoading);
@@ -72,7 +91,8 @@ const VentaForm = () => {
     const { name, value } = e.target;
     if (name === "date") {
       const formattedDate = new Date(value).toISOString();
-      setHeaderVenta((prevState) => ({ ...prevState, [name]: formattedDate }));
+      setHeaderVenta((prevState) => ({ ...prevState, [name]: value }));
+      setHeaderVenta((prevState) => ({ ...prevState, date: formattedDate }));
     } else {
       setHeaderVenta((prevHeaderVenta) => ({
         ...prevHeaderVenta,
@@ -131,12 +151,13 @@ const VentaForm = () => {
           </div>
           <div className={styles.div_input}>
             <Form.Control
-              name="date"
+              name="originalDate"
               size="md"
               type="date"
               placeholder="Fecha"
               className={styles.dateInput}
-              onBlur={handleInputChange}
+              onChange={handleInputChange}
+              value={headerVenta.originalDate || ""}
             />
             <Form.Control
               name="cliente"
@@ -144,7 +165,8 @@ const VentaForm = () => {
               type="text"
               placeholder="Nombre del Cliente"
               className={styles.clientNameInput}
-              onBlur={handleInputChange}
+              onChange={handleInputChange}
+              value={headerVenta.cliente || ""}
             />
           </div>
 
