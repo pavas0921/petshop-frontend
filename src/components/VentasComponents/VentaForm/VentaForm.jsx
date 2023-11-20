@@ -21,8 +21,8 @@ import styles from "./ventaForm.module.scss";
 const VentaForm = () => {
   const [rows, setRows] = useState([]);
   const [headerVenta, setHeaderVenta] = useState({
-    originalDate: null,
     date: null,
+    originalDate: null,
     cliente: null,
     detalleVenta: [],
     totalVenta: null,
@@ -54,8 +54,8 @@ const VentaForm = () => {
       console.log("limpiar");
       setRows([]);
       setHeaderVenta({
-        originalDate: "",  // date "YYYY-MM-DD" format
         date: "", // date ISO format
+        originalDate: "",  // date "YYYY-MM-DD" format
         cliente: "",
         detalleVenta: [],
         totalVenta: null,
@@ -63,9 +63,12 @@ const VentaForm = () => {
     }
   }, [ventaResponse]);
 
+
+  ventaResponse
+
   useEffect(() => {
-    console.log("***", detalleProductoLoading);
-  }, [detalleProductoLoading]);
+    console.log("***", ventaResponse);
+  }, [ventaResponse]);
 
   useEffect(() => {
     console.log(headerVenta);
@@ -89,7 +92,7 @@ const VentaForm = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    if (name === "date") {
+    if (name === "originalDate") {
       const formattedDate = new Date(value).toISOString();
       setHeaderVenta((prevState) => ({ ...prevState, [name]: value }));
       setHeaderVenta((prevState) => ({ ...prevState, date: formattedDate }));
