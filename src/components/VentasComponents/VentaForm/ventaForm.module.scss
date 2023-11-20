@@ -91,46 +91,7 @@
         }
       }
     }
-    .card_table {
-      width: 70%;
-      height: auto;
-      background-color: #ffffff; /* Color de fondo del contenedor */
-      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5); /* Sombra */
-      padding: 20px; /* Espacio interno para el contenido */
-      border-radius: 10px;
-      margin-top: 20px;
 
-      @media (max-width: 820px) {
-        width: 95%;
-        height: auto;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
-
-      .div_footer {
-        width: 100%;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-
-        .div_totalVenta {
-          width: 45;
-          display: flex;
-          justify-content: flex-start;
-          align-items: center;
-          margin-top: 20px;
-          padding-left: 2px;
-        }
-        .div_finalizarVentaBtn {
-          width: 45;
-          display: flex;
-          justify-content: flex-end;
-          align-items: center;
-          margin-top: 20px;
-        }
-      }
-    }
   }
 }
 
@@ -157,5 +118,69 @@
   @media (max-width: 820px) {
     width: auto;
     display: flex;
+  }
+}
+
+
+.card_table {
+  width: 70%;
+  height: auto;
+  background-color: #ffffff; /* Color de fondo del contenedor */
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5); /* Sombra */
+  padding: 20px; /* Espacio interno para el contenido */
+  border-radius: 10px;
+  margin-top: 20px;
+
+  @media (max-width: 820px) {
+    width: 95%;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  .ventaTable{
+    width: 100%;
+  }
+
+  .div_footer {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+
+    @media (max-width: 820px) {
+      width: 95%;
+      height: auto;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+
+    }
+
+    .div_totalVenta {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 20px;
+      padding-left: 2px;
+    }
+
+    .div_finalizarVentaBtn {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      @media (max-width: 820px) {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;  
+      }
+    }
   }
 }

@@ -9,32 +9,32 @@ const VentaTable = (props) => {
 
 
   const columns = [
-    { field: "detalleProducto", headerName: "Item", width: 50 },
+    { field: "detalleProducto", headerName: "Item", width: 100 },
 
     {
       field: "nombreProducto",
       headerName: "Producto",
-      width: 400,
+      width: 220,
       editable: false,
     },
     {
       field: "cantidad",
       headerName: "Cantidad",
       type: "number",
-      width: 100,
+      width: 80,
       editable: false,
     },
 
     {
       field: "precioUnitario",
       headerName: "Precio Unitario",
-      width: 160,
+      width: 150,
       editable: false,
     },
     {
       field: "precioTotal",
       headerName: "Precio Total",
-      width: 160,
+      width: 150,
       editable: false,
     },
   ];

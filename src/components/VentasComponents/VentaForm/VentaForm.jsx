@@ -21,8 +21,8 @@ import styles from "./ventaForm.module.scss";
 const VentaForm = () => {
   const [rows, setRows] = useState([]);
   const [headerVenta, setHeaderVenta] = useState({
-    date: "",
-    cliente: "",
+    date: null,
+    cliente: null,
     detalleVenta: [],
     totalVenta: null,
   });
@@ -45,21 +45,8 @@ const VentaForm = () => {
   }, []);
 
   useEffect(() => {
-    if (
-      httpStatus === 200 &&
-      message === "Venta registrada con éxito" &&
-      status === "success"
-    ) {
-      console.log("limpiar");
-      setRows([]);
-      setHeaderVenta({
-        date: "",
-        cliente: "",
-        detalleVenta: [],
-        totalVenta: null,
-      });
-    }
-  }, [ventaResponse]);
+    console.log("***", detalleProductoLoading);
+  }, [detalleProductoLoading]);
 
   useEffect(() => {
     console.log(headerVenta);
@@ -84,7 +71,6 @@ const VentaForm = () => {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     if (name === "date") {
-      console.log("fecha");
       const formattedDate = new Date(value).toISOString();
       setHeaderVenta((prevState) => ({ ...prevState, [name]: formattedDate }));
     } else {
@@ -150,8 +136,7 @@ const VentaForm = () => {
               type="date"
               placeholder="Fecha"
               className={styles.dateInput}
-              onChange={handleInputChange}
-              value={headerVenta.date || ""}
+              onBlur={handleInputChange}
             />
             <Form.Control
               name="cliente"
@@ -159,8 +144,7 @@ const VentaForm = () => {
               type="text"
               placeholder="Nombre del Cliente"
               className={styles.clientNameInput}
-              onChange={handleInputChange}
-              value={headerVenta.cliente || ""}
+              onBlur={handleInputChange}
             />
           </div>
 
@@ -206,7 +190,7 @@ const VentaForm = () => {
 
         <div className={styles.card_table}>
           {rows && rows.length > 0 ? (
-            <div>
+            <div className={styles.ventaTable}>
               <VentaTable rows={rows} />
             </div>
           ) : (
