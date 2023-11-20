@@ -21,8 +21,8 @@ import styles from "./ventaForm.module.scss";
 const VentaForm = () => {
   const [rows, setRows] = useState([]);
   const [headerVenta, setHeaderVenta] = useState({
-    date: null,
-    cliente: null,
+    date: "",
+    cliente: "",
     detalleVenta: [],
     totalVenta: null,
   });
@@ -45,8 +45,21 @@ const VentaForm = () => {
   }, []);
 
   useEffect(() => {
-    console.log("***", detalleProductoLoading);
-  }, [detalleProductoLoading]);
+    if (
+      httpStatus === 200 &&
+      message === "Venta registrada con éxito" &&
+      status === "success"
+    ) {
+      console.log("limpiar");
+      setRows([]);
+      setHeaderVenta({
+        date: "",
+        cliente: "",
+        detalleVenta: [],
+        totalVenta: null,
+      });
+    }
+  }, [ventaResponse]);
 
   useEffect(() => {
     console.log(headerVenta);
@@ -71,6 +84,7 @@ const VentaForm = () => {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     if (name === "date") {
+      console.log("fecha");
       const formattedDate = new Date(value).toISOString();
       setHeaderVenta((prevState) => ({ ...prevState, [name]: formattedDate }));
     } else {
@@ -136,7 +150,8 @@ const VentaForm = () => {
               type="date"
               placeholder="Fecha"
               className={styles.dateInput}
-              onBlur={handleInputChange}
+              onChange={handleInputChange}
+              value={headerVenta.date || ""}
             />
             <Form.Control
               name="cliente"
@@ -144,7 +159,8 @@ const VentaForm = () => {
               type="text"
               placeholder="Nombre del Cliente"
               className={styles.clientNameInput}
-              onBlur={handleInputChange}
+              onChange={handleInputChange}
+              value={headerVenta.cliente || ""}
             />
           </div>
 
