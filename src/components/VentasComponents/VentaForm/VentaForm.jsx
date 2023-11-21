@@ -48,7 +48,7 @@ const VentaForm = () => {
   useEffect(() => {
     if (
       httpStatus === 200 &&
-      message === "Venta registrada con éxito" &&
+      message === "Venta registrada con éxito e inventario actualizado." &&
       status === "success"
     ) {
       console.log("limpiar");
@@ -239,7 +239,7 @@ const VentaForm = () => {
       </form>
 
       {!ventaLoading &&
-        message === "Venta registrada con éxito" &&
+        message === "Venta registrada con éxito e inventario actualizado." &&
         httpStatus === 200 &&
         status === "success" && (
           <div>
