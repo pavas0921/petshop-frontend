@@ -34,6 +34,22 @@ export const getDetalleByIdProductoAPI = async (body) => {
   }
 };
 
+export const getDetalleProductByIdAPI = async (body) => {
+  try {
+    const url = `${API_BASE_URL}/detalleProducto/producto/${body}`;
+    const req = await fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const data = await req.json();
+    return Promise.resolve(data);
+  } catch (error) {
+    return Promise.resolve(error);
+  }
+};
+
 export const createDetalleProductoAPI = async (body) => {
   try {
     const url = `${API_BASE_URL}/detalleProducto`;

@@ -3,6 +3,7 @@ import {
   createDetalleProductoAPI,
   getAllDetalleProductoAPI,
   getDetalleByIdProductoAPI,
+  getDetalleProductByIdAPI,
 } from "../../services/detalleProducto";
 
 const initialState = {
@@ -14,6 +15,14 @@ export const getAllDetalleProducto = createAsyncThunk(
   "get/getAllDetalleProducto",
   async () => {
     const data = await getAllDetalleProductoAPI();
+    return data;
+  }
+);
+
+export const getDetalleProductoById = createAsyncThunk(
+  "get/getDetalleProductoById",
+  async (body) => {
+    const data = await getDetalleProductByIdAPI(body);
     return data;
   }
 );
@@ -59,6 +68,13 @@ export const DetalleProductoSlice = createSlice({
         state.loading = true;
       })
       .addCase(createDetalleProducto.fulfilled, (state, action) => {
+        state.loading = false;
+        state.detalleProductos = action.payload;
+      })
+      .addCase(getDetalleProductoById.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getDetalleProductoById.fulfilled, (state, action) => {
         state.loading = false;
         state.detalleProductos = action.payload;
       });

@@ -1,21 +1,40 @@
+import { buscarProducto } from "./buscarProducto";
+export const adicionarCantidad = (rows, producto, cantidad, item) =>{
 
-//Esta funcion recibe como parametros los productos que ya han sido registrados (rows), cantidad y el id del producto a agregar (producto)
-//Encuentra la posicion del producto.
-//Crea una copia del array original (rows) y actualiza en el (updatedRows), la cantidad y el valorTotal.
-
-export const adicionarCantidad = (rows, producto, cantidad) => {
-    const result = rows.findIndex((item) => item.detalleProducto === producto);
-    if(result >= 0){
-        const newRows = [...rows]
-        newRows[result]={
-            ...newRows[result],
-              cantidad: +newRows[result].cantidad + +cantidad,
-              precioTotal: +newRows[result].precioUnitario * (+rows[result].cantidad + +cantidad),
-            }
-        return newRows;
-    }else{
-        return null
-    }
+    const updatedRows = [...rows]
     
-  };
-  
+    const productoEncontrado = buscarProducto(rows, producto, cantidad)
+    const nuevaCantidad = rows[productoEncontrado].cantidad += +cantidad
+    const precioUnitario = +rows[productoEncontrado].precioUnitario
+    const nuevoPrecioTotal = +rows[productoEncontrado].precioUnitario * +nuevaCantidad
+    const stock = item.find((i) => i._id === producto).stock;
+
+    console.log("copia rows", nuevaCantidad)
+
+    if(stock <= 0){
+        const errorMsg = "No hay stock para el artículo " + updatedRows[productoEncontrado].nombreProducto;
+        return {rows: rows, error: errorMsg}
+        
+    }else{
+
+        if(nuevaCantidad > stock){
+            updatedRows[productoEncontrado] = {
+                ...updatedRows[productoEncontrado],
+                cantidad: +stock,
+                precioTotal: +precioUnitario * stock
+              };
+            const errorMsg = "No hay suficiente stock para el artículo " + updatedRows[productoEncontrado].nombreProducto;
+            return { rows: updatedRows, error: errorMsg };
+        }else{
+            updatedRows[productoEncontrado] = {
+                ...updatedRows[productoEncontrado],
+                cantidad: +nuevaCantidad,
+                precioTotal: +nuevoPrecioTotal
+              };
+              return { rows: updatedRows, error: null };
+        }
+    }
+
+    
+    
+}

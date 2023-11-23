@@ -4,13 +4,14 @@ import Form from "react-bootstrap/Form";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getAllDetalleProducto,
-  selectDetalleProductoState,
+  selectDetalleProductoState
 } from "../../../features/detalleProducto/detalleProductoSlice";
 import {
   createVenta,
   selectVentasState,
 } from "../../../features/venta/ventaSlice";
 import { adicionarCantidad } from "../../../helpers/adicionarCantidad";
+import { agregarProducto } from "../../../helpers/agregarProducto";
 import { buscarProducto } from "../../../helpers/buscarProducto";
 import { calcularTotal } from "../../../helpers/calcularTotal";
 import ToastAlert from "../../Alerts";
@@ -30,8 +31,10 @@ const VentaForm = () => {
   const [producto, setProducto] = useState("");
   const [cantidad, setCantidad] = useState("");
   const [totalVenta, setTotalVenta] = useState("");
+  const [msgError, setMsgError] = useState("");
   const dispatch = useDispatch();
   const detalleProductoResponse = useSelector(selectDetalleProductoState);
+
 
   const { detalleProductos } = detalleProductoResponse;
   const detalleProductoLoading = detalleProductoResponse.loading;
@@ -44,6 +47,10 @@ const VentaForm = () => {
   useEffect(() => {
     dispatch(getAllDetalleProducto());
   }, []);
+
+  useEffect(() => {
+    console.log(msgError)
+  }, [msgError]);
 
   useEffect(() => {
     if (
@@ -63,17 +70,6 @@ const VentaForm = () => {
     }
   }, [ventaResponse]);
 
-
-  ventaResponse
-
-  useEffect(() => {
-    console.log("***", ventaResponse);
-  }, [ventaResponse]);
-
-  useEffect(() => {
-    console.log(headerVenta);
-  }, [headerVenta]);
-
   useEffect(() => {
     const total = calcularTotal(rows);
     setHeaderVenta((prevHeaderVenta) => ({
@@ -85,10 +81,6 @@ const VentaForm = () => {
       detalleVenta: rows,
     }));
   }, [rows]);
-
-  useEffect(() => {
-    console.log(item);
-  }, [item]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -105,27 +97,43 @@ const VentaForm = () => {
   };
 
   const handleClick = () => {
+    setMsgError("")
     if (producto && cantidad) {
       if (rows.length > 0) {
-        const updatedRows = adicionarCantidad(rows, producto, cantidad);
-        if (updatedRows) {
-          setRows(updatedRows);
-        } else {
-          const productDetail = buscarProducto(item, producto, cantidad);
+        const updatedRows = buscarProducto(rows, producto, cantidad);
+        if (updatedRows < 0) {
+          dispatch(getAllDetalleProducto());
+          const productDetail = agregarProducto(item, producto, cantidad);
           setRows([...rows, productDetail]);
+          //setMsgError("Producto agregado con éxito.")
           setProducto(""); // Restablecer a un valor vacío
           setCantidad(""); // Restablecer a un valor vacío*/
+        } else {
+          dispatch(getAllDetalleProducto());
+          const productDetail = adicionarCantidad(rows, producto, cantidad, item)
+          if (productDetail.error) {
+            setRows(productDetail.rows)
+            setMsgError(productDetail.error)
+            setProducto(""); // Restablecer a un valor vacío
+            setCantidad(""); // Restablecer a un valor vacío*/
+          } else {
+            setRows(productDetail.rows)
+            setProducto(""); // Restablecer a un valor vacío
+            setCantidad(""); // Restablecer a un valor vacío*/
+            //setMsgError("Producto agregado con éxito.")
+          }
         }
       } else {
-        const productDetail = buscarProducto(item, producto, cantidad);
+        dispatch(getAllDetalleProducto());
+        const productDetail = agregarProducto(item, producto, cantidad);
         setRows([...rows, productDetail]);
+        //setMsgError("Producto agregado con éxito.")
         setProducto(""); // Restablecer a un valor vacío
         setCantidad(""); // Restablecer a un valor vacío*/
+
       }
     } else {
-      console.log(
-        "Debe seleccionar un producto antes de agregarlo a la lista."
-      );
+      setMsgError("Debe seleccionar un producto y cantidad antes de agregarlo a la lista.")
     }
   };
 
@@ -246,6 +254,11 @@ const VentaForm = () => {
             <ToastAlert message={message} status={status} />
           </div>
         )}
+      {msgError && (
+        <div>
+          <ToastAlert message={msgError} status="error" />
+        </div>
+      )}
     </div>
   );
 };
