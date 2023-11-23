@@ -35,7 +35,7 @@ const AdminNavbar = () => {
                         </NavDropdown>
                         <NavDropdown title="Ventas" id="ventas">
                             <NavDropdown.Item onClick={() => handleClick("/new-sale")}>Nueva Venta</NavDropdown.Item>
-                            <NavDropdown.Item>Maestro de Ventas</NavDropdown.Item>
+                            <NavDropdown.Item>Maestro de Ventas onClick={() => handleClick("/ventas")}</NavDropdown.Item>
                         </NavDropdown>
                         <NavDropdown title="Clientes" id="perros">
                             <NavDropdown.Item>Agregar Clientes</NavDropdown.Item>
