@@ -9,6 +9,7 @@ import {
   getProducts,
   selectProductoState,
 } from "../../../../features/producto/productoSlice";
+import { Loader } from "../../../LoaderComponent";
 import styles from "./AllProducts.module.scss";
 
 const AllProducts = () => {
@@ -17,6 +18,10 @@ const AllProducts = () => {
   const { productos, loading } = productsResponse;
   const { computedData, status } = productos;
   const navigate = useNavigate();
+
+  useEffect(() => {
+    console.log(loading)
+  }, [loading]);
 
   const columns = [
     {
@@ -72,6 +77,9 @@ const AllProducts = () => {
 
   return (
     <Box className={styles.box_main}>
+      {loading && (
+        <Loader />
+      )}
       {computedData && computedData.length && (
         <DataGrid
           rows={computedData}

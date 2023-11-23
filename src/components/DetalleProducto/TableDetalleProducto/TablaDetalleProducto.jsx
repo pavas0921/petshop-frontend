@@ -1,20 +1,21 @@
-import React, { useEffect } from "react";
-import Box from "@mui/material/Box";
-import { IconButton } from "@mui/material";
-import { DataGrid } from "@mui/x-data-grid";
 import VisibilityIcon from "@mui/icons-material/Visibility";
+import { IconButton } from "@mui/material";
+import Box from "@mui/material/Box";
+import { DataGrid } from "@mui/x-data-grid";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 import {
   getDetalleByProductId,
   selectDetalleProductoState,
 } from "../../../features/detalleProducto/detalleProductoSlice";
-import { useParams } from "react-router-dom";
+import { Loader } from "../../LoaderComponent";
 import styles from "./tablaDetalleProducto.module.scss";
 
 const TablaDetalleProducto = () => {
   const dispatch = useDispatch();
   const productDetailsResponse = useSelector(selectDetalleProductoState);
-  const { detalleProductos } = productDetailsResponse;
+  const { detalleProductos, loading } = productDetailsResponse;
   const { computedData } = detalleProductos;
   const { idProducto } = useParams();
 
@@ -25,8 +26,8 @@ const TablaDetalleProducto = () => {
   }, []);
 
   useEffect(() => {
-    console.log("***", computedData);
-  }, [productDetailsResponse, idProducto]);
+    console.log("***", productDetailsResponse);
+  }, [productDetailsResponse]);
 
   const columns = [
     {
@@ -78,28 +79,30 @@ const TablaDetalleProducto = () => {
   ];
   return (
     <Box className={styles.box_main}>
+      {loading && (<Loader />)}
       {computedData && computedData.length > 0 && (
         <div className={styles.div_title}>
           <h4>{computedData[0].nombreProducto}</h4>
         </div>
       )}
       {computedData && computedData.length > 0 && (
-        <DataGrid
-          rows={computedData}
-          columns={columns}
-          getRowId={(computedData) => computedData.idDetalle}
-          initialState={{
-            pagination: {
-              paginationModel: {
-                pageSize: 5,
+        <div className={styles.div_datagrid}>
+          <DataGrid
+            rows={computedData}
+            columns={columns}
+            getRowId={(computedData) => computedData.idDetalle}
+            initialState={{
+              pagination: {
+                paginationModel: {
+                  pageSize: 10,
+                },
               },
-            },
-          }}
-          pageSizeOptions={[5]}
-          checkboxSelection
-          disableRowSelectionOnClick
-          className={styles.datagrid}
-        />
+            }}
+            pageSizeOptions={[10]}
+            checkboxSelection
+            disableRowSelectionOnClick
+          />
+        </div>
       )}
     </Box>
   );

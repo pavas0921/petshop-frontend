@@ -1,13 +1,13 @@
 import React from "react";
-import { Sidebar } from "../../components/Sidebar";
 import { TablaDetalleProducto } from "../../components/DetalleProducto/TableDetalleProducto";
+import { AdminNavbar } from "../../components/Sidebar";
 import styles from "./detalleProducto.module.scss";
 
 const DetalleProducto = () => {
   return (
     <div className={styles.div_main}>
       <div className={styles.div_navbar}>
-        <Sidebar />
+        <AdminNavbar />
       </div>
       <div className={styles.div_table}>
         <div className={styles.div_tableComponent}>

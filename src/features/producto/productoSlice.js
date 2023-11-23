@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { getAllProductsAPI, createProductAPI } from "../../services/producto";
+import { createProductAPI, getAllProductsAPI } from "../../services/producto";
 
 const initialState = {
   productos: {},
@@ -29,7 +29,7 @@ export const ProductoSlice = createSlice({
         state.loading = true;
       })
       .addCase(getProducts.fulfilled, (state, action) => {
-        state.loading = true;
+        state.loading = false;
         state.productos = action.payload;
       })
       .addCase(createProduct.pending, (state) => {

@@ -17,12 +17,12 @@ const router = createBrowserRouter([
     errorElement: <div> Hubo un error!!</div>,
   },
   {
-    path: "productos-add",
+    path: "products-add",
     element: <RegistroProductos />,
     errorElement: <div> Hubo un error!!</div>,
   },
   {
-    path: "productos",
+    path: "products",
     element: <VerProductos />,
     errorElement: <div> Hubo un error!!</div>,
   },

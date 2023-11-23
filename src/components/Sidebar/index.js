@@ -1,3 +1,5 @@
+import AdminNavbar from "./AdminNavbar";
 import Sidebar from "./Sidebar";
 
-export { Sidebar };
+export { AdminNavbar, Sidebar };
+
