@@ -199,7 +199,7 @@ const VentaForm = () => {
           </div>
           <div className={styles.div_input}>
             <TextField
-              name="date"
+              name="originalDate"
               margin="normal"
               className={styles.dateInput}
               required
