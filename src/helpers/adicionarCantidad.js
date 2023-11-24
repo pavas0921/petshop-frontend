@@ -7,7 +7,7 @@ export const adicionarCantidad = (rows, producto, cantidad, item) =>{
     const nuevaCantidad = rows[productoEncontrado].cantidad += +cantidad
     const precioUnitario = +rows[productoEncontrado].precioUnitario
     const nuevoPrecioTotal = +rows[productoEncontrado].precioUnitario * +nuevaCantidad
-    const stock = item.find((i) => i._id === producto).stock;
+    const stock = item.find((i) => i.idDetalle === producto).stock;
 
     if(stock <= 0){
         const errorMsg = "No hay stock para el artículo " + updatedRows[productoEncontrado].nombreProducto;

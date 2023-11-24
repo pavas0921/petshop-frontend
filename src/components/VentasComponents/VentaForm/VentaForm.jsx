@@ -1,6 +1,6 @@
+import { Autocomplete, TextField } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getAllDetalleProducto,
@@ -65,6 +65,10 @@ const VentaForm = () => {
       });
     }
   }, [ventaResponse]);
+
+  useEffect(() => {
+    console.log(cantidad)
+  }, [cantidad]);
 
   useEffect(() => {
     const total = calcularTotal(rows);
@@ -171,6 +175,10 @@ const VentaForm = () => {
     dispatch(createVenta(headerVenta));
   };
 
+  const isOptionEqualToValue = (option, value) => option.idDetalle === value.idDetalle
+
+
+
   return (
     <div className={styles.div_main}>
       {ventaLoading && (
@@ -190,56 +198,73 @@ const VentaForm = () => {
             <h4>Formulario de Venta</h4>
           </div>
           <div className={styles.div_input}>
-            <Form.Control
-              name="originalDate"
-              size="md"
-              type="date"
-              placeholder="Fecha"
+            <TextField
+              name="date"
+              margin="normal"
               className={styles.dateInput}
+              required
+              fullWidth
+              type="date"
+              autoComplete="date"
+              autoFocus
               onChange={handleInputChange}
               value={headerVenta.originalDate || ""}
             />
-            <Form.Control
+
+
+            <TextField
               name="cliente"
-              size="md"
-              type="text"
-              placeholder="Nombre del Cliente"
+              margin="normal"
               className={styles.clientNameInput}
+              required
+              fullWidth
+              label="Cliente"
+              type="text"
+              autoComplete="cliente"
+              autoFocus
               onChange={handleInputChange}
               value={headerVenta.cliente || ""}
             />
+
           </div>
 
           <div className={styles.div_input}>
             {item && item.length > 0 && (
-              <Form.Select
+
+              <Autocomplete
                 className={styles.productInput}
-                onChange={(e) => setProducto(e.target.value)}
+                onChange={(event, newValue) => {
+                  setProducto(newValue ? newValue.idDetalle : "");
+                }}
+                disablePortal
                 name="producto"
-                value={producto}
-              >
-                <option>Seleccione un producto</option>(
-                {item.map((row, index) => (
-                  <option key={index} value={row._id}>
-                    {row.idProducto.name +
-                      " " +
-                      row.presentacion +
-                      " Precio: " +
-                      row.precioVenta}
-                  </option>
-                ))}
-              </Form.Select>
+                options={item}
+                sx={{ width: 300 }}
+                getOptionLabel={(option) => option.nombreProducto}
+                renderInput={(params) => <TextField {...params} label={producto || "Seleccione un producto"} />}
+                key={(option) => option.idDetalle}
+                isOptionEqualToValue={isOptionEqualToValue}
+              />
+
+
+
             )}
 
-            <Form.Control
+            <TextField
               name="cantidad"
-              size="md"
-              type="text"
-              placeholder="Cantidad"
+              margin="normal"
               className={styles.qtyInput}
+              required
+              fullWidth
+              label="Cantidad"
+              type="text"
+              autoComplete="Cantidad"
+              autoFocus
               onChange={(e) => setCantidad(e.target.value)}
-              value={cantidad}
+              value={cantidad || ""}
             />
+
+
           </div>
           <div className={styles.div_input}>
             <div className={styles.div_button}>

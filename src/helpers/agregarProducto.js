@@ -1,7 +1,11 @@
 export const agregarProducto = (item, producto, cantidad, rows) => {
 
   
-    const productoEncontrado = item.find((i) => i._id === producto);
+  
+
+  
+    const productoEncontrado = item.find((i) => i.idDetalle === producto);
+    console.log("pr", productoEncontrado)
     let errorMsg = "";
     
     if (!productoEncontrado) {
@@ -10,18 +14,18 @@ export const agregarProducto = (item, producto, cantidad, rows) => {
     }
   
     if (productoEncontrado.stock <= 0) {
-      errorMsg = `${productoEncontrado.idProducto.name} ${productoEncontrado.presentacion} se encuentra sin Stock`
+      errorMsg = `${productoEncontrado.nombreProducto} se encuentra sin Stock`
       return { error: errorMsg, rows: null};
     }
   
     if (cantidad > productoEncontrado.stock) {
-      errorMsg = `No hay suficientes unidades de ${productoEncontrado.idProducto.name} ${productoEncontrado.presentacion}`
+      errorMsg = `No hay suficientes unidades de ${productoEncontrado.nombreProducto}`
       return { error: errorMsg, rows: null};
     }else{
       errorMsg = "¡Producto agregado con éxito!"
       const currentProduct = {
-        detalleProducto: productoEncontrado._id,
-        nombreProducto: `${productoEncontrado.idProducto.name} ${productoEncontrado.presentacion}`,
+        detalleProducto: productoEncontrado.idDetalle,
+        nombreProducto: `${productoEncontrado.nombreProducto}`,
         cantidad: +cantidad,
         precioUnitario: +productoEncontrado.precioVenta,
         precioTotal: +cantidad * +productoEncontrado.precioVenta,
