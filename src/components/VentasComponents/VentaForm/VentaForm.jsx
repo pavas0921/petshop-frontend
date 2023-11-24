@@ -31,7 +31,7 @@ const VentaForm = () => {
   const [producto, setProducto] = useState("");
   const [cantidad, setCantidad] = useState("");
   const [totalVenta, setTotalVenta] = useState("");
-  const [msgError, setMsgError] = useState("");
+  const [msgError, setMsgError] = useState({ status: false, error: "" });
   const dispatch = useDispatch();
   const detalleProductoResponse = useSelector(selectDetalleProductoState);
 
@@ -48,9 +48,6 @@ const VentaForm = () => {
     dispatch(getAllDetalleProducto());
   }, []);
 
-  useEffect(() => {
-    console.log(msgError)
-  }, [msgError]);
 
   useEffect(() => {
     if (
@@ -58,7 +55,6 @@ const VentaForm = () => {
       message === "Venta registrada con éxito e inventario actualizado." &&
       status === "success"
     ) {
-      console.log("limpiar");
       setRows([]);
       setHeaderVenta({
         date: "", // date ISO format
@@ -97,43 +93,76 @@ const VentaForm = () => {
   };
 
   const handleClick = () => {
-    setMsgError("")
+    //Valida que se haya elegido un producto y una cantidad
+    //Cuando se hace click en el boton registrar
     if (producto && cantidad) {
+      //Valida que haya uno o mas registros en el listado de productos a vender (rows)
       if (rows.length > 0) {
         const updatedRows = buscarProducto(rows, producto, cantidad);
+
+        //si updated rows es menor que cero se cargan nuevamente todos los productos
         if (updatedRows < 0) {
+
           dispatch(getAllDetalleProducto());
-          const productDetail = agregarProducto(item, producto, cantidad);
-          setRows([...rows, productDetail]);
-          //setMsgError("Producto agregado con éxito.")
-          setProducto(""); // Restablecer a un valor vacío
-          setCantidad(""); // Restablecer a un valor vacío*/
-        } else {
-          dispatch(getAllDetalleProducto());
-          const productDetail = adicionarCantidad(rows, producto, cantidad, item)
-          if (productDetail.error) {
-            setRows(productDetail.rows)
-            setMsgError(productDetail.error)
+          const productDetail = agregarProducto(item, producto, cantidad, rows);
+          if (productDetail.rows === null) {
+            setMsgError({ status: true, error: productDetail.error });
             setProducto(""); // Restablecer a un valor vacío
             setCantidad(""); // Restablecer a un valor vacío*/
           } else {
-            setRows(productDetail.rows)
+            setRows([...rows, productDetail.rows]);
+            setMsgError({ status: true, error: productDetail.error });
             setProducto(""); // Restablecer a un valor vacío
             setCantidad(""); // Restablecer a un valor vacío*/
-            //setMsgError("Producto agregado con éxito.")
+          }
+
+        }
+
+        // Si updatedrows es mayor o igual a cero carga todos los productos
+        else {
+          dispatch(getAllDetalleProducto());
+          const productDetail = adicionarCantidad(rows, producto, cantidad, item)
+          //Si hay un error se agrega a la lista lo que retorne adicionar cantidad
+          if (productDetail.error) {
+            setRows(productDetail.rows)
+            setMsgError({ status: true, error: productDetail.error })
+            setProducto(""); // Restablecer a un valor vacío
+            setCantidad(""); // Restablecer a un valor vacío*/
+          }
+          //Sino hay errores se adiciona al producto la cantidad ingresada
+          else {
+            setRows(productDetail.rows)
+            setMsgError({ status: true, error: "¡Se adiciono cantidad con éxito!" })
+            setProducto(""); // Restablecer a un valor vacío
+            setCantidad(""); // Restablecer a un valor vacío*/
+
           }
         }
-      } else {
+      }
+
+      //Se agrega el primer producto cuando la lista está vacía
+      else {
         dispatch(getAllDetalleProducto());
         const productDetail = agregarProducto(item, producto, cantidad);
-        setRows([...rows, productDetail]);
-        //setMsgError("Producto agregado con éxito.")
-        setProducto(""); // Restablecer a un valor vacío
-        setCantidad(""); // Restablecer a un valor vacío*/
-
+        //si productDetail.rows es null se muestra notificacion
+        if (productDetail.rows === null) {
+          setMsgError({ status: true, error: productDetail.error });
+          setProducto(""); // Restablecer a un valor vacío
+          setCantidad(""); // Restablecer a un valor vacío*/
+        }
+        //si productDetail.rows es diferente de null se agrega producto a la lista
+        //y se muestra notificacion
+        else {
+          setRows([...rows, productDetail.rows]);
+          setMsgError({ status: true, error: productDetail.error });
+          setProducto(""); // Restablecer a un valor vacío
+          setCantidad(""); // Restablecer a un valor vacío*/
+        }
       }
-    } else {
-      setMsgError("Debe seleccionar un producto y cantidad antes de agregarlo a la lista.")
+    }
+    //Imprime mensaje de error cuando no se ingresa cantidad y producti 
+    else {
+      setMsgError({ status: true, error: "Debe seleccionar un producto y la cantidad antes de agregarlo a la lista." });
     }
   };
 
@@ -254,9 +283,9 @@ const VentaForm = () => {
             <ToastAlert message={message} status={status} />
           </div>
         )}
-      {msgError && (
+      {msgError.status && cantidad === "" && producto === "" && (
         <div>
-          <ToastAlert message={msgError} status="error" />
+          <ToastAlert message={msgError.error} status="error" />
         </div>
       )}
     </div>
