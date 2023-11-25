@@ -1,6 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { Form } from "react-bootstrap";
-import Button from "react-bootstrap/Button";
+import { Box, Typography } from "@mui/material";
+import Button from "@mui/material/Button";
+import LockIcon from "@mui/icons-material/Lock";
+import MailIcon from "@mui/icons-material/Mail";
+import Input from "@mui/material/Input";
+import InputLabel from "@mui/material/InputLabel";
+import InputAdornment from "@mui/material/InputAdornment";
+import FormControl from "@mui/material/FormControl";
+import TextField from "@mui/material/TextField";
+import AccountCircle from "@mui/icons-material/AccountCircle";
 import Image from "react-bootstrap/Image";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -9,13 +17,13 @@ import Logo from "../../assets/logo.jpg";
 import { Login, selectLoginState } from "../../features/login/loginSlice";
 import { AlertMessage } from "../Alert";
 import { Loader } from "../Loader";
-import "./styles.css";
+import styles from "./loginForm.module.scss";
 
 //Todo: Implementar el formulario de login - https://github.com/pavas0921/favs-frontend/blob/main/src/components/LoginForm/LoginForm.jsx
 
 const LoginForm = () => {
   const [credentials, setCredentials] = useState({
-    username: "",
+    email: "",
     password: "",
   });
   const navigate = useNavigate();
@@ -23,15 +31,16 @@ const LoginForm = () => {
   const loginData = useSelector(selectLoginState);
   const { user } = loginData;
   const { data } = user;
-  const token = data?.token;
+  const { token } = data || "";
   const loading = loginData.loading;
 
   useEffect(() => {
-    console.log(loginData);
-    if (token) {
+    console.log(loading);
+    if (token && !loading) {
+      sessionStorage.setItem("token");
       goToFavs();
     }
-  }, [loginData, token, data]);
+  }, [token]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -47,96 +56,48 @@ const LoginForm = () => {
   };
 
   const goToFavs = () => {
-    navigate("/");
+    navigate("/new-sale");
   };
 
   return (
-    <div className="login-form">
-      <div className="login-form-left">
-        <Image className="img-form" src={Img} />
-      </div>
-      <div className="login-form-right">
-        <div className="form-container">
-          <div>
-            <Image
-              style={{ width: "200px", height: "200px", marginBottom: "20px" }}
-              src={Logo}
-              roundedCircle
+    <Box className={styles.box_main}>
+      <Box className={styles.box_form}>
+        <Box className={styles.box_title}>
+          <Typography variant="h4" color="initial">
+            Inicio de Sesión
+          </Typography>
+        </Box>
+        <form className={styles.form} onSubmit={handleSubmit}>
+          <Box className={styles.box_input}>
+            <MailIcon sx={{ color: "action.active", mr: 1, my: 0.5 }} />
+            <TextField
+              className={styles.textField}
+              label="Correo Electrónico"
+              variant="standard"
+              type="email"
+              onChange={handleInputChange}
+              name="email"
             />
-          </div>
-          <Form
-            onSubmit={handleSubmit}
-            style={{
-              width: "100%",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              flexDirection: "column",
-            }}
-          >
-            <Form.Group
-              controlId="loginForm.email"
-              style={{
-                width: "65%",
-                marginBottom: "20px",
-              }}
-            >
-              <Form.Control
-                type="text"
-                placeholder="Nombre de usuario"
-                name="username"
-                value={credentials.email}
-                onChange={handleInputChange}
-              />
-            </Form.Group>
-            <Form.Group
-              controlId="loginForm.password"
-              style={{
-                width: "65%",
-                marginBottom: "20px",
-              }}
-            >
-              <Form.Control
-                type="password"
-                placeholder="Contraseña"
-                name="password"
-                value={credentials.password}
-                onChange={handleInputChange}
-              />
-            </Form.Group>
-            <Form.Group
-              controlId="loginForm.button"
-              style={{
-                width: "100%",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                flexDirection: "column",
-              }}
-            >
-              <Button
-                variant="primary"
-                style={{
-                  backgroundColor: "#f19fad",
-                  border: "none",
-                  width: "25%",
-                  color: "black",
-                  marginBottom: "20px",
-                }}
-                type="submit"
-              >
-                INGRESAR
-              </Button>
-              {user && user.error && user.message && (
-                <AlertMessage variant="warning" message={user.message} />
-              )}
-
-              {loading && <Loader />}
-            </Form.Group>
-          </Form>
-        </div>
-      </div>
-    </div>
+          </Box>
+          <Box className={styles.box_input}>
+            <LockIcon sx={{ color: "action.active", mr: 1, my: 0.5 }} />
+            <TextField
+              className={styles.textField}
+              label="Contraseña"
+              variant="standard"
+              type="password"
+              onChange={handleInputChange}
+              name="password"
+            />
+          </Box>
+          <Box className={styles.box_button}>
+            <Button sx={{ width: "30%" }} variant="contained" type="submit">
+              Login
+            </Button>
+          </Box>
+        </form>
+      </Box>
+    </Box>
   );
 };
 
