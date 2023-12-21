@@ -1,124 +1,179 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createUser, selectUserState } from "../../../features/user/userSlice";
+import { getAllRoles, selectRolesState } from "../../../features/rol/rolSlice";
+import {
+  getAllCompanies,
+  selectCompnayState,
+} from "../../../features/company/companySlice";
 import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
 import styles from "./userRegister.module.scss";
 import { validatePassword } from "../../../helpers/validatePassword";
-import { Loader } from "../../Loader";
 import ToastAlert from "../../Alerts";
-
+import { Box, TextField, Typography } from "@mui/material";
+import Button from "@mui/material/Button";
+import { useForm } from "react-hook-form";
+import { ComboBox } from "../../AutoCompleteComponent";
+import Autocomplete from "@mui/material/Autocomplete";
+import {Loader} from "../../LoaderComponent"
 const UserRegisterForm = () => {
+  const {
+    register,
+    setValue,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
   const dispatch = useDispatch();
+
   const userResponse = useSelector(selectUserState);
-  const { users, loading } = userResponse;
+  const { users, userLoading } = userResponse;
   const { httpStatus, message, user, status } = users;
 
-  const [userData, setUserData] = useState({
-    name: "",
-    lastname: "",
-    username: "",
-    password: "",
-  });
+  const rolesResponse = useSelector(selectRolesState);
+  const { roles } = rolesResponse;
 
-  //const [isValidUser, setIsValidUser] = useState(null);
+  const companyResponse = useSelector(selectCompnayState);
+  const { companies } = companyResponse;
 
   const [showPassError, setShowPassError] = useState(false);
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setUserData((prevUserData) => ({
-      ...prevUserData,
-      [name]: value,
-    }));
+  const onSubmit = (body) => {
+    dispatch(createUser(body))
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const isValidUser = validatePassword(userData.password);
-    //setIsValidUser(validatePassword(userData.password));
-    if (!isValidUser) {
-      setShowPassError(true);
-    } else {
-      setShowPassError(false);
-      dispatch(createUser(userData));
-    }
+  const messages = {
+    req: "Este campo es obligatorio",
   };
 
   useEffect(() => {
-    if (status === "success") {
-      // Cuando status sea igual a "success", borra los campos del formulario
-      document.querySelector('[name="name"]').value = "";
-      document.querySelector('[name="lastname"]').value = "";
-      document.querySelector('[name="username"]').value = "";
-      document.querySelector('[name="password"]').value = "";
-    }
-  }, [httpStatus, message, user, status]);
+    dispatch(getAllRoles());
+    dispatch(getAllCompanies());
+  }, []);
+
+  useEffect(() => {
+    console.log(userResponse);
+  }, [userResponse]);
 
   return (
-    <div className={styles.div_main}>
-      <div className={styles.div_card}>
-        <div className={styles.div_title}>
-          <h4>Registro de Usuarios</h4>
-        </div>
-        <div className={styles.div_form}>
-          <form className={styles.form} onSubmit={handleSubmit}>
-            <div className={styles.div_inputs}>
-              <Form.Control
+    <Box className={styles.div_main}>
+      {userLoading && (
+        <Loader/>
+      )}
+      <Box className={styles.div_card}>
+        <Box className={styles.div_title}>
+          <Typography variant="h4" color="initial">
+            Registro de Usuarios
+          </Typography>
+        </Box>
+        <Box className={styles.div_form}>
+          <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+            <Box className={styles.div_inputs}>
+              <TextField
+                {...register("name", { required: messages.req })}
+                size="small"
                 type="text"
                 name="name"
-                placeholder="Nombres"
+                label="Nombres"
                 className={styles.input}
-                onChange={handleInputChange}
-                value={userData.name}
-              />
-              <Form.Control
-                type="text"
-                name="lastname"
-                placeholder="Apellidos"
-                className={styles.input}
-                onChange={handleInputChange}
-                value={userData.lastname}
-              />
-              <Form.Control
-                type="text"
-                name="username"
-                placeholder="Nombre de usuario"
-                className={styles.input}
-                onChange={handleInputChange}
-                value={userData.username}
+                helperText={errors.name && errors.name.message}
               />
 
-              <Form.Control
+              <TextField
+                {...register("lastname", { required: messages.req })}
+                size="small"
+                type="text"
+                name="lastname"
+                label="Apellidos"
+                className={styles.input}
+                helperText={errors.lastname && errors.lastname.message}
+              />
+
+              <TextField
+                {...register("id", { required: messages.req })}
+                size="small"
+                type="text"
+                name="id"
+                label="Cédula"
+                className={styles.input}
+                helperText={errors.id && errors.id.message}
+              />
+
+              <TextField
+                {...register("password", { required: messages.req })}
+                size="small"
                 type="password"
                 name="password"
-                placeholder="Contraseña"
-                className={styles.inputPassword}
-                onChange={handleInputChange}
-                value={userData.password}
+                label="Contraseña"
+                className={styles.input}
+                helperText={errors.password && errors.password.message}
               />
+
+              {roles && roles.length > 0 && (
+                <Autocomplete
+                  {...register("rolId", { required: messages.req })}
+                  size="small"
+                  name="rolId"
+                  options={roles}
+                  className={styles.input}
+                  getOptionLabel={(option) => option.name}
+                  isOptionEqualToValue={(option, value) =>
+                    option._id === value._id
+                  }
+                  onChange={(event, value) => setValue("rolId", value._id)}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="Rol"
+                      helperText={errors.rolId && errors.rolId.message}
+                    />
+                  )}
+                />
+              )}
+
+              {companies && companies.length > 0 && (
+                <Autocomplete
+                  {...register("companyId", { required: messages.req })}
+                  size="small"
+                  name="companyId"
+                  options={companies}
+                  className={styles.input}
+                  getOptionLabel={(option) => option.company}
+                  isOptionEqualToValue={(option, value) =>
+                    option._id === value._id
+                  }
+                  onChange={(event, value) => setValue("companyId", value._id)}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="Compañías"
+                      helperText={errors.companyId && errors.companyId.message}
+                    />
+                  )}
+                />
+              )}
+
               {showPassError && (
                 <Form.Text className="text-muted">
                   La contraseña no cumple con los requisitos de complejidad.
                 </Form.Text>
               )}
-            </div>
-            <div className={styles.div_btn}>
-              <Button type="submit" className={styles.btn}>
-                {loading ? <Loader /> : "Registrar Usuario"}
+            </Box>
+            <Box className={styles.div_btn}>
+              <Button variant="contained" type="submit">
+                Registrar Usuario
               </Button>
-            </div>
+            </Box>
           </form>
-        </div>
-      </div>
-      {httpStatus === 200 &&
+        </Box>
+      </Box>
+      {httpStatus === 201 &&
         message === "Usuario registrado con éxito" &&
         status === "success" && (
-          <div>
-            <ToastAlert status={status} message={message} />
-          </div>
+          <Box>
+            <ToastAlert status={status} message={message} errors={errors} />
+          </Box>
         )}
-    </div>
+    </Box>
   );
 };
 

@@ -17,47 +17,42 @@ import Logo from "../../assets/logo.jpg";
 import { Login, selectLoginState } from "../../features/login/loginSlice";
 import { AlertMessage } from "../Alert";
 import { Loader } from "../Loader";
+import { useForm } from "react-hook-form";
 import styles from "./loginForm.module.scss";
 
 //Todo: Implementar el formulario de login - https://github.com/pavas0921/favs-frontend/blob/main/src/components/LoginForm/LoginForm.jsx
 
 const LoginForm = () => {
-  const [credentials, setCredentials] = useState({
-    email: "",
-    password: "",
-  });
+  const { register, handleSubmit, formState: { errors } } = useForm();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const loginData = useSelector(selectLoginState);
-  const { user } = loginData;
-  const { data } = user;
-  const { token } = data || "";
-  const loading = loginData.loading;
+  const loginResponse = useSelector(selectLoginState);
+  const {user} = loginResponse;
+  const {status, data} = user
+  const {companyId, rolId, token} = data || {}
 
   useEffect(() => {
-    console.log(loading);
-    if (token && !loading) {
-      sessionStorage.setItem("token");
-      goToFavs();
+    console.log("token", loginResponse)
+    if(user && data && token && companyId && rolId){
+      sessionStorage.setItem("token", token);
+      sessionStorage.setItem("companyId", rolId);
+      sessionStorage.setItem("rolId", rolId);
+      navigate("/dashboard");
     }
-  }, [token]);
+  }, [loginResponse]);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    dispatch(Login(credentials));
-  };
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setCredentials((prevCredentials) => ({
-      ...prevCredentials,
-      [name]: value,
-    }));
-  };
+  const onSubmit = (credentials) => {
+    dispatch(Login(credentials))
+  }
+    
 
   const goToFavs = () => {
     navigate("/new-sale");
   };
+
+  const messages = {
+    req: "Este campo es obligatorio",
+   };
 
   return (
     <Box className={styles.box_main}>
@@ -67,27 +62,28 @@ const LoginForm = () => {
             Inicio de Sesión
           </Typography>
         </Box>
-        <form className={styles.form} onSubmit={handleSubmit}>
+        <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
           <Box className={styles.box_input}>
-            <MailIcon sx={{ color: "action.active", mr: 1, my: 0.5 }} />
             <TextField
+              {...register("id", {required: messages.req})}
               className={styles.textField}
               label="Correo Electrónico"
               variant="standard"
-              type="email"
-              onChange={handleInputChange}
-              name="email"
+              type="text"
+              name="id"
+              helperText={errors.id && errors.id.message}
             />
           </Box>
           <Box className={styles.box_input}>
             <LockIcon sx={{ color: "action.active", mr: 1, my: 0.5 }} />
             <TextField
+            {...register("password", {required: messages.req})}
               className={styles.textField}
               label="Contraseña"
               variant="standard"
               type="password"
-              onChange={handleInputChange}
               name="password"
+              helperText={errors.password && errors.password.message}
             />
           </Box>
           <Box className={styles.box_button}>

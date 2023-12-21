@@ -1,12 +1,12 @@
 import React from "react";
-import { AdminNavbar } from "../../components/Sidebar";
+import { NavbarComponent } from "../../components/Navbar";
 import styles from "./dashboard.module.scss";
 
 const Dashboard = () => {
   return (
     <div className={styles.div_main}>
       <div className={styles.div_navbar}>
-        <AdminNavbar />
+        <NavbarComponent />
       </div>
       <div>
         <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptate eius inventore quia sit eaque totam odit dolorum, veritatis placeat explicabo quasi ipsum nemo eveniet consequuntur adipisci atque debitis alias laborum?</p>

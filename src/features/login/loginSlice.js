@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { loginAPI } from "../../services/login";
 
 const initialState = {
-  user: {},
+  user: [],
   loading: false,
 };
 
@@ -21,7 +21,8 @@ export const loginSlice = createSlice({
         state.loading = true;
       })
       .addCase(Login.fulfilled, (state, action) => {
-        (state.loading = false), (state.user = action.payload);
+        state.loading = false;
+        state.user = action.payload;
       });
   },
 });
