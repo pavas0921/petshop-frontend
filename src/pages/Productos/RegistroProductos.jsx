@@ -12,10 +12,8 @@ const RegistroProductos = () => {
       </div>
       <div className={styles.div_form}>
         <FormRegistroProuctos />
-        <FormRegistroDetalleProducto />
       </div>
-
-    </div >
+    </div>
   );
 };
 
