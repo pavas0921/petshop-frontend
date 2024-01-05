@@ -9,11 +9,15 @@ import MenuItem from "@mui/material/MenuItem";
 import Toolbar from "@mui/material/Toolbar";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import React from "react";
+import React, {useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore"; // o 'ArrowDropDown' para otra versión
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import { ModalComponent } from "../ModalComponent";
+
+
+
 
 const NavbarComponent = () => {
   const [anchorPacientes, setAnchorPacientes] = React.useState(null);
@@ -26,9 +30,13 @@ const NavbarComponent = () => {
   const [anchorPruebas, setAnchorPruebas] = React.useState(null);
   const [anchorUsuarios, setAnchorUsuarios] = React.useState(null);
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
+  const [openModal, setOpenModal] = React.useState(false);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const navigate = useNavigate();
+
+  const handleOpen = () => setOpenModal(true);
+  const handleClose = () => setOpenModal(false);
 
   const handleClickPacientes = (event) => {
     setAnchorPacientes(event.currentTarget);
@@ -102,8 +110,13 @@ const NavbarComponent = () => {
     setAnchorUsuarios(null);
   };
 
+  useEffect(() => {
+    console.log("Modal", openModal)
+  }, [openModal])
+
   return (
-    <AppBar position="static" sx={{ marginBottom: 5 }}>
+    <div>
+       <AppBar position="static" sx={{ marginBottom: 5 }}>
       <Toolbar>
         {isMobile ? (
           <IconButton
@@ -299,12 +312,7 @@ const NavbarComponent = () => {
                   <ArrowDropDownIcon />
                 </ListItemIcon>
               </MenuItem>
-              <MenuItem onClick={handleClickUsuarios}>
-                Administradoras de Salud
-                <ListItemIcon>
-                  <ArrowDropDownIcon />
-                </ListItemIcon>
-              </MenuItem>
+
             </Menu>
             <Menu
               anchorEl={anchorUsuarios} // Agregar este estado para el submenu de Usuarios
@@ -325,12 +333,18 @@ const NavbarComponent = () => {
               <MenuItem onClick={() => navigate("/user-list")}>
                 Maestro de Usuarios
               </MenuItem>
+              
+              <MenuItem onClick={() => navigate("/products-add")}>
+                Productos
+              </MenuItem>
             </Menu>
           </>
         )}
         {/* Resto del código del componente */}
       </Toolbar>
     </AppBar>
+    </div>
+   
   );
 };
 

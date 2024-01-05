@@ -3,7 +3,9 @@ import { getAllEspeciesAPI } from "../../services/especie";
 
 const initialState = {
   especies: [],
-  loading: false,
+  especiesLoading: false,
+  httpStatus: null,
+  message: null
 };
 
 export const getEspecies = createAsyncThunk("get/especie", async () => {
@@ -18,11 +20,12 @@ export const especieSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(getEspecies.pending, (state) => {
-        state.loading = true;
+        state.especiesLoading = true;
       })
       .addCase(getEspecies.fulfilled, (state, action) => {
-        state.loading = false;
-        state.especies = action.payload;
+        state.especiesLoading = false;
+        state.especies = action.payload.content;
+        state.httpStatus =  action.payload.httpStatus
       });
   },
 });

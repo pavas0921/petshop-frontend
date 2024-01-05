@@ -5,6 +5,7 @@ import { DetalleProducto } from "../pages/DetalleProducto";
 import { RegistroProductos, VerProductos } from "../pages/Productos";
 import { Register } from "../pages/User";
 import { NewSale, Ventas } from "../pages/Ventas";
+import { ProductsDashboard } from "../pages/Products";
 const router = createBrowserRouter([
   {
     path: "/login",
@@ -18,12 +19,12 @@ const router = createBrowserRouter([
   },
   {
     path: "products-add",
-    element: <RegistroProductos />,
+    element: <ProductsDashboard />,
     errorElement: <div> Hubo un error!!</div>,
   },
   {
     path: "products",
-    element: <VerProductos />,
+    element: <ProductsDashboard />,
     errorElement: <div> Hubo un error!!</div>,
   },
   {

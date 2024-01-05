@@ -27,19 +27,16 @@ const LoginForm = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const loginResponse = useSelector(selectLoginState);
-  const {user} = loginResponse;
-  const {status, data} = user
-  const {companyId, rolId, token} = data || {}
+  const {token, loading} = loginResponse
+  
 
   useEffect(() => {
-    console.log("token", loginResponse)
-    if(user && data && token && companyId && rolId){
+    console.log("token", token)
+    if(loginResponse && token && !loading){
       sessionStorage.setItem("token", token);
-      sessionStorage.setItem("companyId", rolId);
-      sessionStorage.setItem("rolId", rolId);
       navigate("/dashboard");
     }
-  }, [loginResponse]);
+  }, [loginResponse, token, loading]);
 
   const onSubmit = (credentials) => {
     dispatch(Login(credentials))

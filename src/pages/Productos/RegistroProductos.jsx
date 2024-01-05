@@ -1,6 +1,5 @@
 import React from "react";
 import { FormRegistroDetalleProducto } from "../../components/DetalleProducto/RegistroDetalleProducto";
-import FormRegistroProuctos from "../../components/Productos/RegistroProductos/FormRegistroProuctos";
 import { AdminNavbar } from "../../components/Sidebar";
 import styles from "./registroProductos.module.scss";
 

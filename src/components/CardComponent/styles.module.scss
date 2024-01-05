@@ -1,0 +1,82 @@
+.box_main {
+  width: 92%;
+  height: 80vh;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+  background-color: white;
+  overflow: auto;
+  border-radius: 7px;
+}
+
+.card {
+  width: 32%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+
+  @media (max-width: 1060px) {
+    width: 48%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+  }
+
+  @media (max-width: 800px) {
+    width: 98%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+  }
+
+  .box_img {
+    width: 25%;
+    height: 90px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .img {
+      width: 90%;
+      height: 90%;
+    }
+  }
+
+  .box_delete{
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    height: 100%;
+    width: 100%;
+    padding: 10px; /* Añade un poco de espacio alrededor del texto */
+    box-sizing: border-box; /* Asegura que el padding no afecte al tamaño total */
+
+    p {
+        margin: 0; /* Elimina el margen predeterminado del párrafo */
+      }
+  }
+}
+
+.box_main::-webkit-scrollbar {
+  width: 7px;
+  scrollbar-width: thin;
+}
+
+.box_main::-webkit-scrollbar-thumb {
+  background-color: #808080;
+  border-radius: 4px; /* Bordes redondos */
+}
+
+.box_main::-webkit-scrollbar-track {
+  background-color: #f4f4f4;
+}
+
+.card:hover {
+    cursor: pointer; /* Cambia el cursor a una manita al pasar sobre la tarjeta */
+    background-color: #cccbcb; /* Cambia el color de fondo al pasar sobre la tarjeta */
+  }

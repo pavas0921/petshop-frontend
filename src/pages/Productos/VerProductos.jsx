@@ -1,5 +1,4 @@
 import * as React from "react";
-import { AllProducts } from "../../components/Productos/TablaProductos/AllProducts";
 import { AdminNavbar } from "../../components/Sidebar";
 import styles from "./verProductos.module.scss";
 
