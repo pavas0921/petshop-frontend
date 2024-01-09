@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
@@ -26,6 +26,10 @@ const CardComponent = (props) => {
     setOpenModal(true);
     setProduct(item);
   };
+
+  useEffect(() => {
+    console.log("----", products[28].status);
+  }, [product]);
 
   return (
     <Box className={styles.box_main}>
@@ -65,6 +69,11 @@ const CardComponent = (props) => {
                 {item.stock} unidades
               </Typography>
             )}
+
+            <Typography variant="body2" color="text.secondary">
+              {console.log("item", item.status)}
+              {`${item.status}`}
+            </Typography>
           </CardContent>
         </Card>
       ))}

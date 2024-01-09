@@ -20,6 +20,7 @@ import {
   selectProductState,
   createProduct,
   clearAlert,
+  disableProductById,
 } from "../../../features/producto/productoSlice";
 import { useForm } from "react-hook-form";
 import { verifyTokenExpiration } from "../../../helpers/verifyToken";
@@ -101,6 +102,16 @@ const ProductForm = (props) => {
   const onSubmit = (body) => {
     dispatch(clearAlert());
     dispatch(createProduct(body));
+  };
+
+  const handleDisableProduct = () => {
+    if (product.status) {
+      const body = { status: false };
+      dispatch(disableProductById({ body: body, _id: product._id }));
+    } else {
+      const body = { status: true };
+      dispatch(disableProductById({ status: body, _id: product._id }));
+    }
   };
 
   return (
@@ -246,8 +257,13 @@ const ProductForm = (props) => {
               {update ? "Actualizar Producto" : "Agregar Producto"}
             </Button>
             {update && (
-              <Button sx={{marginTop: 1}} variant="outlined" startIcon={<DeleteIcon />}>
-                Eliminar Producto
+              <Button
+                sx={{ marginTop: 1 }}
+                variant="outlined"
+                startIcon={<DeleteIcon />}
+                onClick={handleDisableProduct}
+              >
+                Desactivar Producto
               </Button>
             )}
           </Box>
