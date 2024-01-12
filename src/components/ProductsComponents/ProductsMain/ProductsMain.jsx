@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   selectProductState,
   getProducts,
+  clearAlert,
   getProductsByCompany,
 } from "../../../features/producto/productoSlice";
 import { AddComponent } from "../../AddComponent";
@@ -32,9 +33,11 @@ const ProductsMain = () => {
     productStatus,
     products,
     productsLoading,
+    productFlag
   } = productResponse;
 
   useEffect(() => {
+    dispatch(clearAlert());
     if (status) {
       dispatch(getProductsByCompany(companyId));
     }
@@ -69,8 +72,8 @@ const ProductsMain = () => {
           setAlert={setAlert}
         />
       )}
-      {alert && alert.message && alert.status === "success" && (
-        <ToastAlert message={alert.message} status={alert.status} />
+      {productFlag && productHttpStatus === 201 && productStatus === "success" && (
+        <ToastAlert message={productMessage} status={productStatus} />
       )}
     </Box>
   );

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -22,11 +23,17 @@ import {
   clearAlert,
   disableProductById,
 } from "../../../features/producto/productoSlice";
+
+import {
+  uploadImage,
+  selectImageState,
+} from "../../../features/cloudinary/cloudinarySlice";
 import { useForm } from "react-hook-form";
 import { verifyTokenExpiration } from "../../../helpers/verifyToken";
 import { useNavigate } from "react-router-dom";
 import ToastAlert from "../../Alerts/ToastAlert";
 import Loader from "../../LoaderComponent/Loader";
+import { Input } from "@mui/material";
 
 const ProductForm = (props) => {
   const { setAlert, product, update } = props;
@@ -53,10 +60,9 @@ const ProductForm = (props) => {
       createdBy: update ? product.createdBy : null,
     },
   });
+  const cloudName = "dinxdqo76";
 
-  useEffect(() => {
-    console.log("*****", product);
-  }, []);
+  useEffect(() => {}, []);
 
   useEffect(() => {
     if (status) {
@@ -81,7 +87,11 @@ const ProductForm = (props) => {
     productsLoading,
   } = productResponse;
 
+  const ImageResponse = useSelector(selectImageState);
+  const { flag, statusCode, images, photoLoading } = ImageResponse;
+
   useEffect(() => {
+    dispatch(clearAlert());
     if (status) {
       dispatch(getCategory());
       dispatch(getEspecies());
@@ -100,8 +110,21 @@ const ProductForm = (props) => {
   };
 
   const onSubmit = (body) => {
-    dispatch(clearAlert());
-    dispatch(createProduct(body));
+    if(update){
+      if(body.image){
+        body.image = images;
+        console.log("****", body.image);
+      }else{
+        body.image = images;
+        console.log("body", body)
+      }
+    }else{
+      body.image = images;
+      console.log(body)
+      dispatch(clearAlert());
+      dispatch(createProduct(body));
+    }
+    
   };
 
   const handleDisableProduct = () => {
@@ -113,6 +136,26 @@ const ProductForm = (props) => {
       dispatch(disableProductById({ status: body, _id: product._id }));
     }
   };
+
+  const handleImageChange = async (event) => {
+    event.preventDefault();
+    try {
+      const file = event.target.files[0];
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("upload_preset", "m4obnmhx");
+      dispatch(uploadImage(formData));
+    } catch (error) {
+      console.error("Error en la solicitud de carga de imagen:", error);
+      // Puedes manejar el error de otra manera, como mostrar un mensaje al usuario
+    }
+  };
+
+  /*useEffect(() => {
+    if (statusCode === 200) {
+      setValue("image", images, { shouldDirty: false, shouldValidate: false });
+    }
+  }, [ImageResponse]);*/
 
   return (
     <Box className={globalStyles.box_main}>
@@ -139,12 +182,24 @@ const ProductForm = (props) => {
             className={styles.textField}
             helperText={errors.barCode && errors.barCode.message}
           />
-          <TextField
-            {...register("image", { required: messages.req })}
+          <Input
+            {...register("image", {
+              validate: value => {
+                if (update) {
+                  // En modo de actualización, el campo de archivos no es obligatorio
+                  return true;
+                } else {
+                  // En modo de creación, el campo de archivos es obligatorio
+                  return value ? true : "Este campo es obligatorio";
+                }
+              },
+            })}
             label="Url Imagen"
+            type="file"
             size="small"
             name="image"
             className={styles.textField}
+            onChange={handleImageChange}
             helperText={errors.image && errors.image.message}
           />
           <TextField
@@ -269,7 +324,7 @@ const ProductForm = (props) => {
           </Box>
         </form>
       </Box>
-      {productsLoading && <Loader />}
+      {productsLoading || (photoLoading)  && <Loader />}
     </Box>
   );
 };

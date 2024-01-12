@@ -8,6 +8,7 @@ import userReducer from "../features/user/userSlice";
 import ventaReducer from "../features/venta/ventaSlice";
 import rolReducer from "../features/rol/rolSlice";
 import companyReducer from "../features/company/companySlice";
+import imageReducer from "../features/cloudinary/cloudinarySlice"
 
 export const store = configureStore({
   reducer: {
@@ -19,6 +20,7 @@ export const store = configureStore({
     users: userReducer,
     ventas: ventaReducer,
     roles: rolReducer,
-    companies: companyReducer
+    companies: companyReducer,
+    images: imageReducer
   },
 });

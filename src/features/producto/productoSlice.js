@@ -12,6 +12,7 @@ const initialState = {
   productMessage: null,
   productHttpStatus: null,
   productStatus: null,
+  productFlag: false
 };
 
 export const getProducts = createAsyncThunk("get/products", async () => {
@@ -52,6 +53,7 @@ export const ProductSlice = createSlice({
       state.productStatus = null;
       state.productHttpStatus = null;
       state.productMessage = null;
+      state.productFlag = false;
     },
   },
   extraReducers: (builder) => {
@@ -87,6 +89,7 @@ export const ProductSlice = createSlice({
           state.productStatus = action.payload.status;
           state.products.push(action.payload.producto);
           state.productMessage = action.payload.message;
+          state.productFlag =  true;
         }
       })
       .addCase(disableProductById.pending, (state) => {
@@ -105,8 +108,8 @@ export const ProductSlice = createSlice({
             state.productHttpStatus = action.payload.httpStatus;
             state.productStatus = action.payload.status;
             state.productMessage = action.payload.message;
-            console.log("llllll", action.payload.updated.status);
             state.products[index].status === action.payload.updated.status;
+            state.productFlag = true;
           }
         }
       });

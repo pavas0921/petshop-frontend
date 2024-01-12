@@ -28,7 +28,7 @@ const CardComponent = (props) => {
   };
 
   useEffect(() => {
-    console.log("----", products[28].status);
+    console.log("----", products);
   }, [product]);
 
   return (
@@ -42,7 +42,7 @@ const CardComponent = (props) => {
         >
           <Box className={styles.box_img}>
             <img
-              src="https://didopet.com/wp-content/uploads/2023/09/14064-didopet.com-CHUNKY-ADULTOS-MAYORES-POLLO-1.5KG.png"
+              src={item.image}
               alt=""
               className={styles.img}
             />
