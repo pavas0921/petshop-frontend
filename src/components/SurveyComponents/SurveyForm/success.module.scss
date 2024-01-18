@@ -1,0 +1,42 @@
+.content {
+    background-color: #fff4be;
+    font-family: "Atma", Arial, sans-serif;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+  }
+
+  .div_container{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  .div_logo {
+    width: 25%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .logo {
+    width: 100%;
+    display: flex;
+    justify-self: center;
+    align-items: center;
+    border-radius: 50%;
+  }
+
+  .div_title{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
+    flex-direction: column;
+  }

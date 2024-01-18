@@ -6,6 +6,8 @@ import { RegistroProductos, VerProductos } from "../pages/Productos";
 import { Register } from "../pages/User";
 import { NewSale, Ventas } from "../pages/Ventas";
 import { ProductsDashboard } from "../pages/Products";
+import { SurveyPages } from "../pages/Survey";
+import SurveySuccess from "../pages/Survey/SurveySuccess";
 const router = createBrowserRouter([
   {
     path: "/login",
@@ -52,6 +54,16 @@ const router = createBrowserRouter([
     element: <NewSale />,
     errorElement: <div> Hubo un error!!</div>,
   },
+  {
+    path: "survey",
+    element: <SurveyPages />,
+    errorElement: <div> Hubo un error!!</div>,
+  },
+  {
+    path: "survey-success",
+    element: <SurveySuccess />,
+    errorElement: <div> Hubo un error!!</div>,
+  }
 ]);
 
 export const CustomRouterProvider = () => (
