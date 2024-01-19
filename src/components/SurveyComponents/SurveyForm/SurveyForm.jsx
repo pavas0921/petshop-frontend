@@ -106,7 +106,7 @@ const SurveyForm = () => {
                 />
               </div>
 
-              <div>
+              <div className={styles.div_inputs}>
                 <label htmlFor="diases">
                   ¿Tienen o han tenido alguna enfermedad?
                 </label>

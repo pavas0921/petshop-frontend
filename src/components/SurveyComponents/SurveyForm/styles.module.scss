@@ -4,8 +4,6 @@ body {
   padding: 0;
   display: flex;
   flex-direction: column;
-  //height: 100vh;
-  //background-color: #fff4be;
 }
 .header {
   display: flex;
@@ -17,36 +15,68 @@ body {
   text-align: center;
   padding: 20px;
   height: 15vh;
+
+  @media (max-width: 800px) {
+    height: 20vh;
+    padding: 0px;
+  }
 }
 .content {
   background-color: #fff4be;
   font-family: "Atma", Arial, sans-serif;
   width: 100%;
   display: flex;
-  justify-content: center;
   align-items: center;
   justify-content: space-between;
   height: 85vh;
+
+  @media (max-width: 800px) {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    justify-content: space-between;
+    height: auto;
+    flex-direction: column;
+    padding-bottom: 20px;
+  }
 }
+
+.div_logo {
+  width: 50%;
+  height: 70vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+  @media (max-width: 800px) {
+    width: 50%;
+    height: auto;
+    margin-top: 20px;
+  }
+}
+
 .logo {
   width: 60%;
   border-radius: 50%;
 }
-.form_tag {
-  font-family: "Atma", Arial, sans-serif;
-  width: 100%;
+
+.div_form {
+  width: 60%;
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 8px;
-  padding-top: 13px;
-  padding-bottom: 10px;
-  margin-top: 10px;
-  flex-direction: column;
+
+  @media (max-width: 800px) {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 }
 
 .div_columns {
-  width: 100%;
+  width: 95%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -55,11 +85,19 @@ body {
   padding-top: 13px;
   padding-bottom: 10px;
   margin-top: 10px;
+
+  @media (max-width: 800px) {
+    width: 95%;
+    display: flex;
+    flex-direction: column;
+  }
 }
+
 label {
   display: block;
   margin-bottom: 10px;
 }
+
 input,
 select {
   width: calc(100% - 20px);
@@ -70,6 +108,7 @@ select {
   box-sizing: border-box;
   font-family: "Atma", Arial, sans-serif;
 }
+
 button {
   background-color: #887bb0;
   color: white;
@@ -85,13 +124,6 @@ button:hover {
   background-color: #6e62a0;
 }
 
-.div_logo {
-  width: 50%;
-  height: 70vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
 
 form {
   width: 100%;
@@ -107,10 +139,13 @@ form {
   display: flex;
   justify-content: center;
   flex-direction: column;
+
+  @media (max-width: 800px) {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 }
 
 
-.div_form{
-  width: 50%;
-  margin-right: 30px;
-}
