@@ -9,6 +9,7 @@ import { ProductsDashboard } from "../pages/Products";
 import { SurveyPages } from "../pages/Survey";
 import SurveySuccess from "../pages/Survey/SurveySuccess";
 import { SurveyList } from "../components/SurveyComponents/SurveyList";
+import UserTable from "../pages/User/UserList/UserTable";
 const router = createBrowserRouter([
   {
     path: "/login",
@@ -38,6 +39,11 @@ const router = createBrowserRouter([
   {
     path: "user/register",
     element: <Register />,
+    errorElement: <div> Hubo un error!!</div>,
+  },
+  {
+    path: "user-list",
+    element: <UserTable />,
     errorElement: <div> Hubo un error!!</div>,
   },
   {

@@ -59,7 +59,6 @@ export const surveySlice = createSlice({
         state.httpStatus = action.payload.httpStatus
         state.status = action.payload.status
       });
-      ;
   },
 });
 

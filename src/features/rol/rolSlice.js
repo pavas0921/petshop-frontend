@@ -3,7 +3,7 @@ import { getAllRolesAPI } from "../../services/rol";
 
 const initialState = {
   roles: [],
-  loading: false,
+  rolLoading: false,
   httpStatus: null
 };
 
@@ -19,10 +19,10 @@ export const rolSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(getAllRoles.pending, (state) => {
-        state.loading = true;
+        state.rolLoading = true;
       })
       .addCase(getAllRoles.fulfilled, (state, action) => {
-        state.loading = false;
+        state.rolLoading = false;
         state.roles = action.payload.roles
         state.httpStatus = action.payload.httpStatus
       });

@@ -17,3 +17,19 @@ export const createUserAPI = async (body) => {
     return Promise.resolve(error);
   }
 };
+
+export const getAllUsersAPI = async () => {
+  try {
+    const url = `${API_BASE_URL}/user`;
+    const req = await fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const data = await req.json();
+    return Promise.resolve(data);
+  } catch (error) {
+    return Promise.resolve(error);
+  }
+};

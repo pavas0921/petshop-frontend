@@ -26,14 +26,13 @@ const UserRegisterForm = () => {
   const dispatch = useDispatch();
 
   const userResponse = useSelector(selectUserState);
-  const { users, userLoading } = userResponse;
-  const { httpStatus, message, user, status } = users;
+  const { users, userLoading, httpStatus, message, status  } = userResponse;
 
   const rolesResponse = useSelector(selectRolesState);
-  const { roles } = rolesResponse;
+  const { roles, rolLoading } = rolesResponse;
 
   const companyResponse = useSelector(selectCompnayState);
-  const { companies } = companyResponse;
+  const { companies, companyLoading } = companyResponse;
 
   const [showPassError, setShowPassError] = useState(false);
 
@@ -56,9 +55,6 @@ const UserRegisterForm = () => {
 
   return (
     <Box className={styles.div_main}>
-      {userLoading && (
-        <Loader/>
-      )}
       <Box className={styles.div_card}>
         <Box className={styles.div_title}>
           <Typography variant="h4" color="initial">
@@ -172,6 +168,10 @@ const UserRegisterForm = () => {
           <Box>
             <ToastAlert status={status} message={message} errors={errors} />
           </Box>
+        )}
+
+        {(companyLoading || rolLoading || userLoading) && (
+          <Loader/>
         )}
     </Box>
   );

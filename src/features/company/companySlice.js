@@ -3,7 +3,7 @@ import { getAllCompaniesAPI } from "../../services/company";
 
 const initialState = {
   companies: [],
-  loading: false,
+  companyLoading: false,
   httpStatus: null
 };
 
@@ -19,10 +19,10 @@ export const companySlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(getAllCompanies.pending, (state) => {
-        state.loading = true;
+        state.companyLoading = true;
       })
       .addCase(getAllCompanies.fulfilled, (state, action) => {
-        state.loading = false;
+        state.companyLoading = false;
         state.companies = action.payload.company
         state.httpStatus = action.payload.httpStatus
       });
