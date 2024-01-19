@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { registerSurveyAPI } from "../../services/survey";
+import { registerSurveyAPI, getAllSurveyAPI } from "../../services/survey";
 
 const initialState = {
   surveys: [],
@@ -14,6 +14,11 @@ export const registerSurvey = createAsyncThunk("post/registerSurvey", async (bod
   const data = await registerSurveyAPI(body);
   return data;
 });
+
+export const getAllSurvey = createAsyncThunk("get/registerSurvey", async () => {
+    const data = await getAllSurveyAPI();
+    return data;
+  });
 
 export const surveySlice = createSlice({
   name: "surveys",
@@ -44,7 +49,17 @@ export const surveySlice = createSlice({
         state.status = action.payload.status
         state.message = "¡Registro completado con éxito!"
         state.flag = true
+      })
+      .addCase(getAllSurvey.pending, (state) => {
+        state.surveysLoading = true;
+      })
+      .addCase(getAllSurvey.fulfilled, (state, action) => {
+        state.surveysLoading = false;
+        state.surveys = action.payload.content;
+        state.httpStatus = action.payload.httpStatus
+        state.status = action.payload.status
       });
+      ;
   },
 });
 

@@ -8,6 +8,7 @@ import { NewSale, Ventas } from "../pages/Ventas";
 import { ProductsDashboard } from "../pages/Products";
 import { SurveyPages } from "../pages/Survey";
 import SurveySuccess from "../pages/Survey/SurveySuccess";
+import { SurveyList } from "../components/SurveyComponents/SurveyList";
 const router = createBrowserRouter([
   {
     path: "/login",
@@ -62,6 +63,11 @@ const router = createBrowserRouter([
   {
     path: "survey-success",
     element: <SurveySuccess />,
+    errorElement: <div> Hubo un error!!</div>,
+  },
+  {
+    path: "survey-list",
+    element: <SurveyList />,
     errorElement: <div> Hubo un error!!</div>,
   }
 ]);

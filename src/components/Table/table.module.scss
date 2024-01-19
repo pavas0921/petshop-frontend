@@ -1,0 +1,18 @@
+.box_main{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    .box_table{
+        width: auto;
+        max-width: 95%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 10px;
+        box-shadow: 2px 2px 5px 0px rgba(50, 115, 220, 0.5);
+        margin-bottom: 20px;
+    }
+}
