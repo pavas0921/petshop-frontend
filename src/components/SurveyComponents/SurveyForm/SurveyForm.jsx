@@ -162,7 +162,7 @@ const SurveyForm = () => {
       </div>
       {flag && (
 				<div>
-					<RedirectAfterDelay path='/survey-success' delay={3} />
+					<RedirectAfterDelay path='/survey-success' delay={2} />
 				</div>
 			)}
 
