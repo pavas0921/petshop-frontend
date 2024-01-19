@@ -18,7 +18,20 @@ export const registerSurvey = createAsyncThunk("post/registerSurvey", async (bod
 export const surveySlice = createSlice({
   name: "surveys",
   initialState,
-  reducers: {},
+  reducers: {
+    clearHttpStatus: (state) =>{
+        state.status = null
+        state.error = null
+        state.httpStatus = null
+        state.message = null
+      },
+      clearAll: (state) =>{
+        state.surveys = [],
+        state.error = null
+        state.httpStatus = null
+        state.message = null
+      }
+  },
   extraReducers: (builder) => {
     builder
       .addCase(registerSurvey.pending, (state) => {
@@ -35,5 +48,6 @@ export const surveySlice = createSlice({
   },
 });
 
+export const { clearHttpStatus, clearAll } = surveySlice.actions;
 export const selectSurveyState = (state) => state.surveys;
 export default surveySlice.reducer;

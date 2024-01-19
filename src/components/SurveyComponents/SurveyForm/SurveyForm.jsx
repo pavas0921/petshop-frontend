@@ -2,9 +2,11 @@ import React, { useState, useEffect } from "react";
 import styles from "./styles.module.scss";
 import ImageLogo from "./logo.jpg";
 import { useDispatch, useSelector } from "react-redux";
-import { registerSurvey, selectSurveyState } from "../../../features/survey/surveySlice";
+import { registerSurvey, selectSurveyState, clearHttpStatus  } from "../../../features/survey/surveySlice";
 import { Loader } from "../../LoaderComponent";
 import { RedirectAfterDelay } from "../../../helpers/redirectAfter";
+import ToastAlert from "../../Alerts";
+
 
 
 const SurveyForm = () => {
@@ -21,12 +23,12 @@ const SurveyForm = () => {
 
   const dispatch = useDispatch();
   const surveyResponse = useSelector(selectSurveyState);
-  const {surveysLoading, httpStatus, message, status, flag } = surveyResponse
+  const {surveysLoading, httpStatus, status, flag } = surveyResponse
 
 
   useEffect(() => {
-    console.log(surveyResponse)
-  }, [surveyResponse])
+    dispatch(clearHttpStatus());
+  }, [])
   
 
   const handleInputChange = (e) => {
@@ -39,8 +41,6 @@ const SurveyForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Aquí puedes hacer algo con los datos, como enviarlos a un servidor
-    console.log("Datos del formulario:", body);
     dispatch(registerSurvey(body))
   };
 
@@ -165,6 +165,10 @@ const SurveyForm = () => {
 					<RedirectAfterDelay path='/survey-success' delay={3} />
 				</div>
 			)}
+
+            {flag && httpStatus === 201 & status === "success" && (
+                <ToastAlert status={status} message={"¡Registro realizado con éxito!"}  />
+            )}
     </div>
   );
 };
