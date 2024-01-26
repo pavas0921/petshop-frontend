@@ -33,7 +33,15 @@ import { verifyTokenExpiration } from "../../../helpers/verifyToken";
 import { useNavigate } from "react-router-dom";
 import ToastAlert from "../../Alerts/ToastAlert";
 import Loader from "../../LoaderComponent/Loader";
-import { Input } from "@mui/material";
+import {
+  FormControl,
+  FormHelperText,
+  Input,
+  InputLabel,
+  MenuItem,
+  NativeSelect,
+  Select,
+} from "@mui/material";
 
 const ProductForm = (props) => {
   const { setAlert, product, update } = props;
@@ -54,15 +62,13 @@ const ProductForm = (props) => {
       costPrice: update ? product.costPrice : null,
       salePrice: update ? product.salePrice : null,
       stock: update ? product.stock : null,
-      idEspecie: update ? product.idEspecie : null,
-      idCategoria: update ? product.idCategoria : null,
+      //idEspecie: update ? product.idEspecie._id : null,
+      idCategoria: update ? product.idCategoria._id : null,
       idCompany: update ? product.idCompany : null,
       createdBy: update ? product.createdBy : null,
     },
   });
   const cloudName = "dinxdqo76";
-
-  useEffect(() => {}, []);
 
   useEffect(() => {
     if (status) {
@@ -109,22 +115,34 @@ const ProductForm = (props) => {
     req: "Este campo es obligatorio",
   };
 
+  useEffect(() => {
+    if (update && product) {
+      if (categories && categories.length > 0) {
+        setValue("idCategoria", product.idCategoria._id);
+      }
+      if (especies && especies.length > 0 && product.idEspecie) {
+        console.log("esp", categories);
+        setValue("idEspecie", product.idEspecie._id);
+      }
+    }
+  }, [categories, especies, product, update]);
+
   const onSubmit = (body) => {
-    if(update){
-      if(body.image){
+    if (update) {
+      console.log(body);
+      if (body.image) {
         body.image = images;
         console.log("****", body.image);
-      }else{
+      } else {
         body.image = images;
-        console.log("body", body)
+        console.log("body", body);
       }
-    }else{
+    } else {
       body.image = images;
-      console.log(body)
+      console.log(body);
       dispatch(clearAlert());
       dispatch(createProduct(body));
     }
-    
   };
 
   const handleDisableProduct = () => {
@@ -184,7 +202,7 @@ const ProductForm = (props) => {
           />
           <Input
             {...register("image", {
-              validate: value => {
+              validate: (value) => {
                 if (update) {
                   // En modo de actualización, el campo de archivos no es obligatorio
                   return true;
@@ -229,84 +247,50 @@ const ProductForm = (props) => {
             className={styles.textField}
             helperText={errors.stock && errors.stock.message}
           />
-          <Autocomplete
-            {...register("idCategoria", { required: messages.req })}
-            size="small"
-            name="idCategoria"
-            options={categories}
-            getOptionLabel={(option) => option.name} // Propiedad a mostrar en la lista desplegable
-            isOptionEqualToValue={(option, value) => option._id === value._id}
-            onChange={(event, value) => {
-              setValue("idCategoria", value?._id || null);
 
-              // Utiliza setError para manejar el error de manera adecuada
-              setError(
-                "idCategoria",
-                value
-                  ? null
-                  : {
-                      type: "required",
-                      message: "Este campo es obligatorio",
-                    }
-              );
-            }}
-            className={styles.textField}
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                label="Categorias"
-                helperText={errors.idCategoria && errors.idCategoria.message}
-              />
-            )}
-            // Establecer el valor inicial en modo de actualización
-            defaultValue={
-              update
-                ? categories.find(
-                    (category) => category._id === product.idCategoria._id
-                  ) || null
-                : null
-            }
-          />
+          <FormControl className={styles.textField}>
+            <InputLabel id="demo-simple-select-label">Especie</InputLabel>
+            <Select
+              {...register("idEspecie", {})}
+              labelId="idEspecie"
+              id="idEspecie"
+              name="idEspecie"
+              label="Especie"
+              size="small"
+              defaultValue={update ? product.idEspecie._id : ""}
+            >
+              {especies &&
+                especies.length > 0 &&
+                especies.map((item, index) => (
+                  <MenuItem key={index} value={item._id}>
+                    {item.name}
+                  </MenuItem>
+                ))}
+            </Select>
+          </FormControl>
 
-          <Autocomplete
-            {...register("idEspecie", { required: messages.req })}
-            size="small"
-            idEspecie
-            name="idEspecie"
-            options={especies}
-            getOptionLabel={(option) => option.name} // Propiedad a mostrar en la lista desplegable
-            isOptionEqualToValue={(option, value) => option._id === value._id}
-            onChange={(event, value) => {
-              setValue("idEspecie", value?._id || null);
+          <FormControl className={styles.textField}>
+            <InputLabel id="demo-simple-select-label">Especie</InputLabel>
+            <Select
+              {...register("idCategoria", {})}
+              labelId="idCategoria"
+              id="idCategoria"
+              name="idCategoria"
+              label="Especie"
+              size="small"
+              defaultValue={update ? product.idCategoria._id : ""}
+            >
+              {especies &&
+                especies.length > 0 &&
+                especies.map((item, index) => (
+                  <MenuItem key={index} value={item._id}>
+                    {item.name}
+                  </MenuItem>
+                ))}
+            </Select>
+          </FormControl>
 
-              // Utiliza setError para manejar el error de manera adecuada
-              setError(
-                "idEspecie",
-                value
-                  ? null
-                  : {
-                      type: "required",
-                      message: "Este campo es obligatorio",
-                    }
-              );
-            }}
-            className={styles.textField}
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                label="Especie"
-                helperText={errors.idEspecie && errors.idEspecie.message}
-              />
-            )}
-            // Establecer el valor inicial en modo de actualización
-            defaultValue={
-              update
-                ? especies.find(
-                    (especie) => especie._id === product.idEspecie._id
-                  ) || null
-                : null
-            }
-          />
+  
           <Box className={styles.box_button}>
             <Button sx={{ marginTop: 3 }} variant="contained" type="submit">
               {update ? "Actualizar Producto" : "Agregar Producto"}
@@ -324,7 +308,7 @@ const ProductForm = (props) => {
           </Box>
         </form>
       </Box>
-      {productsLoading || (photoLoading)  && <Loader />}
+      {productsLoading || (photoLoading && <Loader />)}
     </Box>
   );
 };
