@@ -53,7 +53,6 @@ export const createProductAPI = async (body) => {
 
 export const disableProductByIdAPI = async (body, _id) => {
   try {
-    console.log("status------", body);
     const url = `${API_BASE_URL}/product/updateStatus/${_id}`;
     const req = await fetch(url, {
       method: "PUT",

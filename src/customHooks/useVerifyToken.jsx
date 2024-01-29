@@ -13,7 +13,6 @@ const useVerifyToken = () => {
             sessionStorage.removeItem("token");
             return false
         } else {
-            console.log("token valido")
             return true
         }
 

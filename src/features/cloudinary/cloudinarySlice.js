@@ -20,7 +20,7 @@ export const imageSlice = createSlice({
   name: "images",
   initialState,
   reducers: {
-    clearAlert: (state) => {
+    clearImage: (state) => {
       state.images = [];
       state.flag = false;
       state.statusCode = null;
@@ -34,7 +34,7 @@ export const imageSlice = createSlice({
       .addCase(uploadImage.fulfilled, (state, action) => {
         state.photoLoading = false;
         if (action.payload.httpStatus === 200) {
-          state.images = action.payload.data.secure_url;
+          state.images = [action.payload.data.secure_url];
           state.flag = true;
           state.statusCode = action.payload.httpStatus;
         }
@@ -42,6 +42,6 @@ export const imageSlice = createSlice({
   },
 });
 
-export const { clearAlert } = imageSlice.actions;
+export const { clearImage } = imageSlice.actions;
 export const selectImageState = (state) => state.images;
 export default imageSlice.reducer;

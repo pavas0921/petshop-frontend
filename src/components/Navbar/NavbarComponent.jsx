@@ -110,10 +110,6 @@ const NavbarComponent = () => {
     setAnchorUsuarios(null);
   };
 
-  useEffect(() => {
-    console.log("Modal", openModal)
-  }, [openModal])
-
   return (
     <div>
        <AppBar position="static" sx={{ marginBottom: 5 }}>

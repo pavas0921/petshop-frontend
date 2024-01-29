@@ -27,6 +27,7 @@ import {
 import {
   uploadImage,
   selectImageState,
+  clearImage,
 } from "../../../features/cloudinary/cloudinarySlice";
 import { useForm } from "react-hook-form";
 import { verifyTokenExpiration } from "../../../helpers/verifyToken";
@@ -75,8 +76,8 @@ const ProductForm = (props) => {
 
   useEffect(() => {
     if (status) {
-      setValue("idCompany", companyId);
-      setValue("createdBy", userId);
+     // setValue("idCompany", companyId);
+      //setValue("createdBy", userId);
     }
   }, [companyId, userId]);
 
@@ -100,8 +101,8 @@ const ProductForm = (props) => {
   const { flag, statusCode, images, photoLoading } = ImageResponse;
 
   useEffect(() => {
-    console.log("images", images);
     dispatch(clearAlert());
+    dispatch(clearImage());
     if (status) {
       dispatch(getCategory());
       dispatch(getEspecies());
@@ -125,7 +126,6 @@ const ProductForm = (props) => {
         setValue("idCategoria", product.idCategoria._id);
       }
       if (especies && especies.length > 0 && product.idEspecie) {
-        console.log("esp", categories);
         setValue("idEspecie", product.idEspecie._id);
       }
       if (product.image) {
@@ -134,22 +134,10 @@ const ProductForm = (props) => {
     }
   }, [categories, especies, product, update]);
 
-  const onSubmit = (e) => {
-    e.preventDefault();
-
-    console.log("hola", e);
+  const onSubmit = (body) => {
     if (update) {
       console.log(body);
-      if (body.image) {
-        body.image = images;
-        console.log("****", body.image);
-      } else {
-        body.image = images;
-        console.log("body", body);
-      }
     } else {
-      body.image = images;
-      console.log(body);
       dispatch(clearAlert());
       dispatch(createProduct(body));
     }
@@ -173,10 +161,9 @@ const ProductForm = (props) => {
       const formData = new FormData();
       formData.append("file", file);
       formData.append("upload_preset", "m4obnmhx");
-      console.log("img", file);
       dispatch(uploadImage(formData));
     } catch (error) {
-      console.error("Error en la solicitud de carga de imagen:", error);
+      console.error("Error en la solicitu de carga de imagen:", error);
       // Puedes manejar el error de otra manera, como mostrar un mensaje al usuario
     }
   };
@@ -186,9 +173,26 @@ const ProductForm = (props) => {
       setProductImg(products.image);
     }
     if (flag && statusCode === 200 && images) {
-      setProductImg(images);
+      setProductImg(images[0]);
+      setValue("image", productImg);
     }
   }, [images, update, products.image]);
+
+  /*useEffect(() => {
+    if (!update) {
+      if (images.length > 0) {
+        setValue("image", images[0]);
+      }
+    } else {
+      if (product.image) {
+        setValue("image", product.image);
+      } else {
+        if (images.length > 0) {
+          setValue("image", images[0]);
+        }
+      }
+    }
+  }, [images, product]);*/
 
   return (
     <Box className={globalStyles.box_main}>
@@ -196,100 +200,103 @@ const ProductForm = (props) => {
         <Typography variant="h5" color="initial">
           {update ? "Actualización de Producto" : "Registro de Productos"}
         </Typography>
-        <Box>
-          {productImg ? (
-            // Mostrar la imagen si ya está presente en modo de actualización
-            <div style={{ position: "relative" }}>
-              <img
-                src={productImg}
-                alt="Product Image"
-                style={{ width: "100px", height: "100px", borderRadius: "50%" }}
-              />
-              {/* Botón de editar sobre la imagen */}
-
-              <IconButton
-                onClick={() => {
-                  console.log("Clic en el botón de la cámara");
-                  document.getElementById("image-upload").click();
-                }}
-                style={{
-                  position: "absolute",
-                  bottom: 0,
-                  right: 0,
-                  backgroundColor: "#2196f3",
-                  fontSize: "0.8rem", // Ajusta el tamaño de la fuente
-                  padding: "4px", // Ajusta el relleno del botón
-                }}
-              >
-                <PhotoCameraIcon
-                  style={{
-                    fontSize: "1rem",
-                    color: "#ffffff",
-                  }}
-                />
-              </IconButton>
-              <Input
-                sx={{}}
-                {...register("image", {
-                  validate: (value) => {
-                    if (update) {
-                      // En modo de actualización, el campo de archivos no es obligatorio
-                      return true;
-                    } else {
-                      // En modo de creación, el campo de archivos es obligatorio
-                      return value ? true : "Este campo es obligatorio";
-                    }
-                  },
-                })}
-                type="file"
-                accept="image/*"
-                id="image-upload"
-                name="image"
-                style={{ display: "none" }}
-                onChange={handleImageChange}
-              />
-            </div>
-          ) : (
-            // Mostrar el botón de carga de imagen si no hay imagen en modo de actualización
-            <>
-              <Input
-                sx={{}}
-                {...register("image", {
-                  validate: (value) => {
-                    if (update) {
-                      // En modo de actualización, el campo de archivos no es obligatorio
-                      return true;
-                    } else {
-                      // En modo de creación, el campo de archivos es obligatorio
-                      return value ? true : "Este campo es obligatorio";
-                    }
-                  },
-                })}
-                type="file"
-                accept="image/*"
-                id="image-upload"
-                name="image"
-                style={{ display: "none" }}
-                onChange={handleImageChange}
-              />
-              <label htmlFor="image-upload">
-                <IconButton
-                  color="primary"
-                  aria-label="upload picture"
-                  component="span"
-                  size="large"
-                  style={{ backgroundColor: "#2196f3" }} // Fondo azul
-                  sx={{ "& .MuiSvgIcon-root": { color: "#ffffff" } }} // Icono blanco
-                >
-                  <PhotoCameraIcon />
-                </IconButton>
-              </label>
-            </>
-          )}
-        </Box>
       </Box>
       <Box className={styles.box_form}>
-        <form className={styles.form} onSubmit={(e) => onSubmit(e)}>
+        <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+          <Box>
+            {productImg ? (
+              // Mostrar la imagen si ya está presente en modo de actualización
+              <div style={{ position: "relative" }}>
+                <img
+                  src={productImg}
+                  alt="Product Image"
+                  style={{
+                    width: "100px",
+                    height: "100px",
+                    borderRadius: "50%",
+                  }}
+                />
+                {/* Botón de editar sobre la imagen */}
+
+                <IconButton
+                  onClick={() => {
+                    document.getElementById("image-upload").click();
+                  }}
+                  style={{
+                    position: "absolute",
+                    bottom: 0,
+                    right: 0,
+                    backgroundColor: "#2196f3",
+                    fontSize: "0.8rem", // Ajusta el tamaño de la fuente
+                    padding: "4px", // Ajusta el relleno del botón
+                  }}
+                >
+                  <PhotoCameraIcon
+                    style={{
+                      fontSize: "1rem",
+                      color: "#ffffff",
+                    }}
+                  />
+                </IconButton>
+                <Input
+                  sx={{}}
+                  {...register("image", {
+                    validate: (value) => {
+                      if (update) {
+                        // En modo de actualización, el campo de archivos no es obligatorio
+                        return true;
+                      } else {
+                        // En modo de creación, el campo de archivos es obligatorio
+                        return value ? true : "Este campo es obligatorio";
+                      }
+                    },
+                  })}
+                  type="file"
+                  accept="image/*"
+                  id="image-upload"
+                  name="image"
+                  style={{ display: "none" }}
+                  onChange={handleImageChange}
+                />
+              </div>
+            ) : (
+              // Mostrar el botón de carga de imagen si no hay imagen en modo de actualización
+              <>
+                <Input
+                  sx={{}}
+                  {...register("image", {
+                    validate: (value) => {
+                      if (update) {
+                        // En modo de actualización, el campo de archivos no es obligatorio
+                        return true;
+                      } else {
+                        // En modo de creación, el campo de archivos es obligatorio
+                        return value ? true : "Este campo es obligatorio";
+                      }
+                    },
+                  })}
+                  type="file"
+                  accept="image/*"
+                  id="image-upload"
+                  name="image"
+                  style={{ display: "none" }}
+                  onChange={handleImageChange}
+                />
+                <label htmlFor="image-upload">
+                  <IconButton
+                    color="primary"
+                    aria-label="upload picture"
+                    component="span"
+                    size="large"
+                    style={{ backgroundColor: "#2196f3" }} // Fondo azul
+                    sx={{ "& .MuiSvgIcon-root": { color: "#ffffff" } }} // Icono blanco
+                  >
+                    <PhotoCameraIcon />
+                  </IconButton>
+                </label>
+              </>
+            )}
+          </Box>
           <TextField
             {...register("productName", { required: messages.req })}
             label="Nombre del Producto"

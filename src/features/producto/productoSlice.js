@@ -39,7 +39,6 @@ export const createProduct = createAsyncThunk(
 export const disableProductById = createAsyncThunk(
   "delete/disableProductById",
   async ({ body, _id }) => {
-    console.log("id***", _id);
     const data = await disableProductByIdAPI(body, _id);
     return data;
   }

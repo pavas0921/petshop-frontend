@@ -43,9 +43,6 @@ const ProductsMain = () => {
     }
   }, []);
 
-  useEffect(() => {
-    console.log(productResponse);
-  }, [productResponse]);
   return (
     <Box>
       {productsLoading && <Loader />}

@@ -25,10 +25,6 @@ const TablaDetalleProducto = () => {
     }
   }, []);
 
-  useEffect(() => {
-    console.log("***", productDetailsResponse);
-  }, [productDetailsResponse]);
-
   const columns = [
     {
       field: "nombreProducto",

@@ -27,10 +27,6 @@ const CardComponent = (props) => {
     setProduct(item);
   };
 
-  useEffect(() => {
-    console.log("----", products);
-  }, [product]);
-
   return (
     <Box className={styles.box_main}>
       {products.map((item, index) => (
@@ -71,7 +67,6 @@ const CardComponent = (props) => {
             )}
 
             <Typography variant="body2" color="text.secondary">
-              {console.log("item", item.status)}
               {`${item.status}`}
             </Typography>
           </CardContent>

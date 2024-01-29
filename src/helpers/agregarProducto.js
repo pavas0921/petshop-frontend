@@ -5,7 +5,6 @@ export const agregarProducto = (item, producto, cantidad, rows) => {
 
   
     const productoEncontrado = item.find((i) => i.idDetalle === producto);
-    console.log("pr", productoEncontrado)
     let errorMsg = "";
     
     if (!productoEncontrado) {
