@@ -5,7 +5,7 @@ const initialState = {
   images: [],
   photoLoading: false,
   flag: false,
-  statusCode: null
+  statusCode: null,
 };
 
 export const uploadImage = createAsyncThunk(
@@ -17,33 +17,31 @@ export const uploadImage = createAsyncThunk(
 );
 
 export const imageSlice = createSlice({
-    name: "images",
-    initialState,
-    reducers: {
-      clearAlert: (state) => {
-        state.productStatus = null;
-        state.productHttpStatus = null;
-        state.productMessage = null;
-      },
+  name: "images",
+  initialState,
+  reducers: {
+    clearAlert: (state) => {
+      state.images = [];
+      state.flag = false;
+      state.statusCode = null;
     },
-    extraReducers: (builder) => {
-      builder
-        .addCase(uploadImage.pending, (state) => {
-          state.photoLoading = true;
-        })
-        .addCase(uploadImage.fulfilled, (state, action) => {
-          state.photoLoading = false;
-          if(action.payload.httpStatus === 200){
-            state.images = action.payload.data.secure_url;
-            state.flag = true;
-            state.statusCode = action.payload.httpStatus;
-          }
-          
-        })
-    },
-  });
-  
-  export const { clearAlert } = imageSlice.actions;
-  export const selectImageState = (state) => state.images;
-  export default imageSlice.reducer;
-  
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(uploadImage.pending, (state) => {
+        state.photoLoading = true;
+      })
+      .addCase(uploadImage.fulfilled, (state, action) => {
+        state.photoLoading = false;
+        if (action.payload.httpStatus === 200) {
+          state.images = action.payload.data.secure_url;
+          state.flag = true;
+          state.statusCode = action.payload.httpStatus;
+        }
+      });
+  },
+});
+
+export const { clearAlert } = imageSlice.actions;
+export const selectImageState = (state) => state.images;
+export default imageSlice.reducer;
