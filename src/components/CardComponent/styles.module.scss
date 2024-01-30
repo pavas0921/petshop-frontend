@@ -1,6 +1,6 @@
 .box_main {
-  width: 92%;
-  height: 80vh;
+  width: 100%;
+  height: auto;
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -47,7 +47,7 @@
     }
   }
 
-  .box_delete{
+  .box_delete {
     display: flex;
     justify-content: flex-end;
     align-items: flex-end;
@@ -57,8 +57,8 @@
     box-sizing: border-box; /* Asegura que el padding no afecte al tamaño total */
 
     p {
-        margin: 0; /* Elimina el margen predeterminado del párrafo */
-      }
+      margin: 0; /* Elimina el margen predeterminado del párrafo */
+    }
   }
 }
 
@@ -77,6 +77,6 @@
 }
 
 .card:hover {
-    cursor: pointer; /* Cambia el cursor a una manita al pasar sobre la tarjeta */
-    background-color: #cccbcb; /* Cambia el color de fondo al pasar sobre la tarjeta */
-  }
+  cursor: pointer; /* Cambia el cursor a una manita al pasar sobre la tarjeta */
+  background-color: #cccbcb; /* Cambia el color de fondo al pasar sobre la tarjeta */
+}

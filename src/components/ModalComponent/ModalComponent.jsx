@@ -17,6 +17,7 @@ const ModalComponent = (props) => {
       navigate("/");
     }
   }, []);
+  
 
   return (
     <div>

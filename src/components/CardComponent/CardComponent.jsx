@@ -33,7 +33,6 @@ const CardComponent = (props) => {
         <Card
           key={index}
           className={styles.card}
-          sx={{ maxWidth: 500 }}
           onClick={(event) => handleClick(event, item)}
         >
           <Box className={styles.box_img}>

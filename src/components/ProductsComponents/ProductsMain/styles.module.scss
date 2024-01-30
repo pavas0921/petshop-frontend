@@ -1,3 +1,25 @@
+.box_main{
+  width: 95%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  .box_inputs{
+    width: 40%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .box_cards{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
 .boxAdd {
   position: fixed;
   bottom: 20px;

@@ -46,8 +46,7 @@ import {
 import IconButton from "@mui/material/IconButton";
 import PhotoCameraIcon from "@mui/icons-material/PhotoCamera";
 
-const ProductForm = (props) => {
-  const { setAlert, product, update } = props;
+const ProductForm = ({ setAlert, product, update }) => {
   const [productImg, setProductImg] = useState();
   const navigate = useNavigate();
   const isValidToken = verifyTokenExpiration();
@@ -76,8 +75,8 @@ const ProductForm = (props) => {
 
   useEffect(() => {
     if (status) {
-     // setValue("idCompany", companyId);
-      //setValue("createdBy", userId);
+      setValue("idCompany", companyId);
+      setValue("createdBy", userId);
     }
   }, [companyId, userId]);
 
@@ -103,9 +102,11 @@ const ProductForm = (props) => {
   useEffect(() => {
     dispatch(clearAlert());
     dispatch(clearImage());
-    if (status) {
-      dispatch(getCategory());
+    if (especies && especies.length === 0) {
       dispatch(getEspecies());
+    }
+    if (categories && categories.length === 0) {
+      dispatch(getCategory());
     }
   }, []);
 
@@ -116,29 +117,24 @@ const ProductForm = (props) => {
     });
   }, [productMessage, productStatus]);
 
+  useEffect(() => {
+    if (images && !photoLoading) {
+      setProductImg(images[0]);
+      setValue("image", images[0]);
+    }
+  }, [images]);
+
   const messages = {
     req: "Este campo es obligatorio",
   };
 
-  useEffect(() => {
-    if (update && product) {
-      if (categories && categories.length > 0 && product.idCategoria) {
-        setValue("idCategoria", product.idCategoria._id);
-      }
-      if (especies && especies.length > 0 && product.idEspecie) {
-        setValue("idEspecie", product.idEspecie._id);
-      }
-      if (product.image) {
-        setProductImg(product.image);
-      }
-    }
-  }, [categories, especies, product, update]);
-
   const onSubmit = (body) => {
     if (update) {
+      body.image = productImg;
       console.log(body);
     } else {
       dispatch(clearAlert());
+      console.log("body", body)
       dispatch(createProduct(body));
     }
   };
@@ -169,30 +165,16 @@ const ProductForm = (props) => {
   };
 
   useEffect(() => {
-    if (update && products && products.length > 0) {
-      setProductImg(products.image);
-    }
-    if (flag && statusCode === 200 && images) {
-      setProductImg(images[0]);
+    if (update && product && product.image) {
+      setProductImg(product.image);
       setValue("image", productImg);
     }
-  }, [images, update, products.image]);
-
-  /*useEffect(() => {
-    if (!update) {
-      if (images.length > 0) {
-        setValue("image", images[0]);
-      }
-    } else {
-      if (product.image) {
-        setValue("image", product.image);
-      } else {
-        if (images.length > 0) {
-          setValue("image", images[0]);
-        }
-      }
+    if (flag && statusCode === 200 && images) {
+      console.log("img", images[0])
+      setProductImg(images[0]);
+      setValue("image", images[0]);
     }
-  }, [images, product]);*/
+  }, [images, update, products.image]);
 
   return (
     <Box className={globalStyles.box_main}>
@@ -200,102 +182,65 @@ const ProductForm = (props) => {
         <Typography variant="h5" color="initial">
           {update ? "Actualización de Producto" : "Registro de Productos"}
         </Typography>
+        {productImg && (
+          <div style={{ position: "relative" }}>
+            <img
+              src={productImg}
+              alt="Product Image"
+              style={{
+                width: "100px",
+                height: "100px",
+                borderRadius: "50%",
+              }}
+            />
+          </div>
+        )}
       </Box>
       <Box className={styles.box_form}>
         <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
-          <Box>
-            {productImg ? (
-              // Mostrar la imagen si ya está presente en modo de actualización
-              <div style={{ position: "relative" }}>
-                <img
-                  src={productImg}
-                  alt="Product Image"
-                  style={{
-                    width: "100px",
-                    height: "100px",
-                    borderRadius: "50%",
-                  }}
-                />
-                {/* Botón de editar sobre la imagen */}
+          <Box
+            sx={{
+              width: "100%",
+              display: "flex",
+              justifyContent: "center",
+              spaceAround: "center",
+            }}
+          >
+            <Input
+              sx={{}}
+              {...register("image")}
+              type="file"
+              accept="image/*"
+              id="image-upload"
+              name="image"
+              style={{ display: "none" }}
+              onChange={handleImageChange}
+            />
 
-                <IconButton
-                  onClick={() => {
-                    document.getElementById("image-upload").click();
-                  }}
-                  style={{
-                    position: "absolute",
-                    bottom: 0,
-                    right: 0,
-                    backgroundColor: "#2196f3",
-                    fontSize: "0.8rem", // Ajusta el tamaño de la fuente
-                    padding: "4px", // Ajusta el relleno del botón
-                  }}
-                >
-                  <PhotoCameraIcon
-                    style={{
-                      fontSize: "1rem",
-                      color: "#ffffff",
-                    }}
-                  />
-                </IconButton>
-                <Input
-                  sx={{}}
-                  {...register("image", {
-                    validate: (value) => {
-                      if (update) {
-                        // En modo de actualización, el campo de archivos no es obligatorio
-                        return true;
-                      } else {
-                        // En modo de creación, el campo de archivos es obligatorio
-                        return value ? true : "Este campo es obligatorio";
-                      }
-                    },
-                  })}
-                  type="file"
-                  accept="image/*"
-                  id="image-upload"
-                  name="image"
-                  style={{ display: "none" }}
-                  onChange={handleImageChange}
-                />
-              </div>
-            ) : (
-              // Mostrar el botón de carga de imagen si no hay imagen en modo de actualización
-              <>
-                <Input
-                  sx={{}}
-                  {...register("image", {
-                    validate: (value) => {
-                      if (update) {
-                        // En modo de actualización, el campo de archivos no es obligatorio
-                        return true;
-                      } else {
-                        // En modo de creación, el campo de archivos es obligatorio
-                        return value ? true : "Este campo es obligatorio";
-                      }
-                    },
-                  })}
-                  type="file"
-                  accept="image/*"
-                  id="image-upload"
-                  name="image"
-                  style={{ display: "none" }}
-                  onChange={handleImageChange}
-                />
-                <label htmlFor="image-upload">
-                  <IconButton
-                    color="primary"
-                    aria-label="upload picture"
-                    component="span"
-                    size="large"
-                    style={{ backgroundColor: "#2196f3" }} // Fondo azul
-                    sx={{ "& .MuiSvgIcon-root": { color: "#ffffff" } }} // Icono blanco
-                  >
-                    <PhotoCameraIcon />
-                  </IconButton>
-                </label>
-              </>
-            )}
+            <label
+              style={{
+                width: "100%",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                flexDirection: "column",
+              }}
+              htmlFor="image-upload"
+            >
+              <IconButton
+                color="primary"
+                aria-label="upload picture"
+                component="span"
+                size="large"
+                style={{ backgroundColor: "#2196f3" }} // Fondo azul
+                sx={{ "& .MuiSvgIcon-root": { color: "#ffffff" } }} // Icono blanco
+              >
+                <PhotoCameraIcon />
+              </IconButton>
+              <FormHelperText error={Boolean(errors.image)}>
+                {errors.image && errors.image.message}
+              </FormHelperText>
+            </label>
           </Box>
           <TextField
             {...register("productName", { required: messages.req })}
@@ -342,45 +287,83 @@ const ProductForm = (props) => {
             helperText={errors.stock && errors.stock.message}
           />
 
-          <FormControl className={styles.textField}>
-            <InputLabel id="demo-simple-select-label">Especie</InputLabel>
-            <Select
-              {...register("idEspecie", { required: messages.req })}
-              labelId="idEspecie"
-              name="idEspecie"
-              label="Especie"
-              size="small"
-              defaultValue={update ? product.idEspecie._id : ""}
+          {especies && especies.length > 0 && (
+            <FormControl
+              sx={{
+                width: "100%",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
             >
-              {especies &&
-                especies.length > 0 &&
-                especies.map((item, index) => (
-                  <MenuItem key={index} value={item._id}>
-                    {item.name}
-                  </MenuItem>
-                ))}
-            </Select>
-          </FormControl>
-
-          <FormControl className={styles.textField}>
-            <InputLabel id="demo-simple-select-label">Categoria</InputLabel>
-            <Select
-              {...register("idCategoria", { required: messages.req })}
-              labelId="idCategoria"
-              name="idCategoria"
-              label="Especie"
-              size="small"
-              defaultValue={update ? product.idCategoria._id : ""}
+              <InputLabel
+                sx={{ marginTop: "7px", marginLeft: "27px" }}
+                id="demo-simple-select-label"
+              >
+                Especie
+              </InputLabel>
+              <Select
+                {...register("idEspecie", { required: messages.req })}
+                labelId="idEspecie"
+                name="idEspecie"
+                label="Especie"
+                size="small"
+                defaultValue={update && product.idEspecie._id}
+                className={styles.textField}
+              >
+                {especies &&
+                  especies.length > 0 &&
+                  especies.map((item, index) => (
+                    <MenuItem key={index} value={item._id}>
+                      {item.name}
+                    </MenuItem>
+                  ))}
+              </Select>
+              <FormHelperText
+                sx={{ justifyContent: "flex-start" }}
+                error={Boolean(errors.image)}
+              >
+                {errors.idEspecie && errors.idEspecie.message}
+              </FormHelperText>
+            </FormControl>
+          )}
+          {categories && categories.length > 0 && (
+            <FormControl
+              sx={{
+                width: "100%",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
             >
-              {categories &&
-                categories.length > 0 &&
-                categories.map((item, index) => (
-                  <MenuItem key={index} value={item._id}>
-                    {item.name}
-                  </MenuItem>
-                ))}
-            </Select>
-          </FormControl>
+              <InputLabel
+                sx={{ marginTop: "7px", marginLeft: "27px" }}
+                id="idCategoria"
+              >
+                Categoria
+              </InputLabel>
+              <Select
+                className={styles.textField}
+                {...register("idCategoria", { required: messages.req })}
+                labelId="idCategoria"
+                name="idCategoria"
+                label="Categoria"
+                size="small"
+                defaultValue={update && product.idCategoria._id}
+              >
+                {categories &&
+                  categories.length > 0 &&
+                  categories.map((item, index) => (
+                    <MenuItem key={index} value={item._id}>
+                      {item.name}
+                    </MenuItem>
+                  ))}
+              </Select>
+              <FormHelperText error={Boolean(errors.image)}>
+                {errors.idCategoria && errors.idCategoria.message}
+              </FormHelperText>
+            </FormControl>
+          )}
 
           <Box className={styles.box_button}>
             <Button sx={{ marginTop: 3 }} variant="contained" type="submit">
@@ -399,7 +382,7 @@ const ProductForm = (props) => {
           </Box>
         </form>
       </Box>
-      {productsLoading || (photoLoading && <Loader />)}
+      {(categoryLoading || especiesLoading || photoLoading || productsLoading) && <Loader />}
     </Box>
   );
 };

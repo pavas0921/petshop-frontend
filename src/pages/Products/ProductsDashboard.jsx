@@ -3,6 +3,7 @@ import { NavbarComponent } from "../../components/Navbar";
 import globalStyles from "../../styles/global.module.scss";
 import { Box } from "@mui/material";
 import { ProductsMain } from "../../components/ProductsComponents/ProductsMain";
+import styles from "./styles.module.scss"
 const ProductsDashboard = () => {
 
 
@@ -11,7 +12,7 @@ const ProductsDashboard = () => {
         <Box sx={{width: "100%"}}>
             <NavbarComponent/>
         </Box>
-        <Box>
+        <Box className={styles.productsMain}>
             <ProductsMain/>
         </Box>
     </Box>
