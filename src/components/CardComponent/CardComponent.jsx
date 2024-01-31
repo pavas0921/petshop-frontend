@@ -45,7 +45,8 @@ const CardComponent = (props) => {
 
           <CardContent
             sx={{
-              maxHeight: "20vh",
+              minHeight: "25vh",
+              maxHeight: "25vh",
               width: "75%",
               display: "flex",
               justifyContent: "center",
@@ -53,20 +54,20 @@ const CardComponent = (props) => {
               flexDirection: "column",
             }}
           >
-            <Typography gutterBottom variant="h5" component="div">
+            <Typography gutterBottom variant="h6" component="div">
               {item.productName}
             </Typography>
-            <Typography variant="body2" color="text.secondary">
+            <Typography variant="body1" color="text.secondary">
               $ {item.salePrice}
             </Typography>
             {item.stock && (
-              <Typography variant="body2" color="text.secondary">
-                {item.stock} unidades
+              <Typography variant="body1" color="text.secondary">
+                {item.stock} Disponibles
               </Typography>
             )}
 
-            <Typography variant="body2" color="text.secondary">
-              {`${item.status}`}
+            <Typography variant="body1" color="text.secondary">
+              {item.status ? "Producto Activo" : "Producto Inactivo"}
             </Typography>
           </CardContent>
         </Card>

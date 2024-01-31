@@ -1,40 +1,49 @@
-import React, {useEffect} from 'react'
-import { useDispatch, useSelector } from 'react-redux';
-import { selectCategoryState, getCategory } from '../../../features/categoria/categoriaSlice';
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  selectCategoryState,
+  getCategory,
+} from "../../../features/categoria/categoriaSlice";
+import { Box, FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 
-const SelectCategories = ({selectedCategory, setSelectedCategory}) => {
-    const categoryResponse = useSelector(selectCategoryState)
-    const dispatch = useDispatch()
-    const {categories} = categoryResponse
+const SelectCategories = ({ selectedCategory, setSelectedCategory }) => {
+  const categoryResponse = useSelector(selectCategoryState);
+  const dispatch = useDispatch();
+  const { categories } = categoryResponse;
 
-    useEffect(() => {
-      dispatch(getCategory())
-    }, [])
+  useEffect(() => {
+    dispatch(getCategory());
+  }, []);
 
-    useEffect(() => {
-      console.log(categoryResponse)
-    }, [categoryResponse])
-    
-    
-
-    const handleCategoryChange = (event) => {
-        setSelectedCategory(event.target.value);
-      };
+  const handleCategoryChange = (event) => {
+    setSelectedCategory(event.target.value);
+  };
 
   return (
-    <div style={{width: "100%"}}>
-        <select
-          value={selectedCategory}
-          onChange={handleCategoryChange}
-        >
-          <option value="">Todas las categorías</option>
-          {categories.map((item, key)=> (
-            <option key={key} value={item._id}>{item.name}</option>
-          ))}
-          {/* Agrega más opciones según tus categorías */}
-        </select>
-    </div>
-  )
-}
+    <FormControl
+      sx={{
+        width: "30%",
+        display: "flex",
+        marginLeft: "10px"
+      }}
+    >
+      <InputLabel id="idCategoria">Filtrar por Categoría</InputLabel>
+      <Select
+        value={selectedCategory}
+        onChange={handleCategoryChange}
+        size="small"
+        label="Buscar por Categoría"
+        sx={{ width: "100%", height: "auto" }}
+        id="idCategoria"
+      >
+        {categories.map((item, index) => (
+          <MenuItem key={index} value={item._id}>
+            {item.name}
+          </MenuItem>
+        ))}
+      </Select>
+    </FormControl>
+  );
+};
 
-export default SelectCategories
+export default SelectCategories;

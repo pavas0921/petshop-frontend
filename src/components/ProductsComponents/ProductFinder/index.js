@@ -1,3 +1,3 @@
 import SelectCategories from "./SelectCategories";
-
-export {SelectCategories}
+import InputSearch from "./InputSearch";
+export {SelectCategories, InputSearch}

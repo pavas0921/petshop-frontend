@@ -22,8 +22,8 @@ import {
   createProduct,
   clearAlert,
   disableProductById,
+  updateProductById
 } from "../../../features/producto/productoSlice";
-
 import {
   uploadImage,
   selectImageState,
@@ -46,7 +46,7 @@ import {
 import IconButton from "@mui/material/IconButton";
 import PhotoCameraIcon from "@mui/icons-material/PhotoCamera";
 
-const ProductForm = ({ setAlert, product, update }) => {
+const ProductForm = ({ setAlert, product, update, handleClose }) => {
   const [productImg, setProductImg] = useState();
   const navigate = useNavigate();
   const isValidToken = verifyTokenExpiration();
@@ -80,6 +80,8 @@ const ProductForm = ({ setAlert, product, update }) => {
     }
   }, [companyId, userId]);
 
+
+
   const dispatch = useDispatch();
   const categoryResponse = useSelector(selectCategoryState);
   const { categories, categoryLoading, httpStatus } = categoryResponse;
@@ -94,6 +96,7 @@ const ProductForm = ({ setAlert, product, update }) => {
     productStatus,
     products,
     productsLoading,
+    productFlag
   } = productResponse;
 
   const ImageResponse = useSelector(selectImageState);
@@ -110,12 +113,12 @@ const ProductForm = ({ setAlert, product, update }) => {
     }
   }, []);
 
-  useEffect(() => {
+  /*useEffect(() => {
     setAlert({
       status: productStatus,
       message: productMessage,
     });
-  }, [productMessage, productStatus]);
+  }, [productMessage, productStatus]);*/
 
   useEffect(() => {
     if (images && !photoLoading) {
@@ -124,6 +127,17 @@ const ProductForm = ({ setAlert, product, update }) => {
     }
   }, [images]);
 
+  useEffect(() => {
+    if(productFlag && (productHttpStatus === 200 || productHttpStatus === 201) && productStatus === "success"){
+      setAlert({
+        status: productStatus,
+        message: productMessage,
+      });
+      handleClose()
+    }
+    
+  }, [productResponse]);
+
   const messages = {
     req: "Este campo es obligatorio",
   };
@@ -131,10 +145,9 @@ const ProductForm = ({ setAlert, product, update }) => {
   const onSubmit = (body) => {
     if (update) {
       body.image = productImg;
-      console.log(body);
+      dispatch(updateProductById({body: body, _id: product._id}))
     } else {
       dispatch(clearAlert());
-      console.log("body", body)
       dispatch(createProduct(body));
     }
   };
@@ -170,7 +183,6 @@ const ProductForm = ({ setAlert, product, update }) => {
       setValue("image", productImg);
     }
     if (flag && statusCode === 200 && images) {
-      console.log("img", images[0])
       setProductImg(images[0]);
       setValue("image", images[0]);
     }

@@ -67,3 +67,20 @@ export const disableProductByIdAPI = async (body, _id) => {
     return Promise.resolve(error);
   }
 };
+
+export const updateProductByIdAPI = async (body, _id) => {
+  try {
+    const url = `${API_BASE_URL}/product/updateProduct/${_id}`;
+    const req = await fetch(url, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+    });
+    const data = await req.json();
+    return Promise.resolve(data);
+  } catch (error) {
+    return Promise.resolve(error);
+  }
+};

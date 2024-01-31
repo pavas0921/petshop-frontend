@@ -6,10 +6,11 @@
   flex-direction: column;
 
   .box_inputs{
-    width: 40%;
+    width: 100%;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
+    margin-bottom: 20px;
   }
 
   .box_cards{

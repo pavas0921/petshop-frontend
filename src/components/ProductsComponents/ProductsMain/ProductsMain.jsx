@@ -14,7 +14,7 @@ import { ModalComponent } from "../../ModalComponent";
 import ToastAlert from "../../Alerts";
 import { verifyTokenExpiration } from "../../../helpers/verifyToken";
 import Loader from "../../LoaderComponent/Loader";
-import { SelectCategories } from "../ProductFinder";
+import { InputSearch, SelectCategories } from "../ProductFinder";
 
 const ProductsMain = () => {
   const tokenData = verifyTokenExpiration();
@@ -46,53 +46,46 @@ const ProductsMain = () => {
     }
   }, []);
 
-  useEffect(() => {
-    console.log(products);
-  }, [products]);
-
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
   };
 
- 
-
   return (
     <Box className={styles.box_main}>
       <Box className={styles.box_inputs}>
-      <input
-        type="text"
-        placeholder="Buscar por nombre o código"
-        value={searchTerm}
-        onChange={handleSearchChange}
-      />
-      <SelectCategories selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory}  />
+        <InputSearch
+          searchTerm={searchTerm}
+          handleSearchChange={handleSearchChange}
+        />
+        <SelectCategories
+          selectedCategory={selectedCategory}
+          setSelectedCategory={setSelectedCategory}
+        />
       </Box>
-      
+
       {productsLoading && <Loader />}
       <Box className={styles.box_cards}>
-      {productResponse && products && products.length > 0 ? (
+        {productResponse && products && products.length > 0 ? (
           <CardComponent
-            products={
-              products
-                .filter(
-                  (product) =>
-                    !selectedCategory ||
-                    (product.idCategoria._id &&
-                      String(product.idCategoria._id).toLowerCase() ===
-                        selectedCategory.toLowerCase())
-                )
-                .filter(
-                  (product) =>
-                    searchTerm.trim() === "" ||
-                    (product.productName
+            products={products
+              .filter(
+                (product) =>
+                  !selectedCategory ||
+                  (product.idCategoria._id &&
+                    String(product.idCategoria._id).toLowerCase() ===
+                      selectedCategory.toLowerCase())
+              )
+              .filter(
+                (product) =>
+                  searchTerm.trim() === "" ||
+                  product.productName
+                    .toLowerCase()
+                    .includes(searchTerm.toLowerCase()) ||
+                  (product.barCode &&
+                    product.barCode
                       .toLowerCase()
-                      .includes(searchTerm.toLowerCase()) ||
-                      (product.barCode &&
-                        product.barCode
-                          .toLowerCase()
-                          .includes(searchTerm.toLowerCase())))
-                )
-            }
+                      .includes(searchTerm.toLowerCase()))
+              )}
           />
         ) : (
           <p>No se encontraron productos.</p>
@@ -110,7 +103,7 @@ const ProductsMain = () => {
         />
       )}
       {productFlag &&
-        productHttpStatus === 201 &&
+        (productHttpStatus === 201 || productHttpStatus === 200) &&
         productStatus === "success" && (
           <ToastAlert message={productMessage} status={productStatus} />
         )}

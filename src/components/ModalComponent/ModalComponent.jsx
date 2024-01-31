@@ -28,7 +28,7 @@ const ModalComponent = (props) => {
         aria-describedby="modal-modal-description"
       >
         <Box className={styles.modalContainer}>
-          <ProductForm setAlert={setAlert} product={product} update={update} />
+          <ProductForm setAlert={setAlert} product={product} update={update} handleClose={handleClose} />
         </Box>
       </Modal>
     </div>
