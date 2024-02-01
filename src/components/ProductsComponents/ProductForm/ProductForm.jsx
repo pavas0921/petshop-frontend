@@ -189,7 +189,7 @@ const ProductForm = ({ setAlert, product, update, handleClose }) => {
   }, [images, update, products.image]);
 
   return (
-    <Box className={globalStyles.box_main}>
+    <Box className={styles.box_main}>
       <Box className={styles.box_title}>
         <Typography variant="h5" color="initial">
           {update ? "Actualización de Producto" : "Registro de Productos"}

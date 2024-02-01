@@ -37,7 +37,7 @@ const NavbarComponent = () => {
 
   const handleOpen = () => setOpenModal(true);
   const handleClose = () => setOpenModal(false);
-
+anchorPruebas
   const handleClickPacientes = (event) => {
     setAnchorPacientes(event.currentTarget);
   };
@@ -133,24 +133,18 @@ const NavbarComponent = () => {
           >
             <Button
               color="inherit"
-              onClick={handleClickPacientes}
+              onClick={handleClickPruebas}
               sx={{ fontSize: "1rem" }}
             >
-              Pacientes
+              Administracion
             </Button>
             <Menu
-              anchorEl={anchorPacientes}
-              open={Boolean(anchorPacientes)}
-              onClose={handleClosePacientes}
+              anchorEl={anchorPruebas}
+              open={Boolean(anchorPruebas)}
+              onClose={handleClosePruebas}
             >
-              <MenuItem onClick={() => navigate("/pacientes-add")}>
-                Agregar Paciente
-              </MenuItem>
-              <MenuItem onClick={() => navigate("/patients-list")}>
-                Maestro Pacientes
-              </MenuItem>
-              <MenuItem onClick={handleClosePacientes}>
-                Eventos por Paciente
+              <MenuItem onClick={() => navigate("/products")}>
+                Productos
               </MenuItem>
             </Menu>
 

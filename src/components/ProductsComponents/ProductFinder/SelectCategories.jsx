@@ -5,6 +5,7 @@ import {
   getCategory,
 } from "../../../features/categoria/categoriaSlice";
 import { Box, FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import styles from "./styles/selectStyle.module.scss"
 
 const SelectCategories = ({ selectedCategory, setSelectedCategory }) => {
   const categoryResponse = useSelector(selectCategoryState);
@@ -20,14 +21,8 @@ const SelectCategories = ({ selectedCategory, setSelectedCategory }) => {
   };
 
   return (
-    <FormControl
-      sx={{
-        width: "30%",
-        display: "flex",
-        marginLeft: "10px"
-      }}
-    >
-      <InputLabel id="idCategoria">Filtrar por Categoría</InputLabel>
+    <FormControl className={styles.box_main}>
+      <InputLabel id="idCategoria" sx={{ marginTop: "-7px" }}>Filtrar por Categoría</InputLabel>
       <Select
         value={selectedCategory}
         onChange={handleCategoryChange}

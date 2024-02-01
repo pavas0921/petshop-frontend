@@ -1,15 +1,16 @@
 import { Box, TextField } from '@mui/material'
 import React from 'react'
+import styles from "./styles/inputStyles.module.scss"
 
 const InputSearch = ({searchTerm, handleSearchChange }) => {
   return (
-    <Box sx={{width: "30%"}}>
+    <Box className={styles.box_main}>
         <TextField
+            className={styles.textField}
             label="Buscar por Nombre o Código"
             size="small"
             value={searchTerm}
             onChange={handleSearchChange}
-            sx={{width: "100%"}}
           />
     </Box>
   )
