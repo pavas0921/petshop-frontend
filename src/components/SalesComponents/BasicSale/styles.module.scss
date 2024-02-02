@@ -33,3 +33,10 @@
         margin-top: 30px;
     }
 }
+
+.centeredHeader {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%; /* Ajusta la altura según sea necesario */
+  }

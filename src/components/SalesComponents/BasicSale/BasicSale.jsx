@@ -1,26 +1,69 @@
-import React from "react";
-import { Box, Typography, TextField } from "@mui/material";
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import styles from "./styles.module.scss"
+import React, { useEffect } from "react";
+import {
+  Box,
+  Typography,
+  TextField,
+  IconButton,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  Autocomplete,
+} from "@mui/material";
+import { Table } from "../../Table";
+import AddIcon from "@mui/icons-material/Add";
+import RemoveIcon from "@mui/icons-material/Remove";
+import styles from "./styles.module.scss";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  selectProductState,
+  getProducts,
+} from "../../../features/producto/productoSlice";
+import Loader from "../../LoaderComponent/Loader";
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
+const columns = [
+  { field: "productName", headerName: "Producto", width: 200 },
+  { field: "unitPrice", headerName: "Precio Unitario", width: 130 },
+  {
+    field: "qty",
+    headerName: "Cantidad",
+    width: 180,
+    align: "center",
+    renderCell: (params) => (
+      <Box>
+        <IconButton>
+          <AddIcon />
+        </IconButton>
+        {`${params.row.qty}`}
+        <IconButton>
+          <RemoveIcon />
+        </IconButton>
+      </Box>
+    ),
+  },
+  {
+    field: "totalPrice",
+    headerName: "Precio Total",
+    type: "number",
+    width: 90,
+  },
+];
+
 
 const BasicSale = () => {
-  const rows = [
-    createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-    createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-    createData('Eclair', 262, 16.0, 24, 6.0),
-    createData('Cupcake', 305, 3.7, 67, 4.3),
-    createData('Gingerbread', 356, 16.0, 49, 3.9),
-  ];
+  const dispatch = useDispatch();
+  const productResponse = useSelector(selectProductState);
+  const { products, productsLoading, productHttpStatus, productStatus } =
+    productResponse;
+
+  useEffect(() => {
+    dispatch(getProducts());
+  }, []);
+
+  useEffect(() => {
+    console.log(products);
+  }, [products]);
+
   return (
     <Box className={styles.box_main}>
       <Box className={styles.box_title}>
@@ -35,44 +78,24 @@ const BasicSale = () => {
           size="small"
           className={styles.textField}
         />
-        <TextField
-          name="Cliente"
-          label="Seleccione un Cliente"
-          size="small"
-          className={styles.textField}
-        />
+
+        {products && products.length > 0 && (
+          <FormControl className={styles.textField}>
+            <Autocomplete
+              disablePortal
+              id="idProduct"
+              options={products}
+              sx={{ width: 300 }}
+              size="small"
+              getOptionLabel={(option) => option.productName}
+              renderInput={(params) => <TextField {...params} label="Productos" />}
+              getOptionSelected={(option, value) => option._id === value._id}
+            />
+          </FormControl>
+        )}
       </Box>
-      <Box className={styles.box_saleItems}>
-      <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
-        <TableHead>
-          <TableRow>
-            <TableCell>Dessert (100g serving)</TableCell>
-            <TableCell align="right">Calories</TableCell>
-            <TableCell align="right">Fat&nbsp;(g)</TableCell>
-            <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-            <TableCell align="right">Protein&nbsp;(g)</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {rows.map((row) => (
-            <TableRow
-              key={row.name}
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-            >
-              <TableCell component="th" scope="row">
-                {row.name}
-              </TableCell>
-              <TableCell align="right">{row.calories}</TableCell>
-              <TableCell align="right">{row.fat}</TableCell>
-              <TableCell align="right">{row.carbs}</TableCell>
-              <TableCell align="right">{row.protein}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
-      </Box>
+      <Box className={styles.box_saleHeader}></Box>
+      {productsLoading && <Loader />}
     </Box>
   );
 };
