@@ -153,6 +153,15 @@ const NavbarComponent = () => {
                   Productos
                 </MenuItem>
               </Menu>
+              <Menu
+                anchorEl={anchorPruebas}
+                open={Boolean(anchorPruebas)}
+                onClose={handleClosePruebas}
+              >
+                <MenuItem onClick={() => navigate("/products")}>
+                  Clientes
+                </MenuItem>
+              </Menu>
 
               <Button
                 color="inherit"
@@ -322,6 +331,7 @@ const NavbarComponent = () => {
                 </MenuItem>
               </Menu>
 
+
               <Menu
                 anchorEl={anchorPruebas}
                 open={Boolean(anchorPruebas)}
@@ -356,6 +366,10 @@ const NavbarComponent = () => {
 
                 <MenuItem onClick={() => navigate("/products")}>
                   Productos
+                </MenuItem>
+
+                <MenuItem onClick={() => navigate("/customer")}>
+                  Clientes
                 </MenuItem>
               </Menu>
             </>

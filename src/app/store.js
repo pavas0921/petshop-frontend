@@ -10,6 +10,7 @@ import rolReducer from "../features/rol/rolSlice";
 import companyReducer from "../features/company/companySlice";
 import imageReducer from "../features/cloudinary/cloudinarySlice"
 import surveyReducer from "../features/survey/surveySlice"
+import customerReducer from "../features/customer/customerSlice"
 
 export const store = configureStore({
   reducer: {
@@ -23,6 +24,7 @@ export const store = configureStore({
     roles: rolReducer,
     companies: companyReducer,
     images: imageReducer,
-    surveys: surveyReducer
+    surveys: surveyReducer,
+    customers: customerReducer
   },
 });

@@ -11,6 +11,7 @@ import SurveySuccess from "../pages/Survey/SurveySuccess";
 import { SurveyList } from "../components/SurveyComponents/SurveyList";
 import UserTable from "../pages/User/UserList/UserTable";
 import { BasicSalePage } from "../pages/SalesPages/BasicSalePage";
+import CustomerDashboard from "../pages/CustomerPages/CustomerDashboard/CustomerDashboard";
 const router = createBrowserRouter([
   {
     path: "/login",
@@ -30,6 +31,11 @@ const router = createBrowserRouter([
   {
     path: "productos/:idProducto",
     element: <DetalleProducto />,
+    errorElement: <div> Hubo un error!!</div>,
+  },
+  {
+    path: "customer",
+    element: <CustomerDashboard />,
     errorElement: <div> Hubo un error!!</div>,
   },
   {

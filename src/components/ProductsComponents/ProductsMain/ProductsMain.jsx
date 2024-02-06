@@ -15,6 +15,7 @@ import ToastAlert from "../../Alerts";
 import { verifyTokenExpiration } from "../../../helpers/verifyToken";
 import Loader from "../../LoaderComponent/Loader";
 import { InputSearch, SelectCategories } from "../ProductFinder";
+import ProductForm from "../ProductForm/ProductForm";
 
 const ProductsMain = () => {
   const tokenData = verifyTokenExpiration();
@@ -99,8 +100,9 @@ const ProductsMain = () => {
           open={openModal}
           handleOpen={handleOpen}
           handleClose={handleClose}
-          setAlert={setAlert}
-        />
+        >
+          <ProductForm setAlert={setAlert}  handleClose={handleClose} product={false} />
+        </ModalComponent>
       )}
       {productFlag &&
         (productHttpStatus === 201 || productHttpStatus === 200) &&

@@ -20,6 +20,7 @@ import {
   getProducts,
 } from "../../../features/producto/productoSlice";
 import Loader from "../../LoaderComponent/Loader";
+import { CardForm } from "../../CardForm";
 
 const columns = [
   { field: "productName", headerName: "Producto", width: 200 },
@@ -49,7 +50,6 @@ const columns = [
   },
 ];
 
-
 const BasicSale = () => {
   const dispatch = useDispatch();
   const productResponse = useSelector(selectProductState);
@@ -64,36 +64,55 @@ const BasicSale = () => {
     console.log(products);
   }, [products]);
 
+  const handleProductChange = (event, newValue) => {
+    console.log(newValue); // Guardamos el valor seleccionado en el estado
+  };
+
   return (
     <Box className={styles.box_main}>
-      <Box className={styles.box_title}>
-        <Typography variant="h4" component="h2">
-          Nueva Venta
-        </Typography>
-      </Box>
-      <Box className={styles.box_saleHeader}>
-        <TextField
-          name="Cliente"
-          label="Seleccione un Cliente"
-          size="small"
-          className={styles.textField}
-        />
+      <CardForm>
+        <Box className={styles.box_title}>
+          <Typography variant="h4" component="h2">
+            Formulario de Venta
+          </Typography>
+        </Box>
+        <Box className={styles.box_saleHeader}>
+          <TextField
+            name="Cliente"
+            label="Seleccione un Cliente"
+            size="small"
+            className={styles.textField}
+          />
 
-        {products && products.length > 0 && (
-          <FormControl className={styles.textField}>
-            <Autocomplete
-              disablePortal
-              id="idProduct"
-              options={products}
-              sx={{ width: 300 }}
-              size="small"
-              getOptionLabel={(option) => option.productName}
-              renderInput={(params) => <TextField {...params} label="Productos" />}
-              getOptionSelected={(option, value) => option._id === value._id}
-            />
-          </FormControl>
-        )}
-      </Box>
+          <TextField
+            InputLabelProps={{ shrink: true }}
+            name="Cliente"
+            label="Seleccione una Fecha"
+            size="small"
+            type="date"
+            className={styles.textField}
+          />
+        </Box>
+        <Box className={styles.box_saleHeader}>
+          {products && products.length > 0 && (
+            <FormControl className={styles.textField}>
+              <Autocomplete
+                disablePortal
+                id="idProduct"
+                options={products}
+                sx={{ width: 300 }}
+                size="small"
+                getOptionLabel={(option) => option.productName}
+                renderInput={(params) => (
+                  <TextField {...params} label="Productos" />
+                )}
+                onChange={handleProductChange}
+              />
+            </FormControl>
+          )}
+        </Box>
+      </CardForm>
+
       <Box className={styles.box_saleHeader}></Box>
       {productsLoading && <Loader />}
     </Box>
