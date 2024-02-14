@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import styles from "./styles.module.scss";
@@ -7,16 +7,20 @@ import { useNavigate } from "react-router-dom";
 import { verifyTokenExpiration } from "../../helpers/verifyToken";
 
 const ModalComponent = (props) => {
-  const { open, handleOpen, handleClose, setAlert, product, update } = props;
+  const { open, handleOpen, handleClose, setAlert, product, update, children } = props;
   const navigate = useNavigate();
   const isValidToken = verifyTokenExpiration();
   const { status } = isValidToken;
+  const [flagModal, setFlagModal] = useState(false);
 
   useEffect(() => {
     if (!status) {
       navigate("/");
     }
   }, []);
+
+  
+  
   
 
   return (
@@ -28,7 +32,7 @@ const ModalComponent = (props) => {
         aria-describedby="modal-modal-description"
       >
         <Box className={styles.modalContainer}>
-          <ProductForm setAlert={setAlert} product={product} update={update} handleClose={handleClose} />
+          {children}
         </Box>
       </Modal>
     </div>

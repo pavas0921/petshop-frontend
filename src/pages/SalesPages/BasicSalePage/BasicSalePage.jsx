@@ -10,7 +10,7 @@ const BasicSalePage = () => {
             <Box sx={{width: "100%"}}>
                 <NavbarComponent/>
             </Box>
-            <Box sx={{width: "100%", height: "80vh"}}>
+            <Box sx={{width: "100%"}}>
                 <BasicSale/>
             </Box>
         </Box>

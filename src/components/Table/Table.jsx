@@ -1,17 +1,21 @@
 import { Box, IconButton, Typography } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
-import React from "react";
+import React, {useEffect} from "react";
 import styles from "./table.module.scss";
-import { Loader } from "../Loader/";
+import {Loader} from "../LoaderComponent"
 
 const Table = (props) => {
-  const { columns, rows, loading, rowHeigth, columnHeaderHeight } = props;
-
+  const { columns, rows, loading, rowHeigth, columnHeaderHeight, title } = props;
+  
+  useEffect(() => {
+    console.log("loadin", loading);
+  }, [loading])
+  
   return (
     <Box className={styles.box_main}>
       {loading && <Loader />}
       <Box className={styles.box_title}>
-        <Typography variant="h5" color="initial">Carrito de Compras</Typography>
+        <Typography variant="h4" color="initial">{title}</Typography>
       </Box>
 
       <Box className={styles.box_table}>
@@ -27,7 +31,7 @@ const Table = (props) => {
           }}
           rows={rows}
           columns={columns}
-          getRowId={(row) => row.id}
+          getRowId={(row) => row._id}
           rowHeight={rowHeigth}
           columnHeaderHeight={columnHeaderHeight}
           initialState={{

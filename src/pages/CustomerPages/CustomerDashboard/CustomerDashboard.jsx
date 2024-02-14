@@ -11,7 +11,7 @@ function CustomerDashboard() {
             <Box sx={{width: "100%"}}>
                 <NavbarComponent/>
             </Box>
-            <Box className={styles.productsMain}>
+            <Box className={styles.box_customer}>
                <CustomerTable/>
             </Box>
         </Box>
