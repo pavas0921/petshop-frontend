@@ -118,7 +118,7 @@ const NavbarComponent = () => {
 
   return (
     <div>
-      <AppBar position="static" sx={{ marginBottom: 5 }}>
+      <AppBar position="static">
         <Toolbar>
           {isMobile ? (
             <IconButton
