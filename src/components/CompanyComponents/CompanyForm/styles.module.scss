@@ -1,0 +1,69 @@
+.box_main {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  .box_title {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    margin-bottom: 15px;
+  }
+
+  .box_form {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+
+    .form {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: row;
+      flex-wrap: wrap;
+      
+
+      .textField_nombreComercio {
+        width: 98%;
+        display: flex;
+        margin-bottom: 20px;
+      }
+
+      .formControl {
+        width: 98%;
+        display: flex;
+        margin-bottom: 20px;
+      }
+
+      .box_inputs {
+        width: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+
+        .textField {
+          width: 95%;
+          display: flex;
+          margin-bottom: 20px;
+        }
+
+        
+      }
+
+      .box_button {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    }
+  }
+}

@@ -24,7 +24,7 @@ export const companySlice = createSlice({
       .addCase(getAllCompanies.fulfilled, (state, action) => {
         state.companyLoading = false;
         state.companies = action.payload.company
-        state.httpStatus = action.payload.httpStatus
+        state.httpStatus = action.payload.status
       });
   },
 });

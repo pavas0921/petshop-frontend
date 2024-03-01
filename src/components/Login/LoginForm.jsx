@@ -9,11 +9,9 @@ import InputAdornment from "@mui/material/InputAdornment";
 import FormControl from "@mui/material/FormControl";
 import TextField from "@mui/material/TextField";
 import AccountCircle from "@mui/icons-material/AccountCircle";
-import Image from "react-bootstrap/Image";
+import Image from "../../assets/background.jpg";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import Img from "../../assets/login.jfif";
-import Logo from "../../assets/logo.jpg";
 import { Login, selectLoginState } from "../../features/login/loginSlice";
 import { AlertMessage } from "../Alert";
 import { Loader } from "../Loader";
@@ -23,25 +21,27 @@ import styles from "./loginForm.module.scss";
 //Todo: Implementar el formulario de login - https://github.com/pavas0921/favs-frontend/blob/main/src/components/LoginForm/LoginForm.jsx
 
 const LoginForm = () => {
-  const { register, handleSubmit, formState: { errors } } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const loginResponse = useSelector(selectLoginState);
-  const {token, loading} = loginResponse
-  
+  const { token, loading } = loginResponse;
 
   useEffect(() => {
-    console.log("token", token)
-    if(loginResponse && token && !loading){
+    console.log("token", token);
+    if (loginResponse && token && !loading) {
       sessionStorage.setItem("token", token);
       navigate("/dashboard");
     }
   }, [loginResponse, token, loading]);
 
   const onSubmit = (credentials) => {
-    dispatch(Login(credentials))
-  }
-    
+    dispatch(Login(credentials));
+  };
 
   const goToFavs = () => {
     navigate("/new-sale");
@@ -49,47 +49,61 @@ const LoginForm = () => {
 
   const messages = {
     req: "Este campo es obligatorio",
-   };
+  };
 
   return (
     <Box className={styles.box_main}>
+      {loading && (
+        <Box>
+          <Loader />
+        </Box>
+      )}
+      <Box className={styles.box_img}>
+        <img className={styles.image} src={Image} alt="" />
+      </Box>
       <Box className={styles.box_form}>
         <Box className={styles.box_title}>
-          <Typography variant="h4" color="initial">
-            Inicio de Sesión
-          </Typography>
+          <Typography variant="h5">Inicio de Sesión</Typography>
         </Box>
         <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
-          <Box className={styles.box_input}>
+          <Box className={styles.box_inputs}>
             <TextField
-              {...register("id", {required: messages.req})}
-              className={styles.textField}
-              label="Correo Electrónico"
-              variant="standard"
+              {...register("id", { required: messages.req })}
+              className={styles.inputs_fields}
               type="text"
+              label="Cédula"
+              variant="outlined"
               name="id"
               helperText={errors.id && errors.id.message}
             />
           </Box>
-          <Box className={styles.box_input}>
-            <LockIcon sx={{ color: "action.active", mr: 1, my: 0.5 }} />
+          <Box className={styles.box_inputs}>
             <TextField
-            {...register("password", {required: messages.req})}
-              className={styles.textField}
-              label="Contraseña"
-              variant="standard"
+             {...register("password", {required: messages.req})}
+              className={styles.inputs_fields}
               type="password"
+              label="Contraseña"
+              variant="outlined"
               name="password"
               helperText={errors.password && errors.password.message}
             />
           </Box>
-          <Box className={styles.box_button}>
-            <Button sx={{ width: "30%" }} variant="contained" type="submit">
-              Login
+          <Box className={styles.box_inputs}>
+            <Button className={styles.button} variant="contained" type="submit">
+              Iniciar Sesión
             </Button>
           </Box>
+          <Box className={styles.box_link}>
+            <Button style={{ fontSize: "18px" }}>¿Olvidó su contraseña?</Button>
+          </Box>
         </form>
+
+        <Box className={styles.box_footer}></Box>
       </Box>
+
+      {loading && (
+        <Loader/>
+      )}
     </Box>
   );
 };

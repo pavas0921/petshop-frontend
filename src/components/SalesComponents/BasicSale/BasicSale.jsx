@@ -267,15 +267,15 @@ const BasicSale = () => {
             </Typography>
           ) : (
             <Box sx={{ width: "100%" }}>
+              <Typography variant="h4" color="initial">Detalle de la Venta</Typography>
               <Table
                 columns={columns}
                 rows={productDetails}
                 rowHeigth={100}
                 columnHeaderHeight={56}
-                title={"Detalle de la Venta"}
               />
 
-              <Typography variant="h6" color="initial">
+              <Typography variant="h6" color="initial" sx={{marginTop: 2}}>
                 <p>Total Venta: ${totalSaleValue}</p>
               </Typography>
             </Box>
