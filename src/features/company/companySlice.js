@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { getAllCompaniesAPI } from "../../services/company";
+import { getAllCompaniesAPI, createCompanyAPI } from "../../services/company";
 
 const initialState = {
   companies: [],
@@ -12,6 +12,14 @@ export const getAllCompanies = createAsyncThunk("get/company", async () => {
   return data;
 });
 
+export const createCompany = createAsyncThunk(
+  "post/createCompany",
+  async (body) => {
+    const data = await createCompanyAPI(body);
+    return data;
+  }
+);
+
 export const companySlice = createSlice({
   name: "companies",
   initialState,
@@ -22,6 +30,14 @@ export const companySlice = createSlice({
         state.companyLoading = true;
       })
       .addCase(getAllCompanies.fulfilled, (state, action) => {
+        state.companyLoading = false;
+        state.companies = action.payload.company
+        state.httpStatus = action.payload.status
+      })
+      .addCase(createCompany.pending, (state) => {
+        state.companyLoading = true;
+      })
+      .addCase(createCompany.fulfilled, (state, action) => {
         state.companyLoading = false;
         state.companies = action.payload.company
         state.httpStatus = action.payload.status

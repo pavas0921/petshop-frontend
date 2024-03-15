@@ -11,6 +11,7 @@ import companyReducer from "../features/company/companySlice";
 import imageReducer from "../features/cloudinary/cloudinarySlice"
 import surveyReducer from "../features/survey/surveySlice"
 import customerReducer from "../features/customer/customerSlice"
+import businessCategoryReducer from "../features/businessCategory/businessCategorySlice"
 
 export const store = configureStore({
   reducer: {
@@ -25,6 +26,7 @@ export const store = configureStore({
     companies: companyReducer,
     images: imageReducer,
     surveys: surveyReducer,
-    customers: customerReducer
+    customers: customerReducer,
+    businessCategories: businessCategoryReducer
   },
 });
