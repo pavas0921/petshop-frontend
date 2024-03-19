@@ -9,6 +9,7 @@ import Typography from "@mui/material/Typography";
 import { Box } from "@mui/material";
 import styles from "./styles.module.scss";
 import { ModalComponent } from "../ModalComponent";
+import ProductForm from "../ProductsComponents/ProductForm/ProductForm";
 
 const CardComponent = (props) => {
   const { products } = props;
@@ -73,14 +74,13 @@ const CardComponent = (props) => {
         </Card>
       ))}
       {openModal && (
-        <ModalComponent
-          open={openModal}
-          handleOpen={handleOpen}
-          handleClose={handleClose}
-          setAlert={setAlert}
-          product={product}
-          update={true}
-        />
+                <ModalComponent
+                open={openModal}
+                handleOpen={handleOpen}
+                handleClose={handleClose}
+              >
+                <ProductForm setAlert={setAlert}  handleClose={handleClose} product={product} update={true} />
+              </ModalComponent>
       )}
     </Box>
   );

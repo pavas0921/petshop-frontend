@@ -97,7 +97,7 @@ const ProductForm = ({ setAlert, product, update, handleClose }) => {
     products,
     productsLoading,
     productFlag
-  } = productResponse;
+  } = productResponse || {};
 
   const ImageResponse = useSelector(selectImageState);
   const { flag, statusCode, images, photoLoading } = ImageResponse;
@@ -178,7 +178,9 @@ const ProductForm = ({ setAlert, product, update, handleClose }) => {
   };
 
   useEffect(() => {
-    if (update && product && product.image) {
+    console.log("pr", products)
+    if (update) {
+      if(product && product.image)
       setProductImg(product.image);
       setValue("image", productImg);
     }
@@ -186,7 +188,7 @@ const ProductForm = ({ setAlert, product, update, handleClose }) => {
       setProductImg(images[0]);
       setValue("image", images[0]);
     }
-  }, [images, update, products.image]);
+  }, [images, update, products]);
 
   return (
     <Box className={styles.box_main}>

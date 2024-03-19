@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import { CardComponent } from "../../CardComponent";
 import { useDispatch, useSelector } from "react-redux";
@@ -65,6 +65,7 @@ const ProductsMain = () => {
       </Box>
 
       {productsLoading && <Loader />}
+      
       <Box className={styles.box_cards}>
         {productResponse && products && products.length > 0 ? (
           <CardComponent
@@ -89,7 +90,12 @@ const ProductsMain = () => {
               )}
           />
         ) : (
-          <p>No se encontraron productos.</p>
+          <Box sx={{width: "100%", minHeight: "75vh"}}>
+            <Typography variant="h6" color="initial">
+              Aún no has registrado ningún producto.
+            </Typography>
+          </Box>
+          
         )}
       </Box>
       <Box className={styles.boxAdd}>
@@ -101,7 +107,7 @@ const ProductsMain = () => {
           handleOpen={handleOpen}
           handleClose={handleClose}
         >
-          <ProductForm setAlert={setAlert}  handleClose={handleClose} product={false} />
+          <ProductForm setAlert={setAlert}  handleClose={handleClose} />
         </ModalComponent>
       )}
       {productFlag &&

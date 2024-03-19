@@ -18,6 +18,7 @@ import { ModalComponent } from "../ModalComponent";
 
 const NavbarComponent = () => {
   const [anchorPacientes, setAnchorPacientes] = React.useState(null);
+  const [anchorVender, setAnchorVender] = React.useState(null);
   const [anchorAgenda, setAnchorAgenda] = React.useState(null);
   const [anchorFacturacion, setAnchorFacturacion] = React.useState(null);
   const [anchorCartera, setAnchorCartera] = React.useState(null);
@@ -72,6 +73,10 @@ const NavbarComponent = () => {
     setAnchorProductos(event.currentTarget);
   };
 
+  const handleClickVender = (event) => {
+    setAnchorVender(event.currentTarget);
+  };
+
   const handleClickUsuarios = (event) => {
     setAnchorUsuarios(event.currentTarget);
   };
@@ -110,6 +115,11 @@ const NavbarComponent = () => {
 
   const handleCloseProductos = () => {
     setAnchorProductos(null);
+  };
+
+  
+  const handleCloseVender = () => {
+    setAnchorVender(null);
   };
 
   const handleCloseUsuarios = () => {
@@ -328,6 +338,28 @@ const NavbarComponent = () => {
               >
                 <MenuItem onClick={() => navigate("/products")}>
                   Productos
+                </MenuItem>
+              </Menu>
+
+              <Button
+                color="inherit"
+                onClick={handleClickVender}
+                sx={{
+                  fontWeight: "bold",
+                  textTransform: "capitalize",
+                  fontSize: "1rem",
+                }}
+              >
+                Vender
+              </Button>
+
+              <Menu
+                anchorEl={anchorVender}
+                open={Boolean(anchorVender)}
+                onClose={handleCloseVender}
+              >
+                <MenuItem onClick={() => navigate("/basic-sale")}>
+                  Venta Básica
                 </MenuItem>
               </Menu>
 

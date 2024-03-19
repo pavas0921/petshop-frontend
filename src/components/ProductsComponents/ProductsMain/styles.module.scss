@@ -1,5 +1,5 @@
 .box_main{
-  width: 95%;
+  width: 100%;
   height: auto;
   display: flex;
   justify-content: center;
@@ -7,10 +7,11 @@
   flex-direction: column;
 
   .box_inputs{
-    width: 100%;
+    width: 95%;
     display: flex;
     align-items: center;
     justify-content: flex-start;
+    margin-top: 25px;
     margin-bottom: 20px;
     padding-left: 8px;
 
@@ -23,10 +24,11 @@
   }
 
   .box_cards{
-    width: 100%;
+    width: 95%;
     display: flex;
     justify-content: center;
     align-items: center;
+    min-width: 80vh;
   }
 }
 

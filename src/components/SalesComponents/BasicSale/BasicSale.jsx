@@ -16,7 +16,7 @@ import styles from "./styles.module.scss";
 import { useDispatch, useSelector } from "react-redux";
 import {
   selectProductState,
-  getProducts,
+  getProductsByCompany,
 } from "../../../features/producto/productoSlice";
 import {
   selectCustomerState,
@@ -147,7 +147,7 @@ const BasicSale = () => {
   ];
 
   useEffect(() => {
-    dispatch(getProducts());
+    dispatch(getProductsByCompany(companyId));
     dispatch(getCustomersByCompany(companyId));
   }, []);
 
@@ -162,6 +162,7 @@ const BasicSale = () => {
   const onSubmit = (body) => {
     body.detalleVenta = productDetails;
     body.totalVenta = totalSaleValue;
+    body.companyId = companyId;
     dispatch(createVenta(body))
     .then(() => {
       // Llamar a resetForm después de que la venta sea exitosa
