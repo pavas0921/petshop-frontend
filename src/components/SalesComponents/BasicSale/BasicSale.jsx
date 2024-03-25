@@ -469,7 +469,7 @@ const BasicSale = () => {
       </Box>
 
       <Box className={styles.box_saleHeader}></Box>
-      {productsLoading && <Loader />}
+      {(productsLoading || loading) && <Loader />}
 
       {!loading && httpStatus === 200 && flag && message && (
         <ToastAlert message={message} status="success" />
