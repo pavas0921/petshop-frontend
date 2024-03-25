@@ -186,7 +186,6 @@ const ProductForm = ({ setAlert, product, update, handleClose }) => {
   };
 
   useEffect(() => {
-    console.log("pr", products);
     if (update) {
       if (product && product.image) setProductImg(product.image);
       setValue("image", productImg);

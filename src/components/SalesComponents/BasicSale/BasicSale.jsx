@@ -160,7 +160,6 @@ const BasicSale = () => {
   }, [productDetails]);
 
   const onSubmit = (body) => {
-    console.log(productDetails);
     body.detalleVenta = productDetails;
     body.totalVenta = totalSaleValue;
     body.companyId = companyId;
@@ -263,14 +262,18 @@ const BasicSale = () => {
       <Box className={styles.box_container}>
         <Box className={styles.box_table}>
           {productDetails.length === 0 ? (
-            <Typography variant="h6" color="initial">
-              <p>Aún no has agregado productos a esta venta</p>
-            </Typography>
-          ) : (
-            <Box sx={{ width: "100%" }}>
-              <Typography variant="h4" color="initial">
-                Detalle de la Venta
+            <Box className={styles.table_title}>
+              <Typography variant="h6" color="initial">
+                <p>Aún no has agregado productos a esta venta</p>
               </Typography>
+            </Box>
+          ) : (
+            <>
+              <Box className={styles.table_title}>
+                <Typography variant="h4" color="initial">
+                  Detalle de la Venta
+                </Typography>
+              </Box>
               <Table
                 columns={columns}
                 rows={productDetails}
@@ -281,7 +284,7 @@ const BasicSale = () => {
               <Typography variant="h6" color="initial" sx={{ marginTop: 2 }}>
                 <p>Total Venta: ${totalSaleValue}</p>
               </Typography>
-            </Box>
+            </>
           )}
         </Box>
 
