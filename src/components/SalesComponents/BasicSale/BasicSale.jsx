@@ -72,10 +72,10 @@ const BasicSale = () => {
     { label: "Datafono", code: "Datafono" },
   ];
 
-   const saleTypes = [
-    {label: "Contado", code: "contado"},
-    {label: "Crédito", code: "credito"}
-]
+  const saleTypes = [
+    { label: "Contado", code: "contado" },
+    { label: "Crédito", code: "credito" },
+  ];
   const dispatch = useDispatch();
   const productResponse = useSelector(selectProductState);
   const { products, productsLoading, productHttpStatus, productStatus } =
@@ -160,14 +160,14 @@ const BasicSale = () => {
   }, [productDetails]);
 
   const onSubmit = (body) => {
+    console.log(productDetails);
     body.detalleVenta = productDetails;
     body.totalVenta = totalSaleValue;
     body.companyId = companyId;
-    dispatch(createVenta(body))
-    .then(() => {
+    dispatch(createVenta(body)).then(() => {
       // Llamar a resetForm después de que la venta sea exitosa
       resetForm();
-    })
+    });
   };
 
   const resetForm = () => {
@@ -268,7 +268,9 @@ const BasicSale = () => {
             </Typography>
           ) : (
             <Box sx={{ width: "100%" }}>
-              <Typography variant="h4" color="initial">Detalle de la Venta</Typography>
+              <Typography variant="h4" color="initial">
+                Detalle de la Venta
+              </Typography>
               <Table
                 columns={columns}
                 rows={productDetails}
@@ -276,7 +278,7 @@ const BasicSale = () => {
                 columnHeaderHeight={56}
               />
 
-              <Typography variant="h6" color="initial" sx={{marginTop: 2}}>
+              <Typography variant="h6" color="initial" sx={{ marginTop: 2 }}>
                 <p>Total Venta: ${totalSaleValue}</p>
               </Typography>
             </Box>
@@ -292,7 +294,7 @@ const BasicSale = () => {
           <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
             {customers && customers.length > 0 && (
               <FormControl className={styles.textField}>
-                <Autocomplete 
+                <Autocomplete
                   name="idCliente"
                   {...register("idCliente", {
                     required: "Debe seleccionar un metodo de pago",
@@ -322,7 +324,6 @@ const BasicSale = () => {
                     option._id === value._id
                   } // Aseguramos la comparación correcta de valores // Aseguramos la comparación correcta de valores
                 />
-
               </FormControl>
             )}
 
@@ -390,7 +391,7 @@ const BasicSale = () => {
                   }
                   renderInput={(params) => (
                     <TextField
-                    className={styles.select}
+                      className={styles.select}
                       {...params}
                       label="Tipo de Venta"
                       variant="outlined"

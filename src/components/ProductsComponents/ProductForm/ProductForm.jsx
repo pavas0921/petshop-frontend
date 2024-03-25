@@ -22,7 +22,7 @@ import {
   createProduct,
   clearAlert,
   disableProductById,
-  updateProductById
+  updateProductById,
 } from "../../../features/producto/productoSlice";
 import {
   uploadImage,
@@ -80,8 +80,6 @@ const ProductForm = ({ setAlert, product, update, handleClose }) => {
     }
   }, [companyId, userId]);
 
-
-
   const dispatch = useDispatch();
   const categoryResponse = useSelector(selectCategoryState);
   const { categories, categoryLoading, httpStatus } = categoryResponse;
@@ -96,7 +94,7 @@ const ProductForm = ({ setAlert, product, update, handleClose }) => {
     productStatus,
     products,
     productsLoading,
-    productFlag
+    productFlag,
   } = productResponse || {};
 
   const ImageResponse = useSelector(selectImageState);
@@ -128,14 +126,17 @@ const ProductForm = ({ setAlert, product, update, handleClose }) => {
   }, [images]);
 
   useEffect(() => {
-    if(productFlag && (productHttpStatus === 200 || productHttpStatus === 201) && productStatus === "success"){
+    if (
+      productFlag &&
+      (productHttpStatus === 200 || productHttpStatus === 201) &&
+      productStatus === "success"
+    ) {
       setAlert({
         status: productStatus,
         message: productMessage,
       });
-      handleClose()
+      handleClose();
     }
-    
   }, [productResponse]);
 
   const messages = {
@@ -145,10 +146,17 @@ const ProductForm = ({ setAlert, product, update, handleClose }) => {
   const onSubmit = (body) => {
     if (update) {
       body.image = productImg;
-      dispatch(updateProductById({body: body, _id: product._id}))
+      dispatch(updateProductById({ body: body, _id: product._id }));
     } else {
-      dispatch(clearAlert());
-      dispatch(createProduct(body));
+      if (body.image) {
+        dispatch(clearAlert());
+        dispatch(createProduct(body));
+      } else {
+        body.image =
+          "https://static.vecteezy.com/system/resources/thumbnails/004/141/669/small/no-photo-or-blank-image-icon-loading-images-or-missing-image-mark-image-not-available-or-image-coming-soon-sign-simple-nature-silhouette-in-frame-isolated-illustration-vector.jpg";
+        dispatch(clearAlert());
+        dispatch(createProduct(body));
+      }
     }
   };
 
@@ -178,10 +186,9 @@ const ProductForm = ({ setAlert, product, update, handleClose }) => {
   };
 
   useEffect(() => {
-    console.log("pr", products)
+    console.log("pr", products);
     if (update) {
-      if(product && product.image)
-      setProductImg(product.image);
+      if (product && product.image) setProductImg(product.image);
       setValue("image", productImg);
     }
     if (flag && statusCode === 200 && images) {
@@ -396,7 +403,10 @@ const ProductForm = ({ setAlert, product, update, handleClose }) => {
           </Box>
         </form>
       </Box>
-      {(categoryLoading || especiesLoading || photoLoading || productsLoading) && <Loader />}
+      {(categoryLoading ||
+        especiesLoading ||
+        photoLoading ||
+        productsLoading) && <Loader />}
     </Box>
   );
 };
