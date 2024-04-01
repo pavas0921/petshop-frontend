@@ -6,6 +6,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import {
   selectCustomerState,
   getCustomersByCompany,
+  clearAlert,
 } from "../../../features/customer/customerSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { verifyTokenExpiration } from "../../../helpers/verifyToken";
@@ -22,12 +23,12 @@ function CustomerTable() {
   const dispatch = useDispatch();
   const customerResponse = useSelector(selectCustomerState);
   const [openModal, setOpenModal] = useState(false);
-  const [item, setItem] = useState(null)
+  const [item, setItem] = useState(null);
   const handleOpen = () => setOpenModal(true);
   const handleClose = () => {
     setOpenModal(false);
     setItem(null);
-  }
+  };
   const {
     customers,
     customerStatus,
@@ -83,19 +84,26 @@ function CustomerTable() {
   ];
 
   const handleClick = (event, item) => {
-    console.log("item", item)
+    console.log("item", item);
     event.stopPropagation(); // Evita que el clic llegue al contenedor padre
     setOpenModal(true);
     setItem(item);
   };
 
   useEffect(() => {
+    dispatch(clearAlert());
     if (status) {
       dispatch(getCustomersByCompany(companyId));
     } else {
       navigate("/");
     }
   }, []);
+
+  useEffect(() => {
+    if (customerHttpStatus === 200 && customerStatus === "success") {
+      handleClose();
+    }
+  }, [customerResponse]);
 
   return (
     <Box className={styles.box_main}>
@@ -126,7 +134,7 @@ function CustomerTable() {
 
       {!customerLoading &&
         customerFlag &&
-        (customerHttpStatus === 201 || customerHttpStatus === 200 )&&
+        (customerHttpStatus === 201 || customerHttpStatus === 200) &&
         customerStatus === "success" && (
           <ToastAlert message={customerMessage} status={customerStatus} />
         )}

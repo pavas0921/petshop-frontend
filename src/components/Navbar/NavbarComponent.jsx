@@ -15,6 +15,8 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore"; // o 'ArrowDropDown
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import { ModalComponent } from "../ModalComponent";
+import Avatar from "@mui/material/Avatar";
+import { verifyTokenExpiration } from "../../helpers/verifyToken";
 
 const NavbarComponent = () => {
   const [anchorPacientes, setAnchorPacientes] = React.useState(null);
@@ -26,10 +28,13 @@ const NavbarComponent = () => {
   const [anchorInformes, setAnchorInformes] = React.useState(null);
   const [anchorAdministracion, setAnchorAdministracion] = React.useState(null);
   const [anchorPruebas, setAnchorPruebas] = React.useState(null);
+  const [anchorClientes, setAnchorClientes] = React.useState(null);
   const [anchorProductos, setAnchorProductos] = React.useState(null);
   const [anchorUsuarios, setAnchorUsuarios] = React.useState(null);
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
   const [openModal, setOpenModal] = React.useState(false);
+  const isValidToken = verifyTokenExpiration();
+  const { status, companyId, rolId, userId, logo } = isValidToken;
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const navigate = useNavigate();
@@ -81,6 +86,10 @@ const NavbarComponent = () => {
     setAnchorUsuarios(event.currentTarget);
   };
 
+  const handleClickClientes = (event) => {
+    setAnchorClientes(event.currentTarget);
+  };
+
   const handleClosePacientes = () => {
     setAnchorPacientes(null);
   };
@@ -113,6 +122,10 @@ const NavbarComponent = () => {
     setAnchorPruebas(null);
   };
 
+  const handleCloseClientes = () => {
+    setAnchorClientes(null);
+  };
+
   const handleCloseProductos = () => {
     setAnchorProductos(null);
   };
@@ -124,6 +137,12 @@ const NavbarComponent = () => {
   const handleCloseUsuarios = () => {
     setAnchorUsuarios(null);
   };
+
+  useEffect(() => {
+    if (!status) {
+      navigate("/");
+    }
+  }, []);
 
   return (
     <div>
@@ -189,7 +208,7 @@ const NavbarComponent = () => {
                   fontSize: "1rem",
                 }}
               >
-                Vender
+                Ventas
               </Button>
 
               <Menu
@@ -254,8 +273,89 @@ const NavbarComponent = () => {
                   fontSize: "1rem",
                 }}
               >
+                <Avatar
+                  alt="Remy Sharp"
+                  src={logo}
+                  sx={{
+                    width: 60, // Ajusta el ancho del Avatar según tus necesidades
+                    height: 60, // Ajusta el alto del Avatar según tus necesidades
+                    marginRight: 1, // Espacio entre el Avatar y el texto
+                  }}
+                />
+              </Button>
+
+              <Button
+                color="inherit"
+                onClick={handleClickPruebas}
+                sx={{
+                  fontWeight: "bold",
+                  textTransform: "capitalize",
+                  fontSize: "1rem",
+                }}
+              >
                 Administración
               </Button>
+
+              <Menu
+                anchorEl={anchorPruebas}
+                open={Boolean(anchorPruebas)}
+                onClose={handleClosePruebas}
+              >
+                <MenuItem onClick={handleClickUsuarios}>
+                  Usuarios
+                  <ListItemIcon>
+                    <ArrowDropDownIcon />
+                  </ListItemIcon>
+                </MenuItem>
+                <MenuItem onClick={handleClickClientes}>
+                  Clientes
+                  <ListItemIcon>
+                    <ArrowDropDownIcon />
+                  </ListItemIcon>
+                </MenuItem>
+              </Menu>
+
+              <Menu
+                anchorEl={anchorUsuarios} // Agregar este estado para el submenu de Usuarios
+                open={Boolean(anchorUsuarios)}
+                onClose={handleCloseUsuarios}
+                anchorOrigin={{
+                  vertical: "top",
+                  horizontal: "right", // Ajusta esto a 'left' si deseas que se abra hacia la izquierda
+                }}
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "left",
+                }}
+              >
+                <MenuItem onClick={() => navigate("/user/register")}>
+                  Registrar Usuario
+                </MenuItem>
+                <MenuItem onClick={() => navigate("/user-list")}>
+                  Maestro de Usuarios
+                </MenuItem>
+              </Menu>
+
+              <Menu
+                anchorEl={anchorClientes} // Agregar este estado para el submenu de Usuarios
+                open={Boolean(anchorClientes)}
+                onClose={handleCloseClientes}
+                anchorOrigin={{
+                  vertical: "top",
+                  horizontal: "right", // Ajusta esto a 'left' si deseas que se abra hacia la izquierda
+                }}
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "left",
+                }}
+              >
+                <MenuItem onClick={() => navigate("/user/register")}>
+                  Registrar Cliente
+                </MenuItem>
+                <MenuItem onClick={() => navigate("/user-list")}>
+                  Maestro de Clientes
+                </MenuItem>
+              </Menu>
 
               <Button
                 color="inherit"
@@ -288,7 +388,7 @@ const NavbarComponent = () => {
                   fontSize: "1rem",
                 }}
               >
-                Vender
+                Ventas
               </Button>
 
               <Menu
@@ -298,47 +398,6 @@ const NavbarComponent = () => {
               >
                 <MenuItem onClick={() => navigate("/basic-sale")}>
                   Venta Básica
-                </MenuItem>
-              </Menu>
-
-              <Menu
-                anchorEl={anchorPruebas}
-                open={Boolean(anchorPruebas)}
-                onClose={handleClosePruebas}
-              >
-                <MenuItem onClick={handleClickUsuarios}>
-                  Usuarios
-                  <ListItemIcon>
-                    <ArrowDropDownIcon />
-                  </ListItemIcon>
-                </MenuItem>
-              </Menu>
-              <Menu
-                anchorEl={anchorUsuarios} // Agregar este estado para el submenu de Usuarios
-                open={Boolean(anchorUsuarios)}
-                onClose={handleCloseUsuarios}
-                anchorOrigin={{
-                  vertical: "top",
-                  horizontal: "right", // Ajusta esto a 'left' si deseas que se abra hacia la izquierda
-                }}
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "left",
-                }}
-              >
-                <MenuItem onClick={() => navigate("/user/register")}>
-                  Registrar Usuario
-                </MenuItem>
-                <MenuItem onClick={() => navigate("/user-list")}>
-                  Maestro de Usuarios
-                </MenuItem>
-
-                <MenuItem onClick={() => navigate("/products")}>
-                  Productos
-                </MenuItem>
-
-                <MenuItem onClick={() => navigate("/customer")}>
-                  Clientes
                 </MenuItem>
               </Menu>
             </>

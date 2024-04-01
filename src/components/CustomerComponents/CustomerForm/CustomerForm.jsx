@@ -7,10 +7,11 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   selectCustomerState,
   createCustomer,
-  updateCustomerById
+  updateCustomerById,
+  clearAlert,
 } from "../../../features/customer/customerSlice";
 
-function CustomerForm({ item }) {
+const CustomerForm = ({ item }) => {
   const isValidToken = verifyTokenExpiration();
   const { status, companyId, rolId, userId } = isValidToken;
   const dispatch = useDispatch();
@@ -25,27 +26,17 @@ function CustomerForm({ item }) {
 
   const onSubmit = (body) => {
     if (status) {
-      if(item){
-        dispatch(updateCustomerById({body: body, _id: item._id}))
-      }else{
+      if (item) {
+        dispatch(updateCustomerById({ body: body, _id: item._id }));
+      } else {
         body.idCompany = companyId;
         dispatch(createCustomer(body));
       }
-      
     }
-
-    /* if (update) {
-      body.image = productImg;
-      dispatch(updateProductById({body: body, _id: product._id}))
-    } else {
-      dispatch(clearAlert());
-      dispatch(createProduct(body));
-    }*/
   };
 
   useEffect(() => {
     if (item) {
-      console.log("is update", item);
       setValue("cedula", item.cedula);
       setValue("firstName", item.firstName);
       setValue("lastName", item.lastName);
@@ -70,7 +61,6 @@ function CustomerForm({ item }) {
             size="small"
             label="Número de Identificación"
             className={styles.textField}
-            InputLabelProps={{ shrink: Boolean(item) }}
           />
           <TextField
             {...register("firstName")}
@@ -78,7 +68,6 @@ function CustomerForm({ item }) {
             size="small"
             label="Nombres"
             className={styles.textField}
-            InputLabelProps={{ shrink: Boolean(item) }}
           />
           <TextField
             {...register("lastName")}
@@ -86,7 +75,6 @@ function CustomerForm({ item }) {
             size="small"
             label="Apellidos"
             className={styles.textField}
-            InputLabelProps={{ shrink: Boolean(item) }}
           />
           <TextField
             {...register("phone")}
@@ -94,7 +82,6 @@ function CustomerForm({ item }) {
             size="small"
             label="Teléfono"
             className={styles.textField}
-            InputLabelProps={{ shrink: Boolean(item) }}
           />
           <TextField
             {...register("address")}
@@ -102,7 +89,6 @@ function CustomerForm({ item }) {
             size="small"
             label="Dirección"
             className={styles.textField}
-            InputLabelProps={{ shrink: Boolean(item) }}
           />
           <TextField
             {...register("comments")}
@@ -110,16 +96,14 @@ function CustomerForm({ item }) {
             size="small"
             label="Commentarios"
             className={styles.textField}
-            InputLabelProps={{ shrink: Boolean(item) }}
           />
           <Button type="submit" variant="contained">
             {item ? "Actualizar" : "Registrar"}
           </Button>
-         
         </form>
       </Box>
     </Box>
   );
-}
+};
 
 export default CustomerForm;

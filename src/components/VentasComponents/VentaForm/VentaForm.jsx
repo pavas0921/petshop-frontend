@@ -4,7 +4,7 @@ import Button from "react-bootstrap/Button";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getAllDetalleProducto,
-  selectDetalleProductoState
+  selectDetalleProductoState,
 } from "../../../features/detalleProducto/detalleProductoSlice";
 import {
   createVenta,
@@ -35,7 +35,6 @@ const VentaForm = () => {
   const dispatch = useDispatch();
   const detalleProductoResponse = useSelector(selectDetalleProductoState);
 
-
   const { detalleProductos } = detalleProductoResponse;
   const detalleProductoLoading = detalleProductoResponse.loading;
   const { item } = detalleProductos;
@@ -48,7 +47,6 @@ const VentaForm = () => {
     dispatch(getAllDetalleProducto());
   }, []);
 
-
   useEffect(() => {
     if (
       httpStatus === 200 &&
@@ -58,17 +56,13 @@ const VentaForm = () => {
       setRows([]);
       setHeaderVenta({
         date: "", // date ISO format
-        originalDate: "",  // date "YYYY-MM-DD" format
+        originalDate: "", // date "YYYY-MM-DD" format
         cliente: "",
         detalleVenta: [],
         totalVenta: null,
       });
     }
   }, [ventaResponse]);
-
-  useEffect(() => {
-    console.log(cantidad)
-  }, [cantidad]);
 
   useEffect(() => {
     const total = calcularTotal(rows);
@@ -106,7 +100,6 @@ const VentaForm = () => {
 
         //si updated rows es menor que cero se cargan nuevamente todos los productos
         if (updatedRows < 0) {
-
           dispatch(getAllDetalleProducto());
           const productDetail = agregarProducto(item, producto, cantidad, rows);
           if (productDetail.rows === null) {
@@ -119,27 +112,33 @@ const VentaForm = () => {
             setProducto(""); // Restablecer a un valor vacío
             setCantidad(""); // Restablecer a un valor vacío*/
           }
-
         }
 
         // Si updatedrows es mayor o igual a cero carga todos los productos
         else {
           dispatch(getAllDetalleProducto());
-          const productDetail = adicionarCantidad(rows, producto, cantidad, item)
+          const productDetail = adicionarCantidad(
+            rows,
+            producto,
+            cantidad,
+            item
+          );
           //Si hay un error se agrega a la lista lo que retorne adicionar cantidad
           if (productDetail.error) {
-            setRows(productDetail.rows)
-            setMsgError({ status: true, error: productDetail.error })
+            setRows(productDetail.rows);
+            setMsgError({ status: true, error: productDetail.error });
             setProducto(""); // Restablecer a un valor vacío
             setCantidad(""); // Restablecer a un valor vacío*/
           }
           //Sino hay errores se adiciona al producto la cantidad ingresada
           else {
-            setRows(productDetail.rows)
-            setMsgError({ status: true, error: "¡Se adiciono cantidad con éxito!" })
+            setRows(productDetail.rows);
+            setMsgError({
+              status: true,
+              error: "¡Se adiciono cantidad con éxito!",
+            });
             setProducto(""); // Restablecer a un valor vacío
             setCantidad(""); // Restablecer a un valor vacío*/
-
           }
         }
       }
@@ -164,9 +163,13 @@ const VentaForm = () => {
         }
       }
     }
-    //Imprime mensaje de error cuando no se ingresa cantidad y producti 
+    //Imprime mensaje de error cuando no se ingresa cantidad y producti
     else {
-      setMsgError({ status: true, error: "Debe seleccionar un producto y la cantidad antes de agregarlo a la lista." });
+      setMsgError({
+        status: true,
+        error:
+          "Debe seleccionar un producto y la cantidad antes de agregarlo a la lista.",
+      });
     }
   };
 
@@ -175,9 +178,8 @@ const VentaForm = () => {
     dispatch(createVenta(headerVenta));
   };
 
-  const isOptionEqualToValue = (option, value) => option.idDetalle === value.idDetalle
-
-
+  const isOptionEqualToValue = (option, value) =>
+    option.idDetalle === value.idDetalle;
 
   return (
     <div className={styles.div_main}>
@@ -211,7 +213,6 @@ const VentaForm = () => {
               value={headerVenta.originalDate || ""}
             />
 
-
             <TextField
               name="cliente"
               margin="normal"
@@ -225,12 +226,10 @@ const VentaForm = () => {
               onChange={handleInputChange}
               value={headerVenta.cliente || ""}
             />
-
           </div>
 
           <div className={styles.div_input}>
             {item && item.length > 0 && (
-
               <Autocomplete
                 className={styles.productInput}
                 onChange={(event, newValue) => {
@@ -241,13 +240,15 @@ const VentaForm = () => {
                 options={item}
                 sx={{ width: 300 }}
                 getOptionLabel={(option) => option.nombreProducto}
-                renderInput={(params) => <TextField {...params} label={producto || "Seleccione un producto"} />}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label={producto || "Seleccione un producto"}
+                  />
+                )}
                 key={(option) => option.idDetalle}
                 isOptionEqualToValue={isOptionEqualToValue}
               />
-
-
-
             )}
 
             <TextField
@@ -263,8 +264,6 @@ const VentaForm = () => {
               onChange={(e) => setCantidad(e.target.value)}
               value={cantidad || ""}
             />
-
-
           </div>
           <div className={styles.div_input}>
             <div className={styles.div_button}>

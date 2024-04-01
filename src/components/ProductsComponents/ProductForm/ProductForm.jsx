@@ -65,8 +65,6 @@ const ProductForm = ({ setAlert, product, update, handleClose }) => {
       costPrice: update ? product.costPrice : null,
       salePrice: update ? product.salePrice : null,
       stock: update ? product.stock : null,
-      //idEspecie: update ? product.idEspecie._id : null,
-      //idCategoria: update ? product.idCategoria._id : null,
       idCompany: update ? product.idCompany : null,
       createdBy: update ? product.createdBy : null,
     },
@@ -110,13 +108,6 @@ const ProductForm = ({ setAlert, product, update, handleClose }) => {
       dispatch(getCategory());
     }
   }, []);
-
-  /*useEffect(() => {
-    setAlert({
-      status: productStatus,
-      message: productMessage,
-    });
-  }, [productMessage, productStatus]);*/
 
   useEffect(() => {
     if (images && !photoLoading) {
