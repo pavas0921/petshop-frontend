@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { getAllEspeciesAPI } from "../../services/especie";
+import { getAllEspeciesAPI, getEspeciesByCompanyAPI } from "../../services/especie";
 
 const initialState = {
   especies: [],
@@ -13,6 +13,11 @@ export const getEspecies = createAsyncThunk("get/especie", async () => {
   return data;
 });
 
+export const getEspeciesByCompany = createAsyncThunk("get/getEspeciesByCompany", async (idCompany) => {
+  const data = await getEspeciesByCompanyAPI(idCompany);
+  return data;
+});
+
 export const especieSlice = createSlice({
   name: "especies",
   initialState,
@@ -23,6 +28,14 @@ export const especieSlice = createSlice({
         state.especiesLoading = true;
       })
       .addCase(getEspecies.fulfilled, (state, action) => {
+        state.especiesLoading = false;
+        state.especies = action.payload.content;
+        state.httpStatus =  action.payload.httpStatus
+      })
+      .addCase(getEspeciesByCompany.pending, (state) => {
+        state.especiesLoading = true;
+      })
+      .addCase(getEspeciesByCompany.fulfilled, (state, action) => {
         state.especiesLoading = false;
         state.especies = action.payload.content;
         state.httpStatus =  action.payload.httpStatus

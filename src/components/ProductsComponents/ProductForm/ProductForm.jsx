@@ -16,6 +16,7 @@ import {
 import {
   selectEspecieState,
   getEspecies,
+  getEspeciesByCompany
 } from "../../../features/especie/especieSlice";
 import {
   selectProductState,
@@ -102,7 +103,7 @@ const ProductForm = ({ setAlert, product, update, handleClose }) => {
     dispatch(clearAlert());
     dispatch(clearImage());
     if (especies && especies.length === 0) {
-      dispatch(getEspecies());
+      dispatch(getEspeciesByCompany(companyId));
     }
     if (categories && categories.length === 0) {
       console.log(companyId)
