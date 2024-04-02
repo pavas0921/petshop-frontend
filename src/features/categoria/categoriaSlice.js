@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { getAllCategoryAPI } from "../../services/categoria";
+import { getAllCategoryAPI, getAllCategoryByIdAPI } from "../../services/categoria";
 
 const initialState = {
   categories: [],
@@ -13,6 +13,11 @@ export const getCategory = createAsyncThunk("get/category", async () => {
   return data;
 });
 
+export const getAllCategoryById = createAsyncThunk("get/getAllCategoryById", async (idCompany) => {
+  const data = await getAllCategoryByIdAPI(idCompany);
+  return data;
+});
+
 export const categorySlice = createSlice({
   name: "categories",
   initialState,
@@ -23,6 +28,14 @@ export const categorySlice = createSlice({
         state.categoryLoading = true;
       })
       .addCase(getCategory.fulfilled, (state, action) => {
+        state.categoryLoading = false;
+        state.categories = action.payload.content;
+        state.httpStatus = action.payload.httpStatus
+      })
+      .addCase(getAllCategoryById.pending, (state) => {
+        state.categoryLoading = true;
+      })
+      .addCase(getAllCategoryById.fulfilled, (state, action) => {
         state.categoryLoading = false;
         state.categories = action.payload.content;
         state.httpStatus = action.payload.httpStatus

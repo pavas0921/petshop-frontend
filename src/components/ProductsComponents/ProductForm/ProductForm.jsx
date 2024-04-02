@@ -11,7 +11,7 @@ import globalStyles from "../../../styles/global.module.scss";
 import { useDispatch, useSelector } from "react-redux";
 import {
   selectCategoryState,
-  getCategory,
+  getAllCategoryById,
 } from "../../../features/categoria/categoriaSlice";
 import {
   selectEspecieState,
@@ -105,7 +105,8 @@ const ProductForm = ({ setAlert, product, update, handleClose }) => {
       dispatch(getEspecies());
     }
     if (categories && categories.length === 0) {
-      dispatch(getCategory());
+      console.log(companyId)
+      dispatch(getAllCategoryById(companyId));
     }
   }, []);
 
