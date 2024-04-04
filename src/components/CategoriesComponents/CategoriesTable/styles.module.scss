@@ -1,0 +1,18 @@
+.box_main{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    .box_table{
+        width: 30%;
+    }
+
+    .addButton{
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        
+    }
+}

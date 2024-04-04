@@ -11,6 +11,7 @@ import SurveySuccess from "../pages/Survey/SurveySuccess";
 import { SurveyList } from "../components/SurveyComponents/SurveyList";
 import UserTable from "../pages/User/UserList/UserTable";
 import { BasicSalePage } from "../pages/SalesPages/BasicSalePage";
+import  {CategoryDashboard}  from "../pages/Categories/CategoryDashboard"
 import CustomerDashboard from "../pages/CustomerPages/CustomerDashboard/CustomerDashboard";
 import CompanyDashboard from "../pages/CompaniesPages/CompanyDashboard";
 const router = createBrowserRouter([
@@ -87,6 +88,11 @@ const router = createBrowserRouter([
   {
     path: "survey-list",
     element: <SurveyList />,
+    errorElement: <div> Hubo un error!!</div>,
+  },
+  {
+    path: "categories",
+    element: <CategoryDashboard />,
     errorElement: <div> Hubo un error!!</div>,
   }
 ]);
