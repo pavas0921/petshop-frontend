@@ -42,7 +42,7 @@ export const especieSlice = createSlice({
       state.httpStatus = null;
       state.message = null;
       state.categoryFlag = false;
-      state.specieFlag = true;
+      state.specieFlag = false;
     },
   },
   extraReducers: (builder) => {
@@ -72,6 +72,7 @@ export const especieSlice = createSlice({
           state.especies.push(action.payload.especie);
           state.httpStatus = action.payload.httpStatus;
           state.message = action.payload.message;
+          state.specieFlag = true;
         }
       });
   },

@@ -14,12 +14,13 @@ import { verifyTokenExpiration } from "../../../helpers/verifyToken";
 import { Table } from "../../Table";
 import styles from "./styles.module.scss";
 import SpeciesForm from "../SpeciesForm/SpeciesForm";
+import ToastAlert from "../../Alerts";
 
 const SpeciesTable = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const speciesResponse = useSelector(selectEspecieState);
-  const { especies, especiesLoading } = speciesResponse;
+  const { especies, especiesLoading, httpStatus, message, specieFlag } = speciesResponse;
   const [openModal, setOpenModal] = useState(false);
   const handleOpen = () => setOpenModal(true);
   const handleClose = () => setOpenModal(false);
@@ -56,6 +57,12 @@ const SpeciesTable = () => {
     }
   }, []);
 
+  useEffect(() => {
+    if(specieFlag){
+        handleClose();
+    }
+  }, [specieFlag])
+
   return (
     <Box className={styles.box_main}>
       <Box className={styles.box_table}>
@@ -79,8 +86,12 @@ const SpeciesTable = () => {
           handleOpen={handleOpen}
           handleClose={handleClose}
         >
-          <SpeciesForm/>
+          <SpeciesForm handleClose={handleClose}/>
         </ModalComponent>
+      )}
+
+{httpStatus === 201 && message && (
+        <ToastAlert message={message} status={"success"} />
       )}
 
     </Box>

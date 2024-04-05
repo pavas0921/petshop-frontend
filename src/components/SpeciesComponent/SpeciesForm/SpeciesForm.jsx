@@ -3,13 +3,16 @@ import { Box, Button, TextField, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { selectEspecieState, createEspecie } from "../../../features/especie/especieSlice";
+import { selectEspecieState, createEspecie, clearState } from "../../../features/especie/especieSlice";
 import { verifyTokenExpiration } from "../../../helpers/verifyToken";
 import styles from "./styles.module.scss";
+import { Loader } from "../../LoaderComponent";
 
 const SpeciesForm = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const especiesResponse = useSelector(selectEspecieState);
+  const {especiesLoading} = especiesResponse;
 
   const {
     register,
@@ -20,7 +23,7 @@ const SpeciesForm = () => {
   } = useForm({});
 
   useEffect(() => {
-    //dispatch(clearState())
+    dispatch(clearState());
     const isValidToken = verifyTokenExpiration();
     const { status, companyId } = isValidToken;
     if(!status){
@@ -67,6 +70,9 @@ const SpeciesForm = () => {
           </Button>
         </form>
       </Box>
+      {especiesLoading && (
+        <Loader/>
+      )}
     </Box>
   );
 };
