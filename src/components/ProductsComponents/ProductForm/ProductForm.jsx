@@ -15,7 +15,6 @@ import {
 } from "../../../features/categoria/categoriaSlice";
 import {
   selectEspecieState,
-  getEspecies,
   getEspeciesByCompany
 } from "../../../features/especie/especieSlice";
 import {

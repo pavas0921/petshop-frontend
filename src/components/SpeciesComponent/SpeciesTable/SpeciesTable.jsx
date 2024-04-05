@@ -1,43 +1,28 @@
 import React, { useEffect, useState } from "react";
 import { Box, IconButton } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import DeleteIcon from "@mui/icons-material/Delete";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  selectCategoryState,
-  getAllCategoryById,
-} from "../../../features/categoria/categoriaSlice";
-import { verifyTokenExpiration } from "../../../helpers/verifyToken";
-import { useNavigate } from "react-router-dom";
-import { Table } from "../../Table";
 import { AddComponent } from "../../AddComponent";
 import { ModalComponent } from "../../ModalComponent";
-import ToastAlert from "../../Alerts";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  selectEspecieState,
+  getEspeciesByCompany,
+} from "../../../features/especie/especieSlice";
+import { verifyTokenExpiration } from "../../../helpers/verifyToken";
+import { Table } from "../../Table";
 import styles from "./styles.module.scss";
-import CategoryForm from "../CategoriesForm/CategoryForm";
+import SpeciesForm from "../SpeciesForm/SpeciesForm";
 
-const CategoriesTable = () => {
+const SpeciesTable = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const categoriesResponse = useSelector(selectCategoryState);
-  const { categories, categoryLoading, httpStatus, message, categoryFlag } =
-    categoriesResponse;
+  const speciesResponse = useSelector(selectEspecieState);
+  const { especies, especiesLoading } = speciesResponse;
   const [openModal, setOpenModal] = useState(false);
   const handleOpen = () => setOpenModal(true);
   const handleClose = () => setOpenModal(false);
-
-  useEffect(() => {
-    const tokenData = verifyTokenExpiration();
-    const { status, companyId, rolId, userId } = tokenData;
-
-    if (status) {
-      if (categories.length === 0) {
-        dispatch(getAllCategoryById(companyId));
-      }
-    } else {
-      navigate("/");
-    }
-  }, []);
 
   const columns = [
     { field: "name", headerName: "Nombre Categoría", width: 300 },
@@ -59,18 +44,31 @@ const CategoriesTable = () => {
     },
   ];
 
+  useEffect(() => {
+    const tokenData = verifyTokenExpiration();
+    const { status, companyId } = tokenData;
+    if (status) {
+      if (especies.length === 0) {
+        dispatch(getEspeciesByCompany(companyId));
+      }
+    } else {
+      navigate("/");
+    }
+  }, []);
+
   return (
     <Box className={styles.box_main}>
       <Box className={styles.box_table}>
         <Table
           columns={columns}
-          rows={categories}
-          loading={categoryLoading}
+          rows={especies}
+          loading={especiesLoading}
           rowHeigth={56}
           columnHeaderHeight={56}
-          title={"Listado de Categorías"}
+          title={"Listado de Especies"}
         />
       </Box>
+
       <Box className={styles.addButton}>
         <AddComponent openModal={openModal} setOpenModal={setOpenModal} />
       </Box>
@@ -81,15 +79,12 @@ const CategoriesTable = () => {
           handleOpen={handleOpen}
           handleClose={handleClose}
         >
-          <CategoryForm handleClose={handleClose} />
+          <SpeciesForm/>
         </ModalComponent>
       )}
 
-      {httpStatus === 201 && message && (
-        <ToastAlert message={message} status={"success"} />
-      )}
     </Box>
   );
 };
 
-export default CategoriesTable;
+export default SpeciesTable;

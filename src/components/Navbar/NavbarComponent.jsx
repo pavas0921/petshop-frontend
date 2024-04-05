@@ -42,33 +42,6 @@ const NavbarComponent = () => {
   const handleOpen = () => setOpenModal(true);
   const handleClose = () => setOpenModal(false);
 
-  const handleClickPacientes = (event) => {
-    setAnchorPacientes(event.currentTarget);
-  };
-
-  const handleClickAgenda = (event) => {
-    setAnchorAgenda(event.currentTarget);
-  };
-
-  const handleClickCartera = (event) => {
-    setAnchorCartera(event.currentTarget);
-  };
-
-  const handleClickFacturacion = (event) => {
-    setAnchorFacturacion(event.currentTarget);
-  };
-
-  const handleClickRips = (event) => {
-    setAnchorRips(event.currentTarget);
-  };
-
-  const handleClickInformes = (event) => {
-    setAnchorInformes(event.currentTarget);
-  };
-
-  const handleClickAdministracion = (event) => {
-    setAnchorAdministracion(event.currentTarget);
-  };
 
   const handleClickPruebas = (event) => {
     setAnchorPruebas(event.currentTarget);
@@ -88,34 +61,6 @@ const NavbarComponent = () => {
 
   const handleClickClientes = (event) => {
     setAnchorClientes(event.currentTarget);
-  };
-
-  const handleClosePacientes = () => {
-    setAnchorPacientes(null);
-  };
-
-  const handleCloseAgenda = () => {
-    setAnchorAgenda(null);
-  };
-
-  const handleCloseFacturacion = () => {
-    setAnchorFacturacion(null);
-  };
-
-  const handleCloseCartera = () => {
-    setAnchorCartera(null);
-  };
-
-  const handleCloseRips = () => {
-    setAnchorRips(null);
-  };
-
-  const handleCloseInformes = () => {
-    setAnchorInformes(null);
-  };
-
-  const handleCloseAdministracion = () => {
-    setAnchorAdministracion(null);
   };
 
   const handleClosePruebas = () => {
@@ -312,6 +257,12 @@ const NavbarComponent = () => {
                   <ListItemIcon>
                     <ArrowDropDownIcon />
                   </ListItemIcon>
+                </MenuItem>
+                <MenuItem onClick={() => navigate('/categories')}>
+                  Categorias
+                </MenuItem>
+                <MenuItem onClick={() => navigate('/species')}>
+                  Especies
                 </MenuItem>
               </Menu>
 
