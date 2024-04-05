@@ -156,6 +156,18 @@ const NavbarComponent = () => {
                 </MenuItem>
               </Menu>
 
+              <Button
+                color="inherit"
+                onClick={() => navigate("/customer")}
+                sx={{
+                  fontWeight: "bold",
+                  textTransform: "capitalize",
+                  fontSize: "1rem",
+                }}
+              >
+                Clientes
+              </Button>
+
               <Menu
                 anchorEl={anchorPruebas}
                 open={Boolean(anchorPruebas)}
@@ -192,6 +204,8 @@ const NavbarComponent = () => {
                   Clientes
                 </MenuItem>
               </Menu>
+
+
             </Drawer>
           ) : (
             <>
