@@ -1,20 +1,24 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { createVentaAPI, getAllVentasAPI } from "../../services/ventas";
+import { createVentaAPI, getAllVentasByCompanyAPI, getVentasByDateRangeAPI } from "../../services/ventas";
 
 const initialState = {
   ventas: [],
-  message: null, 
   httpStatus: null,
-  status: null,
+  status: null, 
+  message: null,
+  salesFlag: true,
   loading: false,
-  flag: false
 };
 
-export const getVentas = createAsyncThunk("get/ventas", async () => {
-  const data = await getAllVentasAPI();
+export const getAllVentasByCompany = createAsyncThunk("get/getAllVentasByCompany", async () => {
+  const data = await getAllVentasByCompanyAPI();
   return data;
 });
 
+export const getVentasByDateRange = createAsyncThunk("post/getVentasByDateRange", async (body) => {
+  const data = await getVentasByDateRangeAPI(body);
+  return data;
+});
 
 export const createVenta = createAsyncThunk(
   "post/createVenta",
@@ -31,12 +35,25 @@ export const VentaSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(getVentas.pending, (state) => {
+      .addCase(getAllVentasByCompany.pending, (state) => {
         state.loading = true;
       })
-      .addCase(getVentas.fulfilled, (state, action) => {
+      .addCase(getAllVentasByCompany.fulfilled, (state, action) => {
         state.loading = false;
-        state.ventas = action.payload;
+        state.httpStatus = action.payload.httpStatus;
+        state.ventas = action.payload.content;
+        state.status = action.payload.status;
+        state.message =  action.payload.message
+      })
+      .addCase(getVentasByDateRange.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getVentasByDateRange.fulfilled, (state, action) => {
+        state.loading = false;
+        state.httpStatus = action.payload.httpStatus;
+        state.ventas = action.payload.content;
+        state.status = action.payload.status;
+        state.message =  action.payload.message
       })
       .addCase(createVenta.pending, (state) => {
         state.loading = true;
