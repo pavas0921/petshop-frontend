@@ -124,7 +124,7 @@ const NavbarComponent = () => {
 
               <Button
                 color="inherit"
-                onClick={handleClickProductos}
+                onClick={() => navigate("/products")}
                 sx={{
                   fontWeight: "bold",
                   textTransform: "capitalize",
@@ -133,16 +133,6 @@ const NavbarComponent = () => {
               >
                 Productos
               </Button>
-
-              <Menu
-                anchorEl={anchorProductos}
-                open={Boolean(anchorProductos)}
-                onClose={handleCloseProductos}
-              >
-                <MenuItem onClick={() => navigate("/products")}>
-                  Productos
-                </MenuItem>
-              </Menu>
 
               <Button
                 color="inherit"
@@ -196,10 +186,6 @@ const NavbarComponent = () => {
                 </MenuItem>
                 <MenuItem onClick={() => navigate("/user-list")}>
                   Maestro de Usuarios
-                </MenuItem>
-
-                <MenuItem onClick={() => navigate("/products")}>
-                  Productos
                 </MenuItem>
 
                 <MenuItem onClick={() => navigate("/customer")}>
@@ -310,7 +296,7 @@ const NavbarComponent = () => {
 
               <Button
                 color="inherit"
-                onClick={handleClickProductos}
+                onClick={() => navigate("/products")}
                 sx={{
                   fontWeight: "bold",
                   textTransform: "capitalize",
@@ -319,16 +305,6 @@ const NavbarComponent = () => {
               >
                 Productos
               </Button>
-
-              <Menu
-                anchorEl={anchorProductos}
-                open={Boolean(anchorProductos)}
-                onClose={handleCloseProductos}
-              >
-                <MenuItem onClick={() => navigate("/products")}>
-                  Productos
-                </MenuItem>
-              </Menu>
 
               <Button
                 color="inherit"
@@ -351,6 +327,19 @@ const NavbarComponent = () => {
                   Venta Básica
                 </MenuItem>
               </Menu>
+
+
+              <Button
+                color="inherit"
+                onClick={() => navigate("/customer")}
+                sx={{
+                  fontWeight: "bold",
+                  textTransform: "capitalize",
+                  fontSize: "1rem",
+                }}
+              >
+                Clientes
+              </Button>
             </>
           )}
           {/* Resto del código del componente */}

@@ -94,7 +94,7 @@ const CustomerForm = ({ item }) => {
             {...register("comments")}
             name="comments"
             size="small"
-            label="Commentarios"
+            label="Comentarios"
             className={styles.textField}
           />
           <Button type="submit" variant="contained">
