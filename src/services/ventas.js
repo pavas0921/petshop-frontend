@@ -1,5 +1,6 @@
-const API_BASE_URL = "https://muezzapets-backend.onrender.com";
+//const API_BASE_URL = "https://muezzapets-backend.onrender.com";
 //const API_BASE_URL = "http://localhost:4000";
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export const getAllVentasByCompanyAPI = async (idCompany) => {
   try {
@@ -18,7 +19,7 @@ export const getAllVentasByCompanyAPI = async (idCompany) => {
 };
 
 export const getVentasByDateRangeAPI = async (body) => {
-  console.log("body", body)
+  console.log("body", body);
   try {
     const url = `${API_BASE_URL}/venta/rangeDate`;
     const req = await fetch(url, {
