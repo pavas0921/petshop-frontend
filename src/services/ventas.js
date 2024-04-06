@@ -32,8 +32,11 @@ export const getVentasByDateRangeAPI = async (body) => {
     const data = await req.json(body);
     return Promise.resolve(data);
   } catch (error) {
-    return Promise.resolve(error);
-  }
+    res.status(+process.env.HTTP_INTERNAL_SERVER_ERROR).json({ 
+        httpStatus: +process.env.HTTP_INTERNAL_SERVER_ERROR,
+        message: "Ocurrió un error al procesar la solicitud. Por favor, inténtalo de nuevo más tarde.",
+        status: "error",
+    });
 };
 
 export const createVentaAPI = async (body) => {
