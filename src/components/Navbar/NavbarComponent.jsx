@@ -19,17 +19,9 @@ import Avatar from "@mui/material/Avatar";
 import { verifyTokenExpiration } from "../../helpers/verifyToken";
 
 const NavbarComponent = () => {
-  const [anchorPacientes, setAnchorPacientes] = React.useState(null);
   const [anchorVender, setAnchorVender] = React.useState(null);
-  const [anchorAgenda, setAnchorAgenda] = React.useState(null);
-  const [anchorFacturacion, setAnchorFacturacion] = React.useState(null);
-  const [anchorCartera, setAnchorCartera] = React.useState(null);
-  const [anchorRips, setAnchorRips] = React.useState(null);
-  const [anchorInformes, setAnchorInformes] = React.useState(null);
-  const [anchorAdministracion, setAnchorAdministracion] = React.useState(null);
   const [anchorPruebas, setAnchorPruebas] = React.useState(null);
   const [anchorClientes, setAnchorClientes] = React.useState(null);
-  const [anchorProductos, setAnchorProductos] = React.useState(null);
   const [anchorUsuarios, setAnchorUsuarios] = React.useState(null);
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
   const [openModal, setOpenModal] = React.useState(false);
@@ -339,6 +331,9 @@ const NavbarComponent = () => {
               >
                 <MenuItem onClick={() => navigate("/basic-sale")}>
                   Venta Básica
+                </MenuItem>
+                <MenuItem onClick={() => navigate("/sales")}>
+                  Listado de Ventas
                 </MenuItem>
               </Menu>
 

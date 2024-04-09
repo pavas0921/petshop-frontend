@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { createVentaAPI, getAllVentasByCompanyAPI, getVentasByDateRangeAPI } from "../../services/ventas";
+import { createVentaAPI,  getAllVentasByCompanyAPI, getVentasByDateRangeAPI } from "../../services/ventas";
 
 const initialState = {
   ventas: [],

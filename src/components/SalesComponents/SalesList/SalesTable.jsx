@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import styles from "./styles.module.scss";
 import { Table } from "../../Table";
 import { useSalesByDate } from "../../../customHooks";
@@ -34,7 +34,8 @@ const SalesTable = () => {
   return (
     <Box className={styles.box_main}>
       <Box className={styles.box_table}>
-        <Table
+        {ventas && ventas.length > 0 && !loading?  (
+          <Table
           columns={columns}
           rows={ventas}
           loading={loading}
@@ -42,6 +43,22 @@ const SalesTable = () => {
           columnHeaderHeight={56}
           title={"Listado de Ventas"}
         />
+        ): ventas && ventas.length === 0 && !loading && (
+          <Box
+            sx={{
+              width: "100%",
+              height: "88vh",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center"
+            }}
+          >
+            <Typography variant="h6" color="initial">
+                No se encontraron ventas en este rango de fechas.
+            </Typography>
+          </Box>
+        )}
+        
       </Box>
     </Box>
   );

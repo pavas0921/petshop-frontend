@@ -1,12 +1,17 @@
 .box_main{
     width: 100%;
+    min-height: 88vh;
     display: flex;
-    justify-content: center;
     align-items: center;
     flex-direction: column;
 
     .box_table{
         width: 100%;
+        min-height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
     }
 
     .addButton{
