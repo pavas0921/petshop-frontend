@@ -3,10 +3,12 @@ import { Box, Typography } from "@mui/material";
 import styles from "./styles.module.scss";
 import { Table } from "../../Table";
 import { useSalesByDate } from "../../../customHooks";
+import { AddComponent } from "../../AddComponent";
+import { MenuFilter } from "../../MenuFilterComponent";
 
 const SalesTable = () => {
   const ventasResponse = useSalesByDate();
-  const { httpStatus, ventas, loading } = ventasResponse;
+  const { httpStatus, ventas, loading } = ventasResponse; 
 
   const columns = [
     { field: "date", headerName: "Fecha", width: 300 },
@@ -59,6 +61,9 @@ const SalesTable = () => {
           </Box>
         )}
         
+      </Box>
+      <Box className={styles.addButton}>
+        <MenuFilter />
       </Box>
     </Box>
   );

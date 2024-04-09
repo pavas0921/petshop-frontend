@@ -3,6 +3,7 @@ import { Box } from "@mui/material";
 import { NavbarComponent } from "../../../components/Navbar";
 import globalStyles from "../../../styles/global.module.scss";
 import { SalesTable } from "../../../components/SalesComponents/SalesList";
+import styles from "./styles.module.scss";
 
 const SalesList = () => {
   return (
@@ -11,7 +12,7 @@ const SalesList = () => {
         <NavbarComponent />
       </Box>
       <Box>
-        <SalesTable/>
+        <SalesTable />
       </Box>
     </Box>
   );

@@ -6,6 +6,11 @@ import {Loader} from "../LoaderComponent"
 
 const Table = (props) => {
   const { columns, rows, loading, rowHeigth, columnHeaderHeight, title } = props;
+
+  useEffect(() => {
+    console.log(loading)
+  }, [loading])
+  
   
   return (
     <Box className={styles.box_main}>

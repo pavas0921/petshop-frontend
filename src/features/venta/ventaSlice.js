@@ -6,7 +6,7 @@ const initialState = {
   httpStatus: null,
   status: null, 
   message: null,
-  salesFlag: true,
+  salesFlag: false,
   loading: false,
 };
 

@@ -13,7 +13,6 @@ const useSalesByDate = () => {
 
   useEffect(() => {
     const ranges = getDatesRange();
-
     dispatch(
       getVentasByDateRange({
         startDate: ranges.firstDay,
