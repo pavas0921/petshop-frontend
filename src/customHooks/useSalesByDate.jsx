@@ -6,20 +6,29 @@ import {
   getVentasByDateRange,
 } from '../features/venta/ventaSlice'
 import { getDatesRange } from '../helpers/dateUtils/convertDates'
+import { verifyTokenExpiration } from '../helpers/verifyToken'
+import { useNavigate } from 'react-router-dom'
 
 const useSalesByDate = () => {
   const dispatch = useDispatch()
   const ventasResponse = useSelector(selectVentasState)
+  const navigate = useNavigate()
 
   useEffect(() => {
-    const ranges = getDatesRange()
-    dispatch(
-      getVentasByDateRange({
-        startDate: ranges.firstDay,
-        endDate: ranges.lastDay,
-        idCompany: '65f5ee60ce0ee41a81558837',
-      })
-    )
+    const isValidToken = verifyTokenExpiration()
+    const { status, companyId, rolId, userId } = isValidToken
+    if (status) {
+      const ranges = getDatesRange()
+      dispatch(
+        getVentasByDateRange({
+          startDate: ranges.firstDay,
+          endDate: ranges.lastDay,
+          idCompany: companyId,
+        })
+      )
+    } else {
+      navigate('/')
+    }
   }, [dispatch])
 
   return ventasResponse
