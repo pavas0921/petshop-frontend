@@ -1,0 +1,22 @@
+.container {
+  transform: translateZ(0px); /* Transforma el elemento en el eje Z */
+  flex-grow: 1; /* Permite al elemento crecer para llenar el espacio disponible */
+
+  .box_customSpeedDial {
+    position: relative;
+    margin-top: 3px;
+    height: 320px;
+  }
+}
+
+.box_calendarPicker {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  .button {
+    margin-top: 2px;
+  }
+}
