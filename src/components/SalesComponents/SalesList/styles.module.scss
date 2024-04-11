@@ -1,23 +1,39 @@
-.box_main{
+.box_main {
+  width: 100%;
+  min-height: 88vh;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+
+  @media (max-width: 820px) {
     width: 100%;
-    min-height: 88vh;
+    min-height: 100vh;
     display: flex;
     align-items: center;
+    justify-content: flex-start;
     flex-direction: column;
+  }
 
-    .box_table{
-        width: 100%;
-        min-height: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
+  .box_table {
+    width: 100%;
+    min-height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
+    @media (max-width: 820px) {
+      width: 30%;
+      min-height: 100vh;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      flex-direction: column;
     }
+  }
 
-    .addButton{
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
-        
-    }
+  .addButton {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+  }
 }

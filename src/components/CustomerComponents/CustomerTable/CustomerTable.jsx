@@ -1,34 +1,34 @@
-import React, { useEffect, useState } from "react";
-import styles from "./styles.module.scss";
-import { Box, IconButton } from "@mui/material";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import DeleteIcon from "@mui/icons-material/Delete";
+import React, { useEffect, useState } from 'react'
+import styles from './styles.module.scss'
+import { Box, IconButton } from '@mui/material'
+import VisibilityIcon from '@mui/icons-material/Visibility'
+import DeleteIcon from '@mui/icons-material/Delete'
 import {
   selectCustomerState,
   getCustomersByCompany,
   clearAlert,
-} from "../../../features/customer/customerSlice";
-import { useDispatch, useSelector } from "react-redux";
-import { verifyTokenExpiration } from "../../../helpers/verifyToken";
-import { useNavigate } from "react-router-dom";
-import Table from "../../Table/Table";
-import { AddComponent } from "../../AddComponent";
-import { ModalComponent } from "../../ModalComponent";
-import { CustomerForm } from "../CustomerForm";
-import ToastAlert from "../../Alerts/ToastAlert";
+} from '../../../features/customer/customerSlice'
+import { useDispatch, useSelector } from 'react-redux'
+import { verifyTokenExpiration } from '../../../helpers/verifyToken'
+import { useNavigate } from 'react-router-dom'
+import Table from '../../Table/Table'
+import { AddComponent } from '../../AddComponent'
+import { ModalComponent } from '../../ModalComponent'
+import { CustomerForm } from '../CustomerForm'
+import ToastAlert from '../../Alerts/ToastAlert'
 
 function CustomerTable() {
-  const tokenData = verifyTokenExpiration();
-  const { status, companyId, rolId, userId } = tokenData;
-  const dispatch = useDispatch();
-  const customerResponse = useSelector(selectCustomerState);
-  const [openModal, setOpenModal] = useState(false);
-  const [item, setItem] = useState(null);
-  const handleOpen = () => setOpenModal(true);
+  const tokenData = verifyTokenExpiration()
+  const { status, companyId, rolId, userId } = tokenData
+  const dispatch = useDispatch()
+  const customerResponse = useSelector(selectCustomerState)
+  const [openModal, setOpenModal] = useState(false)
+  const [item, setItem] = useState(null)
+  const handleOpen = () => setOpenModal(true)
   const handleClose = () => {
-    setOpenModal(false);
-    setItem(null);
-  };
+    setOpenModal(false)
+    setItem(null)
+  }
   const {
     customers,
     customerStatus,
@@ -36,39 +36,39 @@ function CustomerTable() {
     customerLoading,
     customerFlag,
     customerMessage,
-  } = customerResponse;
-  const navigate = useNavigate();
+  } = customerResponse
+  const navigate = useNavigate()
   const columns = [
-    { field: "cedula", headerName: "Cédula", width: 120 },
+    { field: 'cedula', headerName: 'Cédula', width: 120 },
     {
-      field: "firstName",
-      headerName: "Nombres",
+      field: 'firstName',
+      headerName: 'Nombres',
       width: 150,
     },
     {
-      field: "lastName",
-      headerName: "Apellidos",
+      field: 'lastName',
+      headerName: 'Apellidos',
       width: 150,
     },
     {
-      field: "phone",
-      headerName: "Teléfono",
-      type: "number",
+      field: 'phone',
+      headerName: 'Teléfono',
+      type: 'number',
       width: 150,
     },
     {
-      field: "address",
-      headerName: "Dirección",
+      field: 'address',
+      headerName: 'Dirección',
       width: 160,
     },
     {
-      field: "comments",
-      headerName: "Comentarios",
-      width: 160,
+      field: 'comments',
+      headerName: 'Comentarios',
+      width: 240,
     },
     {
-      field: "actions",
-      headerName: "Acciones",
+      field: 'actions',
+      headerName: 'Acciones',
       width: 80,
       renderCell: (params) => (
         <Box>
@@ -81,29 +81,29 @@ function CustomerTable() {
         </Box>
       ),
     },
-  ];
+  ]
 
   const handleClick = (event, item) => {
-    console.log("item", item);
-    event.stopPropagation(); // Evita que el clic llegue al contenedor padre
-    setOpenModal(true);
-    setItem(item);
-  };
+    console.log('item', item)
+    event.stopPropagation() // Evita que el clic llegue al contenedor padre
+    setOpenModal(true)
+    setItem(item)
+  }
 
   useEffect(() => {
-    dispatch(clearAlert());
+    dispatch(clearAlert())
     if (status) {
-      dispatch(getCustomersByCompany(companyId));
+      dispatch(getCustomersByCompany(companyId))
     } else {
-      navigate("/");
+      navigate('/')
     }
-  }, []);
+  }, [])
 
   useEffect(() => {
-    if (customerHttpStatus === 200 && customerStatus === "success") {
-      handleClose();
+    if (customerHttpStatus === 200 && customerStatus === 'success') {
+      handleClose()
     }
-  }, [customerResponse]);
+  }, [customerResponse])
 
   return (
     <Box className={styles.box_main}>
@@ -114,7 +114,7 @@ function CustomerTable() {
           loading={customerLoading}
           rowHeigth={56}
           columnHeaderHeight={56}
-          title={"Listado de Clientes"}
+          title={'Listado de Clientes'}
         />
       </Box>
       <Box className={styles.addButton}>
@@ -135,11 +135,11 @@ function CustomerTable() {
       {!customerLoading &&
         customerFlag &&
         (customerHttpStatus === 201 || customerHttpStatus === 200) &&
-        customerStatus === "success" && (
+        customerStatus === 'success' && (
           <ToastAlert message={customerMessage} status={customerStatus} />
         )}
     </Box>
-  );
+  )
 }
 
-export default CustomerTable;
+export default CustomerTable
