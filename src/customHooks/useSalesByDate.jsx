@@ -17,6 +17,7 @@ const useSalesByDate = () => {
   useEffect(() => {
     const isValidToken = verifyTokenExpiration()
     const { status, companyId, rolId, userId } = isValidToken
+    console.log(companyId)
     if (status) {
       const ranges = getDatesRange()
       dispatch(

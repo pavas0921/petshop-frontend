@@ -1,19 +1,26 @@
-import React, { useEffect } from "react";
-import { NavbarComponent } from "../../components/Navbar";
-import styles from "./dashboard.module.scss";
-import { useNavigate } from "react-router-dom";
-import { verifyTokenExpiration } from "../../helpers/verifyToken";
+import React, { useEffect } from 'react'
+import { NavbarComponent } from '../../components/Navbar'
+import styles from './dashboard.module.scss'
+import { useNavigate } from 'react-router-dom'
+import { verifyTokenExpiration } from '../../helpers/verifyToken'
+import Box from '@mui/material/Box'
+import Card from '@mui/material/Card'
+import CardActions from '@mui/material/CardActions'
+import CardContent from '@mui/material/CardContent'
+import Button from '@mui/material/Button'
+import Typography from '@mui/material/Typography'
+import CardSales from '../../components/DashboardComponents/CardSales/CardSales'
 
 const Dashboard = () => {
-  const navigate = useNavigate();
-  const isValidToken = verifyTokenExpiration();
-  const { status, companyId, rolId, userId } = isValidToken;
+  const navigate = useNavigate()
+  const isValidToken = verifyTokenExpiration()
+  const { status, companyId, rolId, userId } = isValidToken
 
   useEffect(() => {
     if (!status) {
-      navigate("/");
+      navigate('/')
     }
-  }, []);
+  }, [])
 
   return (
     <div className={styles.div_main}>
@@ -21,15 +28,10 @@ const Dashboard = () => {
         <NavbarComponent />
       </div>
       <div>
-        <p>
-          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptate
-          eius inventore quia sit eaque totam odit dolorum, veritatis placeat
-          explicabo quasi ipsum nemo eveniet consequuntur adipisci atque debitis
-          alias laborum?
-        </p>
+        <CardSales />
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Dashboard;
+export default Dashboard

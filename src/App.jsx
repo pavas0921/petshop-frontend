@@ -1,13 +1,12 @@
-import "bootstrap/dist/css/bootstrap.min.css";
-import styles from "./App.module.scss";
-import { CustomRouterProvider } from "./router";
+import styles from './App.module.scss'
+import { CustomRouterProvider } from './router'
 
 function App() {
   return (
     <div className={styles.div_main}>
       <CustomRouterProvider />
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
