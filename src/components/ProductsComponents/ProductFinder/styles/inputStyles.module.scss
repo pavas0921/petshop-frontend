@@ -1,6 +1,5 @@
 .box_main {
-  width: 30%;
-  margin-right: 33px;
+  width: 38%;
 
   @media (max-width: 820px) {
     width: 100%;
@@ -9,8 +8,8 @@
   .textField {
     width: 100%;
 
-    @media (max-width: 820px){
-        width: 100%;
-      }
+    @media (max-width: 820px) {
+      width: 95%;
+    }
   }
 }
