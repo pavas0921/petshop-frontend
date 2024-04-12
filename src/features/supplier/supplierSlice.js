@@ -8,7 +8,7 @@ const initialState = {
 }
 
 export const getAllSupplier = createAsyncThunk('get/supplier', async () => {
-  const data = await getAllCompaniesAPI()
+  const data = await getAllSupplierAPI()
   return data
 })
 
@@ -31,7 +31,9 @@ export const supplierSlice = createSlice({
       })
       .addCase(getAllSupplier.fulfilled, (state, action) => {
         state.supplierLoading = false
-        state.supplierLoading = action.payload.suppliers
+        console.log('Act', action.payload.content)
+        state.suppliers = action.payload.content
+        //state.suppliers = action.payload.content
         state.httpStatus = action.payload.status
       })
       .addCase(createSupplier.pending, (state) => {
