@@ -1,17 +1,18 @@
-import { configureStore } from "@reduxjs/toolkit";
-import productReducer from "../features/producto/productoSlice";
-import loginReducer from "../features/login/loginSlice";
-import categoriaReducer from "../features/categoria/categoriaSlice";
-import especieReducer from "../features/especie/especieSlice";
-import detalleProductoReducer from "../features/detalleProducto/detalleProductoSlice";
-import userReducer from "../features/user/userSlice";
-import ventaReducer from "../features/venta/ventaSlice";
-import rolReducer from "../features/rol/rolSlice";
-import companyReducer from "../features/company/companySlice";
-import imageReducer from "../features/cloudinary/cloudinarySlice"
-import surveyReducer from "../features/survey/surveySlice"
-import customerReducer from "../features/customer/customerSlice"
-import businessCategoryReducer from "../features/businessCategory/businessCategorySlice"
+import { configureStore } from '@reduxjs/toolkit'
+import productReducer from '../features/producto/productoSlice'
+import loginReducer from '../features/login/loginSlice'
+import categoriaReducer from '../features/categoria/categoriaSlice'
+import especieReducer from '../features/especie/especieSlice'
+import detalleProductoReducer from '../features/detalleProducto/detalleProductoSlice'
+import userReducer from '../features/user/userSlice'
+import ventaReducer from '../features/venta/ventaSlice'
+import rolReducer from '../features/rol/rolSlice'
+import companyReducer from '../features/company/companySlice'
+import imageReducer from '../features/cloudinary/cloudinarySlice'
+import surveyReducer from '../features/survey/surveySlice'
+import customerReducer from '../features/customer/customerSlice'
+import businessCategoryReducer from '../features/businessCategory/businessCategorySlice'
+import supplierReducer from '../features/supplier/supplierSlice'
 
 export const store = configureStore({
   reducer: {
@@ -27,6 +28,7 @@ export const store = configureStore({
     images: imageReducer,
     surveys: surveyReducer,
     customers: customerReducer,
-    businessCategories: businessCategoryReducer
+    businessCategories: businessCategoryReducer,
+    suppliers: supplierReducer,
   },
-});
+})
