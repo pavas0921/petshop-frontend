@@ -41,7 +41,15 @@ export const supplierSlice = createSlice({
       })
       .addCase(createSupplier.fulfilled, (state, action) => {
         state.supplierLoading = false
-        state.supplierLoading = action.payload.suppliers
+        if (
+          action.payload.httpStatus === 201 &&
+          action.payload.status === 'success'
+        ) {
+          state.httpStatus = action.payload.httpStatus
+          state.status = action.payload.status
+          state.message = action.payload.message
+          state.suppliers.push(action.payload.content)
+        }
         state.httpStatus = action.payload.status
       })
   },

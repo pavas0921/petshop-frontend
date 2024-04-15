@@ -1,0 +1,28 @@
+.box_main {
+  width: 100%;
+  min-height: 90vh;
+  max-height: 100vh;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+
+  .box_title {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+
+  .box_inputs {
+    width: 100%;
+
+    .form {
+      width: 100%;
+
+      .textField {
+        width: 100%;
+        margin-bottom: 20px;
+      }
+    }
+  }
+}

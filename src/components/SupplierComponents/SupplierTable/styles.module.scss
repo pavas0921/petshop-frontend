@@ -7,6 +7,14 @@
 
   .box_table {
     width: 90%;
+
+    .box_noData {
+      width: 100%;
+      min-height: 50vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
   }
 
   .addButton {
