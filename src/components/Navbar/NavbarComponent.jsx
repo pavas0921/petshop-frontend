@@ -1,85 +1,84 @@
-import MenuIcon from "@mui/icons-material/Menu";
-import { Typography } from "@mui/material";
-import AppBar from "@mui/material/AppBar";
-import Button from "@mui/material/Button";
-import Drawer from "@mui/material/Drawer";
-import IconButton from "@mui/material/IconButton";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
-import Toolbar from "@mui/material/Toolbar";
-import { useTheme } from "@mui/material/styles";
-import useMediaQuery from "@mui/material/useMediaQuery";
-import React, { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore"; // o 'ArrowDropDown' para otra versión
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
-import { ModalComponent } from "../ModalComponent";
-import Avatar from "@mui/material/Avatar";
-import { verifyTokenExpiration } from "../../helpers/verifyToken";
+import MenuIcon from '@mui/icons-material/Menu'
+import { Typography } from '@mui/material'
+import AppBar from '@mui/material/AppBar'
+import Button from '@mui/material/Button'
+import Drawer from '@mui/material/Drawer'
+import IconButton from '@mui/material/IconButton'
+import Menu from '@mui/material/Menu'
+import MenuItem from '@mui/material/MenuItem'
+import Toolbar from '@mui/material/Toolbar'
+import { useTheme } from '@mui/material/styles'
+import useMediaQuery from '@mui/material/useMediaQuery'
+import React, { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore' // o 'ArrowDropDown' para otra versión
+import ListItemIcon from '@mui/material/ListItemIcon'
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
+import { ModalComponent } from '../ModalComponent'
+import Avatar from '@mui/material/Avatar'
+import { verifyTokenExpiration } from '../../helpers/verifyToken'
 
 const NavbarComponent = () => {
-  const [anchorVender, setAnchorVender] = React.useState(null);
-  const [anchorPruebas, setAnchorPruebas] = React.useState(null);
-  const [anchorClientes, setAnchorClientes] = React.useState(null);
-  const [anchorUsuarios, setAnchorUsuarios] = React.useState(null);
-  const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
-  const [openModal, setOpenModal] = React.useState(false);
-  const isValidToken = verifyTokenExpiration();
-  const { status, companyId, rolId, userId, logo } = isValidToken;
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
-  const navigate = useNavigate();
+  const [anchorVender, setAnchorVender] = React.useState(null)
+  const [anchorPruebas, setAnchorPruebas] = React.useState(null)
+  const [anchorClientes, setAnchorClientes] = React.useState(null)
+  const [anchorUsuarios, setAnchorUsuarios] = React.useState(null)
+  const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false)
+  const [openModal, setOpenModal] = React.useState(false)
+  const isValidToken = verifyTokenExpiration()
+  const { status, companyId, rolId, userId, logo } = isValidToken
+  const theme = useTheme()
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'))
+  const navigate = useNavigate()
 
-  const handleOpen = () => setOpenModal(true);
-  const handleClose = () => setOpenModal(false);
-
+  const handleOpen = () => setOpenModal(true)
+  const handleClose = () => setOpenModal(false)
 
   const handleClickPruebas = (event) => {
-    setAnchorPruebas(event.currentTarget);
-  };
+    setAnchorPruebas(event.currentTarget)
+  }
 
   const handleClickProductos = (event) => {
-    setAnchorProductos(event.currentTarget);
-  };
+    setAnchorProductos(event.currentTarget)
+  }
 
   const handleClickVender = (event) => {
-    setAnchorVender(event.currentTarget);
-  };
+    setAnchorVender(event.currentTarget)
+  }
 
   const handleClickUsuarios = (event) => {
-    setAnchorUsuarios(event.currentTarget);
-  };
+    setAnchorUsuarios(event.currentTarget)
+  }
 
   const handleClickClientes = (event) => {
-    setAnchorClientes(event.currentTarget);
-  };
+    setAnchorClientes(event.currentTarget)
+  }
 
   const handleClosePruebas = () => {
-    setAnchorPruebas(null);
-  };
+    setAnchorPruebas(null)
+  }
 
   const handleCloseClientes = () => {
-    setAnchorClientes(null);
-  };
+    setAnchorClientes(null)
+  }
 
   const handleCloseProductos = () => {
-    setAnchorProductos(null);
-  };
+    setAnchorProductos(null)
+  }
 
   const handleCloseVender = () => {
-    setAnchorVender(null);
-  };
+    setAnchorVender(null)
+  }
 
   const handleCloseUsuarios = () => {
-    setAnchorUsuarios(null);
-  };
+    setAnchorUsuarios(null)
+  }
 
   useEffect(() => {
     if (!status) {
-      navigate("/");
+      navigate('/')
     }
-  }, []);
+  }, [])
 
   return (
     <div>
@@ -106,9 +105,9 @@ const NavbarComponent = () => {
                 color="inherit"
                 onClick={handleClickPruebas}
                 sx={{
-                  fontWeight: "bold",
-                  textTransform: "capitalize",
-                  fontSize: "1rem",
+                  fontWeight: 'bold',
+                  textTransform: 'capitalize',
+                  fontSize: '1rem',
                 }}
               >
                 Administración
@@ -116,11 +115,11 @@ const NavbarComponent = () => {
 
               <Button
                 color="inherit"
-                onClick={() => navigate("/products")}
+                onClick={() => navigate('/products')}
                 sx={{
-                  fontWeight: "bold",
-                  textTransform: "capitalize",
-                  fontSize: "1rem",
+                  fontWeight: 'bold',
+                  textTransform: 'capitalize',
+                  fontSize: '1rem',
                 }}
               >
                 Productos
@@ -130,9 +129,9 @@ const NavbarComponent = () => {
                 color="inherit"
                 onClick={handleClickVender}
                 sx={{
-                  fontWeight: "bold",
-                  textTransform: "capitalize",
-                  fontSize: "1rem",
+                  fontWeight: 'bold',
+                  textTransform: 'capitalize',
+                  fontSize: '1rem',
                 }}
               >
                 Ventas
@@ -143,21 +142,33 @@ const NavbarComponent = () => {
                 open={Boolean(anchorVender)}
                 onClose={handleCloseVender}
               >
-                <MenuItem onClick={() => navigate("/basic-sale")}>
+                <MenuItem onClick={() => navigate('/basic-sale')}>
                   Venta Básica
                 </MenuItem>
               </Menu>
 
               <Button
                 color="inherit"
-                onClick={() => navigate("/customer")}
+                onClick={() => navigate('/customer')}
                 sx={{
-                  fontWeight: "bold",
-                  textTransform: "capitalize",
-                  fontSize: "1rem",
+                  fontWeight: 'bold',
+                  textTransform: 'capitalize',
+                  fontSize: '1rem',
                 }}
               >
                 Clientes
+              </Button>
+
+              <Button
+                color="inherit"
+                onClick={() => navigate('/supplier')}
+                sx={{
+                  fontWeight: 'bold',
+                  textTransform: 'capitalize',
+                  fontSize: '1rem',
+                }}
+              >
+                Proveedores
               </Button>
 
               <Menu
@@ -177,27 +188,25 @@ const NavbarComponent = () => {
                 open={Boolean(anchorUsuarios)}
                 onClose={handleCloseUsuarios}
                 anchorOrigin={{
-                  vertical: "top",
-                  horizontal: "right", // Ajusta esto a 'left' si deseas que se abra hacia la izquierda
+                  vertical: 'top',
+                  horizontal: 'right', // Ajusta esto a 'left' si deseas que se abra hacia la izquierda
                 }}
                 transformOrigin={{
-                  vertical: "top",
-                  horizontal: "left",
+                  vertical: 'top',
+                  horizontal: 'left',
                 }}
               >
-                <MenuItem onClick={() => navigate("/user/register")}>
+                <MenuItem onClick={() => navigate('/user/register')}>
                   Registrar Usuario
                 </MenuItem>
-                <MenuItem onClick={() => navigate("/user-list")}>
+                <MenuItem onClick={() => navigate('/user-list')}>
                   Maestro de Usuarios
                 </MenuItem>
 
-                <MenuItem onClick={() => navigate("/customer")}>
+                <MenuItem onClick={() => navigate('/customer')}>
                   Clientes
                 </MenuItem>
               </Menu>
-
-
             </Drawer>
           ) : (
             <>
@@ -205,9 +214,9 @@ const NavbarComponent = () => {
                 color="inherit"
                 onClick={handleClickPruebas}
                 sx={{
-                  fontWeight: "bold",
-                  textTransform: "capitalize",
-                  fontSize: "1rem",
+                  fontWeight: 'bold',
+                  textTransform: 'capitalize',
+                  fontSize: '1rem',
                 }}
               >
                 <Avatar
@@ -225,9 +234,9 @@ const NavbarComponent = () => {
                 color="inherit"
                 onClick={handleClickPruebas}
                 sx={{
-                  fontWeight: "bold",
-                  textTransform: "capitalize",
-                  fontSize: "1rem",
+                  fontWeight: 'bold',
+                  textTransform: 'capitalize',
+                  fontSize: '1rem',
                 }}
               >
                 Administración
@@ -263,18 +272,18 @@ const NavbarComponent = () => {
                 open={Boolean(anchorUsuarios)}
                 onClose={handleCloseUsuarios}
                 anchorOrigin={{
-                  vertical: "top",
-                  horizontal: "right", // Ajusta esto a 'left' si deseas que se abra hacia la izquierda
+                  vertical: 'top',
+                  horizontal: 'right', // Ajusta esto a 'left' si deseas que se abra hacia la izquierda
                 }}
                 transformOrigin={{
-                  vertical: "top",
-                  horizontal: "left",
+                  vertical: 'top',
+                  horizontal: 'left',
                 }}
               >
-                <MenuItem onClick={() => navigate("/user/register")}>
+                <MenuItem onClick={() => navigate('/user/register')}>
                   Registrar Usuario
                 </MenuItem>
-                <MenuItem onClick={() => navigate("/user-list")}>
+                <MenuItem onClick={() => navigate('/user-list')}>
                   Maestro de Usuarios
                 </MenuItem>
               </Menu>
@@ -284,29 +293,29 @@ const NavbarComponent = () => {
                 open={Boolean(anchorClientes)}
                 onClose={handleCloseClientes}
                 anchorOrigin={{
-                  vertical: "top",
-                  horizontal: "right", // Ajusta esto a 'left' si deseas que se abra hacia la izquierda
+                  vertical: 'top',
+                  horizontal: 'right', // Ajusta esto a 'left' si deseas que se abra hacia la izquierda
                 }}
                 transformOrigin={{
-                  vertical: "top",
-                  horizontal: "left",
+                  vertical: 'top',
+                  horizontal: 'left',
                 }}
               >
-                <MenuItem onClick={() => navigate("/user/register")}>
+                <MenuItem onClick={() => navigate('/user/register')}>
                   Registrar Cliente
                 </MenuItem>
-                <MenuItem onClick={() => navigate("/user-list")}>
+                <MenuItem onClick={() => navigate('/user-list')}>
                   Maestro de Clientes
                 </MenuItem>
               </Menu>
 
               <Button
                 color="inherit"
-                onClick={() => navigate("/products")}
+                onClick={() => navigate('/products')}
                 sx={{
-                  fontWeight: "bold",
-                  textTransform: "capitalize",
-                  fontSize: "1rem",
+                  fontWeight: 'bold',
+                  textTransform: 'capitalize',
+                  fontSize: '1rem',
                 }}
               >
                 Productos
@@ -316,9 +325,9 @@ const NavbarComponent = () => {
                 color="inherit"
                 onClick={handleClickVender}
                 sx={{
-                  fontWeight: "bold",
-                  textTransform: "capitalize",
-                  fontSize: "1rem",
+                  fontWeight: 'bold',
+                  textTransform: 'capitalize',
+                  fontSize: '1rem',
                 }}
               >
                 Ventas
@@ -329,25 +338,36 @@ const NavbarComponent = () => {
                 open={Boolean(anchorVender)}
                 onClose={handleCloseVender}
               >
-                <MenuItem onClick={() => navigate("/basic-sale")}>
+                <MenuItem onClick={() => navigate('/basic-sale')}>
                   Venta Básica
                 </MenuItem>
-                <MenuItem onClick={() => navigate("/sales")}>
+                <MenuItem onClick={() => navigate('/sales')}>
                   Listado de Ventas
                 </MenuItem>
               </Menu>
 
-
               <Button
                 color="inherit"
-                onClick={() => navigate("/customer")}
+                onClick={() => navigate('/customer')}
                 sx={{
-                  fontWeight: "bold",
-                  textTransform: "capitalize",
-                  fontSize: "1rem",
+                  fontWeight: 'bold',
+                  textTransform: 'capitalize',
+                  fontSize: '1rem',
                 }}
               >
                 Clientes
+              </Button>
+
+              <Button
+                color="inherit"
+                onClick={() => navigate('/supplier')}
+                sx={{
+                  fontWeight: 'bold',
+                  textTransform: 'capitalize',
+                  fontSize: '1rem',
+                }}
+              >
+                Proveedores
               </Button>
             </>
           )}
@@ -355,7 +375,7 @@ const NavbarComponent = () => {
         </Toolbar>
       </AppBar>
     </div>
-  );
-};
+  )
+}
 
-export default NavbarComponent;
+export default NavbarComponent
