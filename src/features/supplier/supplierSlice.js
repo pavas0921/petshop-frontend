@@ -5,6 +5,8 @@ const initialState = {
   suppliers: [],
   supplierLoading: false,
   httpStatus: null,
+  status: null,
+  message: null,
 }
 
 export const getAllSupplier = createAsyncThunk('get/supplier', async () => {
@@ -31,9 +33,7 @@ export const supplierSlice = createSlice({
       })
       .addCase(getAllSupplier.fulfilled, (state, action) => {
         state.supplierLoading = false
-        console.log('Act', action.payload.content)
         state.suppliers = action.payload.content
-        //state.suppliers = action.payload.content
         state.httpStatus = action.payload.status
       })
       .addCase(createSupplier.pending, (state) => {
@@ -50,7 +50,6 @@ export const supplierSlice = createSlice({
           state.message = action.payload.message
           state.suppliers.push(action.payload.content)
         }
-        state.httpStatus = action.payload.status
       })
   },
 })

@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import { verifyTokenExpiration } from '../../../helpers/verifyToken'
 import { SupplierForm } from '../../../components/SupplierComponents/SupplierForm'
 import styles from './styles.module.scss'
-import SupplierTable from '../../../components/SupplierComponents/SupplierTable/SupplierTable'
+import { SupplierMain } from '../../../components/SupplierComponents/SupplierMain'
 
 const SupplierDashboard = () => {
   const navigate = useNavigate()
@@ -23,7 +23,7 @@ const SupplierDashboard = () => {
         <NavbarComponent />
       </Box>
       <Box>
-        <SupplierTable />
+        <SupplierMain />
       </Box>
     </Box>
   )

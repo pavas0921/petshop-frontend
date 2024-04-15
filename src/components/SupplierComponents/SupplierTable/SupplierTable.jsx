@@ -1,26 +1,14 @@
 import React, { useEffect, useState } from 'react'
-import { Box, IconButton, Typography } from '@mui/material'
+import { Box, IconButton } from '@mui/material'
 import { Table } from '../../Table'
-import { useDispatch, useSelector } from 'react-redux'
-import {
-  selectSupplierState,
-  getAllSupplier,
-} from '../../../features/supplier/supplierSlice'
 import { AddComponent } from '../../AddComponent'
 import styles from './styles.module.scss'
 import { ModalComponent } from '../../ModalComponent'
 import { SupplierForm } from '../SupplierForm'
 
-const SupplierTable = () => {
-  const dispatch = useDispatch()
-  const supplierResponse = useSelector(selectSupplierState)
-  const { suppliers, supplierLoading } = supplierResponse
+const SupplierTable = ({ rows, loading }) => {
   const [openModal, setOpenModal] = useState(false)
   const handleClose = () => setOpenModal(false)
-
-  useEffect(() => {
-    dispatch(getAllSupplier())
-  }, [dispatch])
 
   const columns = [
     { field: 'nit', headerName: 'NIT', width: 150 },
@@ -54,34 +42,16 @@ const SupplierTable = () => {
   ]
 
   return (
-    <Box className={styles.box_main}>
-      <Box className={styles.box_table}>
-        {suppliers && suppliers.length > 0 ? (
-          <Table
-            columns={columns}
-            rows={suppliers}
-            loading={supplierLoading}
-            rowHeigth={56}
-            columnHeaderHeight={56}
-            title={'Listado de Proveedores'}
-          />
-        ) : (
-          <Box className={styles.box_noData}>
-            <Typography variant="h5" color="initial">
-              No se ha encontrado ningún proveedor
-            </Typography>
-          </Box>
-        )}
-      </Box>
-
-      <Box className={styles.addButton}>
-        <AddComponent openModal={openModal} setOpenModal={setOpenModal} />
-      </Box>
-
-      {openModal && (
-        <ModalComponent open={openModal} handleClose={handleClose}>
-          <SupplierForm />
-        </ModalComponent>
+    <Box className={styles.box_table}>
+      {rows && rows.length > 0 && (
+        <Table
+          columns={columns}
+          rows={rows}
+          loading={loading}
+          rowHeigth={56}
+          columnHeaderHeight={56}
+          title={'Listado de Proveedores'}
+        />
       )}
     </Box>
   )
