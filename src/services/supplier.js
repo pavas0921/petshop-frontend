@@ -1,9 +1,9 @@
 const API_BASE_URL = 'https://muezzapets-backend.onrender.com'
 //const API_BASE_URL = 'http://localhost:4000'
 
-export const getAllSupplierAPI = async () => {
+export const getSupplierByCompanyAPI = async (idCompany) => {
   try {
-    const url = `${API_BASE_URL}/supplier`
+    const url = `${API_BASE_URL}/supplier/${idCompany}`
     const req = await fetch(url, {
       method: 'GET',
       headers: {

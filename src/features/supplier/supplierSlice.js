@@ -1,18 +1,24 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { getAllSupplierAPI, createSupplierAPI } from '../../services/supplier'
+import {
+  getSupplierByCompanyAPI,
+  createSupplierAPI,
+} from '../../services/supplier'
 
 const initialState = {
   suppliers: [],
   supplierLoading: false,
   httpStatus: null,
-  status: null,
+  supplierStatus: null,
   message: null,
 }
 
-export const getAllSupplier = createAsyncThunk('get/supplier', async () => {
-  const data = await getAllSupplierAPI()
-  return data
-})
+export const getSupplierByCompany = createAsyncThunk(
+  'get/supplier',
+  async (idCompany) => {
+    const data = await getSupplierByCompanyAPI(idCompany)
+    return data
+  }
+)
 
 export const createSupplier = createAsyncThunk(
   'post/createSupplierAPI',
@@ -28,10 +34,10 @@ export const supplierSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(getAllSupplier.pending, (state) => {
+      .addCase(getSupplierByCompany.pending, (state) => {
         state.supplierLoading = true
       })
-      .addCase(getAllSupplier.fulfilled, (state, action) => {
+      .addCase(getSupplierByCompany.fulfilled, (state, action) => {
         state.supplierLoading = false
         state.suppliers = action.payload.content
         state.httpStatus = action.payload.status
@@ -46,7 +52,7 @@ export const supplierSlice = createSlice({
           action.payload.status === 'success'
         ) {
           state.httpStatus = action.payload.httpStatus
-          state.status = action.payload.status
+          state.supplierStatus = action.payload.status
           state.message = action.payload.message
           state.suppliers.push(action.payload.content)
         }
