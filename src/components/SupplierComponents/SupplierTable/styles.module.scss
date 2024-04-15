@@ -1,26 +1,20 @@
-.box_main {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
+.box_table {
+  width: 90%;
 
-  .box_table {
+  @media (max-width: 820px) {
     width: 90%;
-
-    .box_noData {
-      width: 100%;
-      min-height: 50vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background-color: red;
-    }
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
   }
 
-  .addButton {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
+  .box_noData {
+    width: 100%;
+    min-height: 50vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: red;
   }
 }
