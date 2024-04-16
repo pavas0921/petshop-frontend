@@ -1,35 +1,52 @@
-const API_BASE_URL = "https://muezzapets-backend.onrender.com";
+const API_BASE_URL = 'https://muezzapets-backend.onrender.com'
 //const API_BASE_URL = "http://localhost:4000";
 
 export const createUserAPI = async (body) => {
   try {
-    const url = `${API_BASE_URL}/user`;
+    const url = `${API_BASE_URL}/user`
     const req = await fetch(url, {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify(body),
-    });
-    const data = await req.json();
-    return Promise.resolve(data);
+    })
+    const data = await req.json()
+    return Promise.resolve(data)
   } catch (error) {
-    return Promise.resolve(error);
+    return Promise.resolve(error)
   }
-};
+}
 
 export const getAllUsersAPI = async () => {
   try {
-    const url = `${API_BASE_URL}/user`;
+    const url = `${API_BASE_URL}/user`
     const req = await fetch(url, {
-      method: "GET",
+      method: 'GET',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
-    });
-    const data = await req.json();
-    return Promise.resolve(data);
+    })
+    const data = await req.json()
+    return Promise.resolve(data)
   } catch (error) {
-    return Promise.resolve(error);
+    return Promise.resolve(error)
   }
-};
+}
+
+export const getUsersByCompanyAPI = async (idCompany) => {
+  try {
+    console.log('hola')
+    const url = `${API_BASE_URL}/user/${idCompany}`
+    const req = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+    const data = await req.json()
+    return Promise.resolve(data)
+  } catch (error) {
+    return Promise.resolve(error)
+  }
+}

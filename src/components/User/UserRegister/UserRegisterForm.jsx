@@ -16,11 +16,14 @@ import { useForm } from 'react-hook-form'
 import { ComboBox } from '../../AutoCompleteComponent'
 import Autocomplete from '@mui/material/Autocomplete'
 import { Loader } from '../../LoaderComponent'
+import userActions from '../../../customHooks/reduxActions/userActions'
 
-const UserRegisterForm = () => {
+const UserRegisterForm = ({ item }) => {
+  const useUserRegister = userActions()
   const {
     register,
     setValue,
+    getValues,
     handleSubmit,
     formState: { errors },
   } = useForm()
@@ -38,7 +41,7 @@ const UserRegisterForm = () => {
   const [showPassError, setShowPassError] = useState(false)
 
   const onSubmit = (body) => {
-    dispatch(createUser(body))
+    useUserRegister(body)
   }
 
   const messages = {
@@ -51,8 +54,15 @@ const UserRegisterForm = () => {
   }, [])
 
   useEffect(() => {
-    console.log(userResponse)
-  }, [userResponse])
+    console.log(item)
+    if (item) {
+      setValue('name', item.name)
+      setValue('lastname', item.lastname)
+      setValue('id', item.id)
+      setValue('rolId', item.rolId._id)
+      setValue('companyId', item.companyId._id)
+    }
+  }, [item])
 
   return (
     <Box className={styles.div_main}>
@@ -151,19 +161,11 @@ const UserRegisterForm = () => {
 
           <Box className={styles.div_btn}>
             <Button variant="contained" type="submit">
-              Registrar Usuario
+              {item ? 'Actualizar' : 'Registrar'}
             </Button>
           </Box>
         </form>
       </Box>
-
-      {httpStatus === 201 &&
-        message === 'Usuario registrado con éxito' &&
-        status === 'success' && (
-          <Box>
-            <ToastAlert status={status} message={message} errors={errors} />
-          </Box>
-        )}
 
       {(companyLoading || rolLoading || userLoading) && <Loader />}
     </Box>

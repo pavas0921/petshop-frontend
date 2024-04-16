@@ -6,16 +6,11 @@ import VisibilityIcon from '@mui/icons-material/Visibility'
 import DeleteIcon from '@mui/icons-material/Delete'
 import { useDispatch, useSelector } from 'react-redux'
 import { getAllUsers, selectUserState } from '../../../features/user/userSlice'
+import userActions from '../../../customHooks/reduxActions/userActions'
 import Loader from '../../LoaderComponent/Loader'
 
-const UserList = () => {
+const UserList = ({ rows, loading, setOpenModal, setItem }) => {
   const dispatch = useDispatch()
-  const userResponse = useSelector(selectUserState)
-  const { users, userLoading } = userResponse
-
-  useEffect(() => {
-    dispatch(getAllUsers())
-  }, [])
 
   const columns = [
     {
@@ -44,7 +39,7 @@ const UserList = () => {
       field: 'company',
       headerName: 'Compañía',
       width: 170,
-      renderCell: (params) => <Box>${params.row.companyId.company}</Box>,
+      renderCell: (params) => <Box>{params.row.companyId.company}</Box>,
     },
     {
       field: 'actions',
@@ -52,11 +47,7 @@ const UserList = () => {
       width: 100,
       renderCell: (params) => (
         <Box>
-          <IconButton
-            onClick={() =>
-              handleViewPatient(`/pacient-profile/${params.row._id}`)
-            }
-          >
+          <IconButton onClick={(event) => handleClick(event, params.row)}>
             <VisibilityIcon />
           </IconButton>
           <IconButton onClick={() => handleDeletePatient(params.row)}>
@@ -67,12 +58,18 @@ const UserList = () => {
     },
   ]
 
+  const handleClick = (event, item) => {
+    event.stopPropagation() // Evita que el clic llegue al contenedor padre
+    setOpenModal(true)
+    setItem(item)
+  }
+
   return (
     <Box className={styles.box_table}>
       <Table
-        rows={users}
+        rows={rows}
         columns={columns}
-        loading={userLoading}
+        loading={loading}
         rowHeigth={56}
         columnHeaderHeight={56}
         title={'Listado de Usuarios'}
