@@ -10,9 +10,11 @@ import {
 } from '../../../features/supplier/supplierSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { useForm } from 'react-hook-form'
+import useGetSuppliers from '../../../customHooks/reduxActions/supplierActions'
 import styles from './styles.module.scss'
 
 const SupplierForm = ({ item }) => {
+  const { useRegisterSupplier, useSupplierUpdate } = useGetSuppliers()
   const navigate = useNavigate()
   const isValidToken = verifyTokenExpiration()
   const { status, companyId, rolId, userId } = isValidToken
@@ -27,6 +29,7 @@ const SupplierForm = ({ item }) => {
   } = useForm({})
 
   useEffect(() => {
+    setValue('idCompany', companyId)
     if (item) {
       setValue('nit', item.nit)
       setValue('companyName', item.companyName)
@@ -37,19 +40,10 @@ const SupplierForm = ({ item }) => {
   }, [item])
 
   const onSubmit = (body) => {
-    const isValidToken = verifyTokenExpiration()
-    const { status } = isValidToken
-    if (status) {
-      if (!item) {
-        body.idCompany = companyId
-        dispatch(createSupplier(body))
-      } else {
-        dispatch(updateSupplierById({ body, _id: item._id }))
-      }
+    if (!item) {
+      useRegisterSupplier(body)
     } else {
-      sessionStorage.clear()
-      localStorage.clear()
-      navigate('/')
+      useSupplierUpdate(body, item._id)
     }
   }
 
@@ -68,7 +62,7 @@ const SupplierForm = ({ item }) => {
             size="small"
             label="NIT"
             className={styles.textField}
-            helperText={errors.name ? 'Este campo es requerido' : ''}
+            helperText={errors.nit ? 'Este campo es requerido' : ''}
           />
 
           <TextField
@@ -77,7 +71,7 @@ const SupplierForm = ({ item }) => {
             size="small"
             label="Nombre Empresa"
             className={styles.textField}
-            helperText={errors.name ? 'Este campo es requerido' : ''}
+            helperText={errors.companyName ? 'Este campo es requerido' : ''}
           />
 
           <TextField
@@ -86,7 +80,9 @@ const SupplierForm = ({ item }) => {
             size="small"
             label="Nombre Asesor Comercial"
             className={styles.textField}
-            helperText={errors.name ? 'Este campo es requerido' : ''}
+            helperText={
+              errors.commercialAdvisor ? 'Este campo es requerido' : ''
+            }
           />
 
           <TextField
@@ -95,7 +91,7 @@ const SupplierForm = ({ item }) => {
             size="small"
             label="Telefono Asesor Comercial"
             className={styles.textField}
-            helperText={errors.name ? 'Este campo es requerido' : ''}
+            helperText={errors.phone ? 'Este campo es requerido' : ''}
           />
 
           <TextField
@@ -104,7 +100,7 @@ const SupplierForm = ({ item }) => {
             size="small"
             label="Dirección Punto de Venta"
             className={styles.textField}
-            helperText={errors.name ? 'Este campo es requerido' : ''}
+            helperText={errors.address ? 'Este campo es requerido' : ''}
           />
 
           <Button type="submit" variant="contained">

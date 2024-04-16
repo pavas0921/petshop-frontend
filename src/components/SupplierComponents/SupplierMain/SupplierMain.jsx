@@ -14,7 +14,7 @@ import { runTimer } from '../../../helpers/runTimer'
 
 const SupplierMain = () => {
   //useGetSuppliers()
-  const useClearSupplierState = useGetSuppliers()
+  const { useClearSupplierState } = useGetSuppliers()
   const [openModal, setOpenModal] = useState(false)
   const [item, setItem] = useState()
   const handleClose = () => {
