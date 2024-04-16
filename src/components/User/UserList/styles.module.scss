@@ -1,16 +1,13 @@
-.box_main{
-    width: 100%;
+.box_table {
+  width: auto;
+  max-height: 80vh;
+
+  @media (max-width: 820px) {
+    width: 90%;
+    max-height: 80vh;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-
-    .box_table{
-        width: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-        margin-top: 25px;   
-    }
+  }
 }
