@@ -13,18 +13,16 @@ import { useForm } from 'react-hook-form'
 import useGetSuppliers from '../../../customHooks/reduxActions/supplierActions'
 import styles from './styles.module.scss'
 
-const SupplierForm = ({ item }) => {
-  const { useRegisterSupplier, useSupplierUpdate } = useGetSuppliers()
+const SupplierForm = ({ item, openModal }) => {
+  const { useRegisterSupplier, useSupplierUpdate } = useGetSuppliers(false)
   const navigate = useNavigate()
   const isValidToken = verifyTokenExpiration()
-  const { status, companyId, rolId, userId } = isValidToken
+  const { companyId } = isValidToken
   const dispatch = useDispatch()
-  const supplierResponse = useSelector(selectSupplierState)
   const {
     register,
     handleSubmit,
     setValue,
-    setError,
     formState: { errors },
   } = useForm({})
 

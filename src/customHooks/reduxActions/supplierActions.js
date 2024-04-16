@@ -9,13 +9,15 @@ import {
 import { verifyTokenExpiration } from '../../helpers/verifyToken'
 import { useNavigate } from 'react-router-dom'
 
-const useGetSuppliers = () => {
+const useGetSuppliers = (getSupplier) => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   useEffect(() => {
     const { status, companyId } = verifyTokenExpiration()
     if (status) {
-      dispatch(getSupplierByCompany(companyId))
+      if (getSupplier) {
+        dispatch(getSupplierByCompany(companyId))
+      }
     } else {
       navigate('/')
     }
