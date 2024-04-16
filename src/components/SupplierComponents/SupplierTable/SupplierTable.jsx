@@ -52,16 +52,14 @@ const SupplierTable = ({ rows, loading, setOpenModal, setItem }) => {
 
   return (
     <Box className={styles.box_table}>
-      {rows && rows.length > 0 && (
-        <Table
-          columns={columns}
-          rows={rows}
-          loading={loading}
-          rowHeigth={56}
-          columnHeaderHeight={56}
-          title={'Listado de Proveedores'}
-        />
-      )}
+      <Table
+        columns={columns}
+        rows={rows}
+        loading={loading}
+        rowHeigth={56}
+        columnHeaderHeight={56}
+        title={'Listado de Proveedores'}
+      />
     </Box>
   )
 }

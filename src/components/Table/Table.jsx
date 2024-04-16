@@ -20,31 +20,38 @@ const Table = ({
           {title}
         </Typography>
       </Box>
-
-      <Box className={styles.box_table}>
-        <DataGrid
-          sx={{
-            width: '100%',
-            backgroundColor: 'white',
-            '& .super-app-theme--header': {
-              backgroundColor: 'rgba(255, 7, 0, 0.55)',
-              whiteSpace: 'normal', // Esto permite que el texto se desplace hacia abajo si es necesario
-              lineHeight: 'normal', // Esto también puede ayudar con el desplazamiento del texto
-            },
-          }}
-          rows={rows}
-          columns={columns}
-          getRowId={(row) => row._id}
-          rowHeight={rowHeigth}
-          columnHeaderHeight={columnHeaderHeight}
-          initialState={{
-            pagination: {
-              paginationModel: { page: 0, pageSize: 5 },
-            },
-          }}
-          pageSizeOptions={[5, 10, 15]}
-        />
-      </Box>
+      {rows && rows.length > 0 ? (
+        <Box className={styles.box_table}>
+          <DataGrid
+            sx={{
+              width: '100%',
+              backgroundColor: 'white',
+              '& .super-app-theme--header': {
+                backgroundColor: 'rgba(255, 7, 0, 0.55)',
+                whiteSpace: 'normal', // Esto permite que el texto se desplace hacia abajo si es necesario
+                lineHeight: 'normal', // Esto también puede ayudar con el desplazamiento del texto
+              },
+            }}
+            rows={rows}
+            columns={columns}
+            getRowId={(row) => row._id}
+            rowHeight={rowHeigth}
+            columnHeaderHeight={columnHeaderHeight}
+            initialState={{
+              pagination: {
+                paginationModel: { page: 0, pageSize: 5 },
+              },
+            }}
+            pageSizeOptions={[5, 10, 15]}
+          />
+        </Box>
+      ) : (
+        <Box>
+          <Typography variant="h6" color="initial">
+            No se encontraron datos
+          </Typography>
+        </Box>
+      )}
     </Box>
   )
 }
