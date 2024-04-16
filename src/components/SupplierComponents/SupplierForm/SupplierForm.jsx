@@ -6,12 +6,13 @@ import { verifyTokenExpiration } from '../../../helpers/verifyToken'
 import {
   selectSupplierState,
   createSupplier,
+  updateSupplierById,
 } from '../../../features/supplier/supplierSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { useForm } from 'react-hook-form'
 import styles from './styles.module.scss'
 
-const SupplierForm = () => {
+const SupplierForm = ({ item }) => {
   const navigate = useNavigate()
   const isValidToken = verifyTokenExpiration()
   const { status, companyId, rolId, userId } = isValidToken
@@ -26,18 +27,25 @@ const SupplierForm = () => {
   } = useForm({})
 
   useEffect(() => {
-    if (!status) {
-      navigate('/')
+    if (item) {
+      setValue('nit', item.nit)
+      setValue('companyName', item.companyName)
+      setValue('commercialAdvisor', item.commercialAdvisor)
+      setValue('phone', item.phone)
+      setValue('address', item.address)
     }
-  }, [status])
+  }, [item])
 
   const onSubmit = (body) => {
     const isValidToken = verifyTokenExpiration()
     const { status } = isValidToken
     if (status) {
-      body.idCompany = companyId
-      console.log(body)
-      dispatch(createSupplier(body))
+      if (!item) {
+        body.idCompany = companyId
+        dispatch(createSupplier(body))
+      } else {
+        dispatch(updateSupplierById({ body, _id: item._id }))
+      }
     } else {
       sessionStorage.clear()
       localStorage.clear()
@@ -100,7 +108,7 @@ const SupplierForm = () => {
           />
 
           <Button type="submit" variant="contained">
-            Registrar
+            {item ? 'Actualizar' : 'Registrar'}
           </Button>
         </form>
       </Box>
