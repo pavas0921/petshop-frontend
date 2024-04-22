@@ -4,6 +4,7 @@ import {
   selectUserState,
   createUser,
   getUsersByCompany,
+  updateUserStatus,
 } from '../../features/user/userSlice'
 import { verifyTokenExpiration } from '../../helpers/verifyToken'
 import { useNavigate } from 'react-router-dom'
@@ -37,6 +38,17 @@ const userActions = () => {
     }
   }
 
+  const useUpdateUserStatus = ({ _id, currentStatus }) => {
+    const { status } = verifyTokenExpiration()
+    if (status) {
+      dispatch(updateUserStatus({ _id, currentStatus }))
+    } else {
+      sessionStorage.clear()
+      localStorage.clear()
+      navigate('/')
+    }
+  }
+
   //   const useSupplierUpdate = (body, _id) => {
   //     const { status } = verifyTokenExpiration()
   //     if (status) {
@@ -48,7 +60,7 @@ const userActions = () => {
   //     }
   //   }
 
-  return useUserRegister
+  return { useUserRegister, useUpdateUserStatus }
 }
 
 export default userActions

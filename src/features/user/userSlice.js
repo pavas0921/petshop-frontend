@@ -3,6 +3,7 @@ import {
   createUserAPI,
   getAllUsersAPI,
   getUsersByCompanyAPI,
+  updateUserStatusAPI,
 } from '../../services/user'
 
 const initialState = {
@@ -23,6 +24,14 @@ export const getAllUsers = createAsyncThunk('get/getAllUsers', async () => {
   const data = await getAllUsersAPI()
   return data
 })
+
+export const updateUserStatus = createAsyncThunk(
+  'patch/updateUserStatus',
+  async ({ _id, currentStatus }) => {
+    const data = await updateUserStatusAPI(_id, currentStatus)
+    return data
+  }
+)
 
 export const getUsersByCompany = createAsyncThunk(
   'get/getUsersByCompany',
@@ -78,6 +87,20 @@ export const userSlice = createSlice({
         state.users = action.payload.content
         state.httpStatus = action.payload.httpStatus
         state.status = action.payload.status
+      })
+      .addCase(updateUserStatus.pending, (state) => {
+        state.userLoading = true
+      })
+      .addCase(updateUserStatus.fulfilled, (state, action) => {
+        state.userLoading = false
+        state.httpStatus = action.payload.httpStatus
+        state.status = action.payload.status
+        const index = state.users.findIndex(
+          (item) => item._id === action.payload.updated._id
+        )
+        if (index !== -1) {
+          state.users[index].status = action.payload.updated.status
+        }
       })
   },
 })

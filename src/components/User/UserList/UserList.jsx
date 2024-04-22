@@ -3,13 +3,15 @@ import styles from './styles.module.scss'
 import { Table } from '../../Table'
 import { Box, Typography, IconButton } from '@mui/material'
 import VisibilityIcon from '@mui/icons-material/Visibility'
-import DeleteIcon from '@mui/icons-material/Delete'
+import ClearIcon from '@mui/icons-material/Clear'
 import { useDispatch, useSelector } from 'react-redux'
 import { getAllUsers, selectUserState } from '../../../features/user/userSlice'
+import CheckIcon from '@mui/icons-material/Check'
 import userActions from '../../../customHooks/reduxActions/userActions'
 import Loader from '../../LoaderComponent/Loader'
 
 const UserList = ({ rows, loading, setOpenModal, setItem }) => {
+  const { useUpdateUserStatus } = userActions()
   const dispatch = useDispatch()
 
   const columns = [
@@ -42,6 +44,14 @@ const UserList = ({ rows, loading, setOpenModal, setItem }) => {
       renderCell: (params) => <Box>{params.row.companyId.company}</Box>,
     },
     {
+      field: 'status',
+      headerName: 'Estado',
+      width: 100,
+      renderCell: (params) => (
+        <Box>{params.row.status ? 'Activo' : 'Inactivo'}</Box>
+      ),
+    },
+    {
       field: 'actions',
       headerName: 'Acciones',
       width: 100,
@@ -50,9 +60,15 @@ const UserList = ({ rows, loading, setOpenModal, setItem }) => {
           <IconButton onClick={(event) => handleClick(event, params.row)}>
             <VisibilityIcon />
           </IconButton>
-          <IconButton onClick={() => handleDeletePatient(params.row)}>
-            <DeleteIcon />
-          </IconButton>
+          {params.row.status ? (
+            <IconButton onClick={() => handleDisableUser(params.row)}>
+              <ClearIcon />
+            </IconButton>
+          ) : (
+            <IconButton onClick={() => handleDisableUser(params.row)}>
+              <CheckIcon />
+            </IconButton>
+          )}
         </Box>
       ),
     },
@@ -62,6 +78,11 @@ const UserList = ({ rows, loading, setOpenModal, setItem }) => {
     event.stopPropagation() // Evita que el clic llegue al contenedor padre
     setOpenModal(true)
     setItem(item)
+  }
+
+  const handleDisableUser = (item) => {
+    const { _id, status } = item
+    useUpdateUserStatus({ _id, currentStatus: status })
   }
 
   return (

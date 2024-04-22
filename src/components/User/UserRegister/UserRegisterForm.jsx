@@ -17,6 +17,7 @@ import { ComboBox } from '../../AutoCompleteComponent'
 import Autocomplete from '@mui/material/Autocomplete'
 import { Loader } from '../../LoaderComponent'
 import userActions from '../../../customHooks/reduxActions/userActions'
+import Select from 'react-select'
 
 const UserRegisterForm = ({ item }) => {
   const useUserRegister = userActions()
@@ -41,6 +42,7 @@ const UserRegisterForm = ({ item }) => {
   const [showPassError, setShowPassError] = useState(false)
 
   const onSubmit = (body) => {
+    body.status = true
     useUserRegister(body)
   }
 
@@ -54,7 +56,6 @@ const UserRegisterForm = ({ item }) => {
   }, [])
 
   useEffect(() => {
-    console.log(item)
     if (item) {
       setValue('name', item.name)
       setValue('lastname', item.lastname)
@@ -113,27 +114,52 @@ const UserRegisterForm = ({ item }) => {
             helperText={errors.password && errors.password.message}
           />
 
-          {roles && roles.length > 0 && (
-            <Autocomplete
-              {...register('rolId', { required: messages.req })}
-              size="small"
-              name="rolId"
-              options={roles}
-              className={styles.input}
-              getOptionLabel={(option) => option.name}
-              isOptionEqualToValue={(option, value) => option._id === value._id}
-              onChange={(event, value) => setValue('rolId', value._id)}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label="Rol"
-                  helperText={errors.rolId && errors.rolId.message}
-                />
-              )}
-            />
-          )}
+          <Select
+            {...register('rolId', { required: messages.req })}
+            className={styles.input}
+            classNamePrefix="select"
+            placeholder="Selecciona un Rol"
+            name="rolId"
+            isLoading={rolLoading}
+            defaultValue={
+              item ? { value: item.rolId._id, label: item.rolId.name } : null
+            }
+            onChange={(selectedOption) =>
+              setValue('rolId', selectedOption ? selectedOption.value : null)
+            }
+            options={roles.map((role) => ({
+              value: role._id,
+              label: role.name,
+            }))}
+          />
 
-          {companies && companies.length > 0 && (
+          {errors.rolId && <p>{errors.rolId.message}</p>}
+
+          <Select
+            {...register('companyId', { required: messages.req })}
+            className={styles.input}
+            classNamePrefix="select"
+            placeholder="Selecciona una Compañía"
+            name="companyId"
+            isLoading={companyLoading}
+            defaultValue={
+              item
+                ? { value: item.companyId._id, label: item.companyId.company }
+                : null
+            }
+            onChange={(selectedOption) =>
+              setValue(
+                'companyId',
+                selectedOption ? selectedOption.value : null
+              )
+            }
+            options={companies.map((company) => ({
+              value: company._id,
+              label: company.company,
+            }))}
+          />
+
+          {/* {companies && companies.length > 0 && (
             <Autocomplete
               {...register('companyId', { required: messages.req })}
               size="small"
@@ -151,7 +177,7 @@ const UserRegisterForm = ({ item }) => {
                 />
               )}
             />
-          )}
+          )} */}
 
           {showPassError && (
             <Form.Text className="text-muted">
