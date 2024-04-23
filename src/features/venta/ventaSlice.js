@@ -13,6 +13,7 @@ const initialState = {
   message: null,
   salesFlag: false,
   loading: false,
+  totalDailySales: null,
 }
 
 export const getAllVentasByCompany = createAsyncThunk(
@@ -42,6 +43,7 @@ export const createVenta = createAsyncThunk(
 export const getDailySalesCount = createAsyncThunk(
   'post/getDailySalesCount',
   async (body) => {
+    console.log(body)
     const data = await getDailySalesCountAPI(body)
     return data
   }
@@ -99,7 +101,7 @@ export const VentaSlice = createSlice({
           action.payload.status === 'success'
         ) {
           state.httpStatus = action.payload.httpStatus
-          state.ventas = action.payload.content
+          state.totalDailySales = action.payload.content
           state.status = action.payload.status
         }
       })
