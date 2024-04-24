@@ -1,5 +1,5 @@
-//const API_BASE_URL = 'https://muezzapets-backend.onrender.com'
-const API_BASE_URL = 'http://localhost:4000'
+const API_BASE_URL = 'https://muezzapets-backend.onrender.com'
+//const API_BASE_URL = 'http://localhost:4000'
 
 export const createUserAPI = async (body) => {
   try {
@@ -59,6 +59,23 @@ export const updateUserStatusAPI = async (_id, currentStatus) => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ status: !currentStatus }),
+    })
+    const data = await req.json()
+    return Promise.resolve(data)
+  } catch (error) {
+    return Promise.resolve(error)
+  }
+}
+
+export const updateUserByIdAPI = async ({ body, _id }) => {
+  try {
+    const url = `${API_BASE_URL}/user/${_id}`
+    const req = await fetch(url, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body),
     })
     const data = await req.json()
     return Promise.resolve(data)

@@ -4,6 +4,7 @@ import {
   getAllUsersAPI,
   getUsersByCompanyAPI,
   updateUserStatusAPI,
+  updateUserByIdAPI,
 } from '../../services/user'
 
 const initialState = {
@@ -29,6 +30,14 @@ export const updateUserStatus = createAsyncThunk(
   'patch/updateUserStatus',
   async ({ _id, currentStatus }) => {
     const data = await updateUserStatusAPI(_id, currentStatus)
+    return data
+  }
+)
+
+export const updateUserById = createAsyncThunk(
+  'put/updateUserById',
+  async (body, _id) => {
+    const data = await updateUserByIdAPI(body, _id)
     return data
   }
 )
@@ -100,6 +109,20 @@ export const userSlice = createSlice({
         )
         if (index !== -1) {
           state.users[index].status = action.payload.updated.status
+        }
+      })
+      .addCase(updateUserById.pending, (state) => {
+        state.userLoading = true
+      })
+      .addCase(updateUserById.fulfilled, (state, action) => {
+        state.userLoading = false
+        state.httpStatus = action.payload.httpStatus
+        state.status = action.payload.status
+        const index = state.users.findIndex(
+          (item) => item._id === action.payload.updated._id
+        )
+        if (index !== -1) {
+          state.users[index] = action.payload.updated
         }
       })
   },

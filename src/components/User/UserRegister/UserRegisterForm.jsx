@@ -20,7 +20,7 @@ import userActions from '../../../customHooks/reduxActions/userActions'
 import Select from 'react-select'
 
 const UserRegisterForm = ({ item }) => {
-  const useUserRegister = userActions()
+  const { useUserRegister, useUpdateUserById } = userActions()
   const {
     register,
     setValue,
@@ -42,8 +42,12 @@ const UserRegisterForm = ({ item }) => {
   const [showPassError, setShowPassError] = useState(false)
 
   const onSubmit = (body) => {
-    body.status = true
-    useUserRegister(body)
+    if (item) {
+      useUpdateUserById({ body, _id: item._id })
+    } else {
+      body.status = true
+      useUserRegister(body)
+    }
   }
 
   const messages = {
@@ -104,15 +108,17 @@ const UserRegisterForm = ({ item }) => {
             helperText={errors.id && errors.id.message}
           />
 
-          <TextField
-            {...register('password', { required: messages.req })}
-            size="small"
-            type="password"
-            name="password"
-            label="Contraseña"
-            className={styles.input}
-            helperText={errors.password && errors.password.message}
-          />
+          {!item && (
+            <TextField
+              {...register('password', { required: messages.req })}
+              size="small"
+              type="password"
+              name="password"
+              label="Contraseña"
+              className={styles.input}
+              helperText={errors.password && errors.password.message}
+            />
+          )}
 
           <Select
             {...register('rolId', { required: messages.req })}
