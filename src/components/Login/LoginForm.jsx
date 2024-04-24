@@ -1,22 +1,27 @@
-import React, { useEffect, useState } from "react";
-import { Box, Typography } from "@mui/material";
-import Button from "@mui/material/Button";
-import LockIcon from "@mui/icons-material/Lock";
-import MailIcon from "@mui/icons-material/Mail";
-import Input from "@mui/material/Input";
-import InputLabel from "@mui/material/InputLabel";
-import InputAdornment from "@mui/material/InputAdornment";
-import FormControl from "@mui/material/FormControl";
-import TextField from "@mui/material/TextField";
-import AccountCircle from "@mui/icons-material/AccountCircle";
-import Image from "../../assets/background.jpg";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { Login, selectLoginState } from "../../features/login/loginSlice";
-import { AlertMessage } from "../Alert";
-import { Loader } from "../Loader";
-import { useForm } from "react-hook-form";
-import styles from "./loginForm.module.scss";
+import React, { useEffect, useState } from 'react'
+import { Box, Typography } from '@mui/material'
+import Button from '@mui/material/Button'
+import LockIcon from '@mui/icons-material/Lock'
+import MailIcon from '@mui/icons-material/Mail'
+import Input from '@mui/material/Input'
+import InputLabel from '@mui/material/InputLabel'
+import InputAdornment from '@mui/material/InputAdornment'
+import FormControl from '@mui/material/FormControl'
+import TextField from '@mui/material/TextField'
+import AccountCircle from '@mui/icons-material/AccountCircle'
+import Image from '../../assets/background.jpg'
+import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import {
+  Login,
+  selectLoginState,
+  clearState,
+} from '../../features/login/loginSlice'
+import { AlertMessage } from '../Alert'
+import { Loader } from '../Loader'
+import { useForm } from 'react-hook-form'
+import styles from './loginForm.module.scss'
+import ToastAlert from '../Alerts/ToastAlert'
 
 //Todo: Implementar el formulario de login - https://github.com/pavas0921/favs-frontend/blob/main/src/components/LoginForm/LoginForm.jsx
 
@@ -25,31 +30,28 @@ const LoginForm = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const loginResponse = useSelector(selectLoginState);
-  const { token, loading } = loginResponse;
+  } = useForm()
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const loginResponse = useSelector(selectLoginState)
+  const { token, loading, message, httpStatus, status, flag } = loginResponse
 
   useEffect(() => {
-    console.log("token", token);
-    if (loginResponse && token && !loading) {
-      sessionStorage.setItem("token", token);
-      navigate("/dashboard");
+    if (httpStatus === 200 && status === 'success' && !flag && token) {
+      sessionStorage.setItem('token', token)
+      dispatch(clearState)
+      navigate('/dashboard')
     }
-  }, [loginResponse, token, loading]);
+  }, [httpStatus, status, token])
 
   const onSubmit = (credentials) => {
-    dispatch(Login(credentials));
-  };
-
-  const goToFavs = () => {
-    navigate("/new-sale");
-  };
+    dispatch(clearState())
+    dispatch(Login(credentials))
+  }
 
   const messages = {
-    req: "Este campo es obligatorio",
-  };
+    req: 'Este campo es obligatorio',
+  }
 
   return (
     <Box className={styles.box_main}>
@@ -68,7 +70,7 @@ const LoginForm = () => {
         <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
           <Box className={styles.box_inputs}>
             <TextField
-              {...register("id", { required: messages.req })}
+              {...register('id', { required: messages.req })}
               className={styles.inputs_fields}
               type="text"
               label="Cédula"
@@ -79,7 +81,7 @@ const LoginForm = () => {
           </Box>
           <Box className={styles.box_inputs}>
             <TextField
-             {...register("password", {required: messages.req})}
+              {...register('password', { required: messages.req })}
               className={styles.inputs_fields}
               type="password"
               label="Contraseña"
@@ -94,18 +96,18 @@ const LoginForm = () => {
             </Button>
           </Box>
           <Box className={styles.box_link}>
-            <Button style={{ fontSize: "18px" }}>¿Olvidó su contraseña?</Button>
+            <Button style={{ fontSize: '18px' }}>¿Olvidó su contraseña?</Button>
           </Box>
         </form>
 
         <Box className={styles.box_footer}></Box>
       </Box>
 
-      {loading && (
-        <Loader/>
-      )}
-    </Box>
-  );
-};
+      {loading && <Loader />}
 
-export default LoginForm;
+      {flag && <ToastAlert status={status} message={message} />}
+    </Box>
+  )
+}
+
+export default LoginForm

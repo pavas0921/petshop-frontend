@@ -14,7 +14,7 @@ import { verifyTokenExpiration } from '../../../helpers/verifyToken'
 
 const CardSales = () => {
   const dispatch = useDispatch()
-  const ventasResponse = useSelector(selectVentasState)
+  const { totalDailySales } = useSelector(selectVentasState)
 
   useEffect(() => {
     const isValidToken = verifyTokenExpiration()
@@ -27,8 +27,8 @@ const CardSales = () => {
   }, [dispatch])
 
   useEffect(() => {
-    console.log(ventasResponse.ventas)
-  }, [ventasResponse])
+    console.log(totalDailySales)
+  }, [totalDailySales])
 
   return (
     <Box>
@@ -46,9 +46,7 @@ const CardSales = () => {
             })}
           </Typography>
           <Typography sx={{ mb: 1.5 }} color="text.secondary">
-            {ventasResponse.ventas.length > 0
-              ? '$' + ventasResponse.ventas
-              : '$0'}
+            {totalDailySales > 0 ? '$' + totalDailySales : '$0'}
           </Typography>
         </CardContent>
         <CardActions>

@@ -1,100 +1,102 @@
-import React, {useEffect} from "react";
-import styles from "./styles.module.scss";
-import { Table } from "../../Table";
-import { Box, Typography, IconButton } from "@mui/material";
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import DeleteIcon from "@mui/icons-material/Delete";
-import { useDispatch, useSelector } from "react-redux";
-import { getAllUsers, selectUserState } from "../../../features/user/userSlice";
-import Loader from "../../LoaderComponent/Loader";
+import React, { useEffect } from 'react'
+import styles from './styles.module.scss'
+import { Table } from '../../Table'
+import { Box, Typography, IconButton } from '@mui/material'
+import VisibilityIcon from '@mui/icons-material/Visibility'
+import ClearIcon from '@mui/icons-material/Clear'
+import { useDispatch, useSelector } from 'react-redux'
+import { getAllUsers, selectUserState } from '../../../features/user/userSlice'
+import CheckIcon from '@mui/icons-material/Check'
+import userActions from '../../../customHooks/reduxActions/userActions'
+import Loader from '../../LoaderComponent/Loader'
 
-const UserList = () => {
-  const dispatch = useDispatch();
-  const userResponse = useSelector(selectUserState);
-  const { users, userLoading } = userResponse;
-
-  useEffect(() => {
-   dispatch(getAllUsers());
-  }, [])
-  
+const UserList = ({ rows, loading, setOpenModal, setItem }) => {
+  const { useUpdateUserStatus } = userActions()
+  const dispatch = useDispatch()
 
   const columns = [
     {
-      field: "id",
-      headerName: "# Identificación",
-      width: 120,
+      field: 'id',
+      headerName: '# Identificación',
+      width: 150,
       headerClassName: styles.boldHeader,
     },
     {
-      field: "fullName",
-      headerName: "Nombre Completo",
+      field: 'fullName',
+      headerName: 'Nombre Completo',
       width: 250,
       headerClassName: styles.boldHeader,
       renderCell: (params) => (
-        <Box >
-          {`${params.row.name} ${params.row.lastname}`}
-        </Box>
+        <Box>{`${params.row.name} ${params.row.lastname}`}</Box>
       ),
     },
     {
-      field: "rol",
-      headerName: "Rol",
-      width: 300,
-      renderCell: (params) => (
-        <Box>{params.row.rolId.name}</Box>
-      ),
+      field: 'rol',
+      headerName: 'Rol',
+      width: 150,
+      renderCell: (params) => <Box>{params.row.rolId.name}</Box>,
     },
 
     {
-      field: "company",
-      headerName: "Compañía",
+      field: 'company',
+      headerName: 'Compañía',
       width: 170,
+      renderCell: (params) => <Box>{params.row.companyId.company}</Box>,
+    },
+    {
+      field: 'status',
+      headerName: 'Estado',
+      width: 100,
       renderCell: (params) => (
-        <Box >
-          ${params.row.companyId.company}
-        </Box>
+        <Box>{params.row.status ? 'Activo' : 'Inactivo'}</Box>
       ),
     },
     {
-      field: "actions",
-      headerName: "Acciones",
-      width: 150,
+      field: 'actions',
+      headerName: 'Acciones',
+      width: 100,
       renderCell: (params) => (
         <Box>
-          <IconButton
-            onClick={() =>
-              handleViewPatient(`/pacient-profile/${params.row._id}`)
-            }
-          >
+          <IconButton onClick={(event) => handleClick(event, params.row)}>
             <VisibilityIcon />
           </IconButton>
-          <IconButton onClick={() => handleDeletePatient(params.row)}>
-            <DeleteIcon />
-          </IconButton>
+          {params.row.status ? (
+            <IconButton onClick={() => handleDisableUser(params.row)}>
+              <ClearIcon />
+            </IconButton>
+          ) : (
+            <IconButton onClick={() => handleDisableUser(params.row)}>
+              <CheckIcon />
+            </IconButton>
+          )}
         </Box>
       ),
     },
-  ];
+  ]
+
+  const handleClick = (event, item) => {
+    event.stopPropagation() // Evita que el clic llegue al contenedor padre
+    setOpenModal(true)
+    setItem(item)
+  }
+
+  const handleDisableUser = (item) => {
+    const { _id, status } = item
+    useUpdateUserStatus({ _id, currentStatus: status })
+  }
 
   return (
-    <Box className={styles.box_main}>
-      <Box>
-        <Typography variant="h5" color="initial">
-          Listado de Usuarios
-        </Typography>
-      </Box>
-      <Box className={styles.box_table}>
-        <Table
-          rows={users}
-          columns={columns}
-          columnHeaderHeight={56}
-        />
-      </Box>
-      {userLoading && (
-        <Loader/>
-      )}
+    <Box className={styles.box_table}>
+      <Table
+        rows={rows}
+        columns={columns}
+        loading={loading}
+        rowHeigth={56}
+        columnHeaderHeight={56}
+        title={'Listado de Usuarios'}
+      />
     </Box>
-  );
-};
+  )
+}
 
-export default UserList;
+export default UserList
