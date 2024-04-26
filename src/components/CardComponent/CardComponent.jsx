@@ -28,11 +28,6 @@ const CardComponent = (props) => {
     setProduct(item)
   }
 
-  useEffect(() => {
-    console.log(typeof products[0].stock)
-    console.log(products[0].stock)
-  }, [products])
-
   return (
     <Box className={styles.box_main}>
       {products.map((item, index) => (
