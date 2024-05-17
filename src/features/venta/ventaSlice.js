@@ -8,12 +8,13 @@ import {
 
 const initialState = {
   ventas: [],
-  httpStatus: null,
-  status: null,
-  message: null,
+  salesHttpStatus: null,
+  salesStatus: null,
+  salesMessage: null,
   salesFlag: false,
   loading: false,
   totalDailySales: null,
+  saleDetail: [],
 }
 
 export const getAllVentasByCompany = createAsyncThunk(
@@ -43,7 +44,6 @@ export const createVenta = createAsyncThunk(
 export const getDailySalesCount = createAsyncThunk(
   'post/getDailySalesCount',
   async (body) => {
-    console.log(body)
     const data = await getDailySalesCountAPI(body)
     return data
   }
@@ -52,7 +52,31 @@ export const getDailySalesCount = createAsyncThunk(
 export const VentaSlice = createSlice({
   name: 'venta',
   initialState,
-  reducers: {},
+  reducers: {
+    clearState: (state) => {
+      state.salesHttpStatus = null
+      state.salesStatus = null
+      state.salesMessage = null
+      state.salesFlag = false
+    },
+
+    addSelectedProduct: (state, action) => {
+      state.saleDetail.push(action.payload) // Agregar un nuevo producto seleccionado al array
+    },
+    updateProductQty: (state, action) => {
+      state.saleDetail[action.payload.index].qty = action.payload.qty
+    },
+    removeSelectedProduct: (state, action) => {
+      state.saleDetail = state.saleDetail.filter(
+        (product) => product.id !== action.payload.id
+      ) // Remover un producto seleccionado del array
+    },
+    setMessage: (state, action) => {
+      state.salesStatus = action.payload.error
+      state.salesMessage = action.payload.message
+      state.salesFlag = action.payload.flag
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getAllVentasByCompany.pending, (state) => {
@@ -85,10 +109,10 @@ export const VentaSlice = createSlice({
           action.payload.status === 'success'
         ) {
           state.ventas = action.payload.venta
-          ;(state.httpStatus = action.payload.httpStatus),
-            (state.message = action.payload.message),
-            (state.status = action.payload.status)
-          state.flag = true
+          state.httpStatus = action.payload.httpStatus
+          state.message = action.payload.message
+          state.status = action.payload.status
+          state.salesFlag = true
         }
       })
       .addCase(getDailySalesCount.pending, (state) => {
@@ -108,5 +132,7 @@ export const VentaSlice = createSlice({
   },
 })
 
+export const { clearState, addSelectedProduct, updateProductQty, setMessage } =
+  VentaSlice.actions
 export const selectVentasState = (state) => state.ventas
 export default VentaSlice.reducer

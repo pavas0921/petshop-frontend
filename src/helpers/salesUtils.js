@@ -1,20 +1,37 @@
+import { useDispatch, useSelector } from 'react-redux'
+import { selectProductState } from '../features/producto/productoSlice'
+import {
+  selectVentasState,
+  addSelectedProduct,
+  clearState,
+  setMessage,
+} from '../features/venta/ventaSlice'
+import productsActions from '../customHooks/reduxActions/productsActions'
+
 export const verifyStock = (qty, selectedProduct) => {
+  const dispatch = useDispatch()
+  const { products } = useSelector(selectProductState)
+  const { saleDetail } = useSelector(selectVentasState)
+
   if (qty > selectedProduct.stock) {
+    dispatch(
+      setMessage('La cantidad es mayor que el stock actual del producto')
+    )
     return {
       error: true,
       stock: false,
-      message: "La cantidad es mayor que el stock actual del producto",
-    };
+      message: 'La cantidad es mayor que el stock actual del producto',
+    }
   } else {
     return {
       error: false,
       stock: true,
-    };
+    }
   }
-};
+}
 
 export const calculateProductDetails = (qty, selectedProduct) => {
-  const totalPrice = +qty * +selectedProduct.salePrice;
+  const totalPrice = +qty * +selectedProduct.salePrice
   return {
     _id: selectedProduct._id,
     productName: selectedProduct.productName,
@@ -22,112 +39,110 @@ export const calculateProductDetails = (qty, selectedProduct) => {
     qty: +qty,
     unitPrice: +selectedProduct.salePrice,
     totalPrice: totalPrice,
-  };
-};
+  }
+}
 
 export const AddProductQty = (productDetails, products, row) => {
-  const updatedQty = row.qty + 1;
+  const updatedQty = row.qty + 1
   const indexProductDetails = productDetails.findIndex(
     (item) => item._id === row._id
-  );
-  const indexProducts = products.findIndex((item) => item._id === row._id);
-  const validateStock = verifyStock(updatedQty, products[indexProducts]);
-  const productDetailsCopy = [...productDetails];
+  )
+  const indexProducts = products.findIndex((item) => item._id === row._id)
+  const validateStock = verifyStock(updatedQty, products[indexProducts])
+  const productDetailsCopy = [...productDetails]
 
   if (!validateStock.error && validateStock.stock) {
     const updatedProductDetail = calculateProductDetails(
       updatedQty,
       products[indexProducts]
-    );
-    productDetailsCopy[indexProductDetails] = updatedProductDetail;
+    )
+    productDetailsCopy[indexProductDetails] = updatedProductDetail
     return {
       updatedProduct: productDetailsCopy,
       stock: true,
       error: false,
       message: null,
-    };
+    }
   } else {
     return {
       updatedProduct: productDetails,
       stock: false,
       error: true,
-      message: "La cantidad es mayor que el stock del producto",
-    };
+      message: 'La cantidad es mayor que el stock del producto',
+    }
   }
-};
+}
 
 export const reduceProductQty = (productDetails, products, row) => {
-  const updatedQty = row.qty - 1;
-  const productDetailsCopy = [...productDetails];
+  const updatedQty = row.qty - 1
+  const productDetailsCopy = [...productDetails]
   if (updatedQty <= 0) {
-    const updatedQty = deleteProduct(productDetailsCopy, row);
+    const updatedQty = deleteProduct(productDetailsCopy, row)
     return {
       updatedProduct: updatedQty,
       stock: true,
       error: false,
-      message: "El producto fue eliminado del carrito de compras!",
-    };
+      message: 'El producto fue eliminado del carrito de compras!',
+    }
   } else {
     const indexProductDetails = productDetails.findIndex(
       (item) => item._id === row._id
-    );
-    const indexProducts = products.findIndex((item) => item._id === row._id);
-    const validateStock = verifyStock(updatedQty, products[indexProducts]);
+    )
+    const indexProducts = products.findIndex((item) => item._id === row._id)
+    const validateStock = verifyStock(updatedQty, products[indexProducts])
     if (!validateStock.error && validateStock.stock) {
       const updatedProductDetail = calculateProductDetails(
         updatedQty,
         products[indexProducts]
-      );
-      productDetailsCopy[indexProductDetails] = updatedProductDetail;
+      )
+      productDetailsCopy[indexProductDetails] = updatedProductDetail
       return {
         updatedProduct: productDetailsCopy,
         stock: true,
         error: false,
         message: null,
-      };
+      }
     }
   }
-};
+}
 
 export const deleteProduct = (productDetails, row) => {
   const indexProductDetails = productDetails.findIndex(
     (item) => item._id === row._id
-  );
-  productDetails.splice(indexProductDetails, 1);
-  return productDetails;
-};
+  )
+  productDetails.splice(indexProductDetails, 1)
+  return productDetails
+}
 
-export const validateProductExists = (productDetails, selectedProduct, qty) =>{
-  const index = productDetails.findIndex((item) => item._id === selectedProduct._id)
-  const product = productDetails[index];
-  if(index !== -1){
-    const newQty = (+product.qty) + (+qty )
+export const validateProductExists = (productDetails, selectedProduct, qty) => {
+  const index = productDetails.findIndex(
+    (item) => item._id === selectedProduct._id
+  )
+  const product = productDetails[index]
+  if (index !== -1) {
+    const newQty = +product.qty + +qty
     const stockAvailable = verifyStock(newQty, selectedProduct)
-    if(!stockAvailable.error && stockAvailable.stock){
-      const newProductDetails = [...productDetails];
+    if (!stockAvailable.error && stockAvailable.stock) {
+      const newProductDetails = [...productDetails]
       newProductDetails[index] = {
         ...newProductDetails[index],
         qty: newQty,
-        totalPrice: (+newQty) *( productDetails[index].unitPrice)
-      };
-      return {
-        exist: true, 
-        stock: true,
-        productDetails: newProductDetails
+        totalPrice: +newQty * productDetails[index].unitPrice,
       }
-    }else{
-      return{
+      return {
+        exist: true,
+        stock: true,
+        productDetails: newProductDetails,
+      }
+    } else {
+      return {
         stock: false,
-        productDetails: productDetails
+        productDetails: productDetails,
       }
     }
-  }else{
-    return{
-      exist: false
+  } else {
+    return {
+      exist: false,
     }
   }
-  
-
 }
-
-
