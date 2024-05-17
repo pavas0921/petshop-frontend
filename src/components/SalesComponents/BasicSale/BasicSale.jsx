@@ -36,6 +36,7 @@ import {
   createVenta,
   clearState,
   addSelectedProduct,
+  setMessage,
 } from '../../../features/venta/ventaSlice'
 import ToastAlert from '../../Alerts/'
 import { SaleForm } from './SaleForm'
@@ -207,11 +208,16 @@ const BasicSale = () => {
   const handleClick = () => {
     //Valida que se haya seleccionado un producto y cantidad
     if (!qty || !selectedProduct) {
-      const error = {
-        error: true,
-        message: 'Debe seleccionar un producto y cantidad',
-      }
-      setErrorStatus(error)
+      dispatch(
+        setMessage({
+          error: 'error',
+          message: 'Debe seleccionar un producto y cantidad',
+          flag: true,
+        })
+      )
+      const timeoutId = setTimeout(() => {
+        dispatch(clearState())
+      }, 3000)
     } else {
       //Valida si existe algún producto en la canasta
       if (saleDetail.length > 0) {
