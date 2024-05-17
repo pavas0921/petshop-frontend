@@ -1,5 +1,6 @@
 .box_main {
   width: 100%;
+  height: auto;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -12,7 +13,6 @@
 
   .box_table {
     width: 100%;
-    height: auto;
     display: flex;
     justify-content: center;
     align-items: center;

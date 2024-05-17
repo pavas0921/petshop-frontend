@@ -84,41 +84,19 @@ const BasicSale = () => {
 
   const columns = [
     {
-      field: 'productImage',
-      headerName: 'Imagen',
-      width: 120,
-      align: 'center',
-      headerAlign: 'center',
-      renderCell: (params) => (
-        <Box>
-          <img
-            style={{ width: '115px', height: '115px', padding: '15px' }}
-            src={params.row.productImage}
-            alt=""
-          />
-        </Box>
-      ),
-    },
-    {
       field: 'productName',
       headerName: 'Producto',
-      width: 230,
-      align: 'center',
-      headerAlign: 'center',
+      width: 300,
     },
     {
       field: 'unitPrice',
       headerName: 'Precio Unitario',
       width: 130,
-      align: 'center',
-      headerAlign: 'center',
     },
     {
       field: 'qty',
       headerName: 'Cantidad',
       width: 180,
-      align: 'center',
-      headerAlign: 'center',
       renderCell: (params) => (
         <Box>
           <IconButton onClick={() => handleAdd(params.row)}>
@@ -136,8 +114,6 @@ const BasicSale = () => {
       headerName: 'Precio Total',
       type: 'number',
       width: 90,
-      align: 'center',
-      headerAlign: 'center',
     },
   ]
 
@@ -232,46 +208,37 @@ const BasicSale = () => {
 
   return (
     <Box className={styles.box_main}>
-      <Box className={styles.box_container}>
-        <Box className={styles.box_table}>
-          {saleDetail.length === 0 ? (
-            <Box className={styles.table_title}>
-              <Typography variant="h6" color="initial">
-                <p>Aún no has agregado productos a esta venta</p>
-              </Typography>
-            </Box>
-          ) : (
-            <>
-              <Box className={styles.table_title}>
-                <Typography variant="h4" color="initial">
-                  Detalle de la Venta
-                </Typography>
-              </Box>
-              <Table
-                columns={columns}
-                rows={saleDetail}
-                rowHeigth={100}
-                columnHeaderHeight={56}
-                setSelectedProduct={setSelectedProduct}
-                selectedProduct={selectedProduct}
-                qty={qty}
-                setQty={setQty}
-              />
-
-              <Typography variant="h6" color="initial" sx={{ marginTop: 2 }}>
-                <p>Total Venta: ${totalSaleValue}</p>
-              </Typography>
-            </>
-          )}
-        </Box>
-
-        <Box className={styles.box_form}>
-          <Box className={styles.box_title}>
-            <Typography variant="h4" component="h2">
-              Formulario de Venta
+      <Box className={styles.box_table}>
+        {saleDetail.length === 0 ? (
+          <Box className={styles.table_title}>
+            <Typography variant="h6" color="initial">
+              <p>Aún no has agregado productos a esta venta</p>
             </Typography>
           </Box>
-
+        ) : (
+          <Box className={styles.box_details}>
+            <Table
+              title={'Detalle de la Venta'}
+              columns={columns}
+              rows={saleDetail}
+              rowHeigth={56}
+              columnHeaderHeight={56}
+              qty={qty}
+              setQty={setQty}
+            />
+            <Typography variant="h6" color="initial" sx={{ marginTop: 2 }}>
+              <p>Total Venta: ${totalSaleValue}</p>
+            </Typography>
+          </Box>
+        )}
+      </Box>
+      <Box className={styles.box_form}>
+        <Box className={styles.box_title}>
+          <Typography variant="h4" component="h2">
+            Formulario de Venta
+          </Typography>
+        </Box>
+        <Box className={styles.box_form}>
           <SaleForm
             saleTypes={saleTypes}
             paymentMethods={paymentMethods}
@@ -290,7 +257,6 @@ const BasicSale = () => {
           />
         </Box>
       </Box>
-
       <Box className={styles.box_saleHeader}></Box>
       {(productsLoading || loading) && <Loader />}
 

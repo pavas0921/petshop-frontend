@@ -11,6 +11,7 @@ const Table = ({
   rowHeigth,
   columnHeaderHeight,
   title,
+  rowsPerPage,
 }) => {
   return (
     <Box className={styles.box_main}>
@@ -42,6 +43,7 @@ const Table = ({
                 paginationModel: { page: 0, pageSize: 5 },
               },
             }}
+            
             pageSizeOptions={[5, 10, 15]}
           />
         </Box>
