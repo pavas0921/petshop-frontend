@@ -51,7 +51,8 @@ const BasicSale = () => {
   const [productDetails, setProductDetails] = useState([])
   const tokenData = verifyTokenExpiration()
   const { status, companyId, rolId, userId } = tokenData
-  const { verifyStock, validateProductExists } = productsActions()
+  const { verifyStock, validateProductExists, reduceProductQty } =
+    productsActions()
 
   const paymentMethods = [
     { label: 'Efectivo', code: 'Efectivo' },
@@ -99,11 +100,11 @@ const BasicSale = () => {
       width: 180,
       renderCell: (params) => (
         <Box>
-          <IconButton onClick={() => handleAdd(params.row)}>
+          <IconButton onClick={() => validateProductExists(params.row, +1)}>
             <AddIcon />
           </IconButton>
           {`${params.row.qty}`}
-          <IconButton onClick={() => handleReduce(params.row)}>
+          <IconButton onClick={() => validateProductExists(params.row, -1)}>
             <RemoveIcon />
           </IconButton>
         </Box>
@@ -156,29 +157,12 @@ const BasicSale = () => {
     setSelectedProduct(null)
   }
 
-  const handleAdd = (row) => {
-    const updatedProductDetail = AddProductQty(productDetails, products, row)
-    //const index = productDetails.findIndex((item) => item._id === row._id);
-    if (updatedProductDetail.error && !updatedProductDetail.stock) {
-      setErrorStatus({
-        error: updatedProductDetail.error,
-        message: updatedProductDetail.message,
-      })
-    }
-    setProductDetails(updatedProductDetail.updatedProduct)
-    dispatch(addSelectedProduct(updatedProductDetail.updatedProduct))
-  }
+  // const handleAdd = (row) => {
+  //   validateProductExists(row, +1)
+  // }
 
   const handleReduce = (row) => {
-    const updatedProductDetail = reduceProductQty(productDetails, products, row)
-    if (updatedProductDetail.error && !updatedProductDetail.stock) {
-      setErrorStatus({
-        error: updatedProductDetail.error,
-        message: updatedProductDetail.message,
-      })
-    }
-
-    setProductDetails(updatedProductDetail.updatedProduct)
+    validateProductExists(row, -1)
   }
 
   const handleClick = () => {
