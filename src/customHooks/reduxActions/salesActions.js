@@ -1,8 +1,15 @@
 import { useDispatch } from 'react-redux'
-import { getVentasByDateRange } from '../../features/venta/ventaSlice'
+import {
+  getVentasByDateRange,
+  createVenta,
+  clearState,
+} from '../../features/venta/ventaSlice'
+import { verifyTokenExpiration } from '../../helpers/verifyToken'
+import { useNavigate } from 'react-router-dom'
 
 const useSalesActions = () => {
   const dispatch = useDispatch()
+
   const searchByDate = (startDate, endDate, idCompany) => {
     dispatch(
       getVentasByDateRange({
@@ -13,7 +20,20 @@ const useSalesActions = () => {
     )
   }
 
-  return { searchByDate }
+  const registerSale = (body) => {
+    console.log('rs', body)
+    const { status } = verifyTokenExpiration()
+    if (status) {
+      dispatch(clearState())
+      dispatch(createVenta(body))
+    } else {
+      sessionStorage.clear()
+      localStorage.clear()
+      navigate('/')
+    }
+  }
+
+  return { searchByDate, registerSale }
 }
 
 export default useSalesActions

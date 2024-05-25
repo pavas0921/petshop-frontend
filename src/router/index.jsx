@@ -17,6 +17,7 @@ import CompanyDashboard from '../pages/CompaniesPages/CompanyDashboard'
 import { SpeciesDashboard } from '../pages/Species/SpeciesDashboard'
 import { SalesList } from '../pages/SalesPages/SalesDashboard'
 import { SupplierDashboard } from '../pages/SupplierPages/SupplierDashboard'
+
 const router = createBrowserRouter([
   {
     path: '/login',
