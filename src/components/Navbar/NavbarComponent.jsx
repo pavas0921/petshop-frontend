@@ -103,6 +103,18 @@ const NavbarComponent = () => {
             >
               <Button
                 color="inherit"
+                onClick={() => navigate('/dashboard')}
+                sx={{
+                  fontWeight: 'bold',
+                  textTransform: 'capitalize',
+                  fontSize: '1rem',
+                }}
+              >
+                Inicio
+              </Button>
+
+              <Button
+                color="inherit"
                 onClick={handleClickPruebas}
                 sx={{
                   fontWeight: 'bold',
@@ -212,7 +224,7 @@ const NavbarComponent = () => {
             <>
               <Button
                 color="inherit"
-                onClick={handleClickPruebas}
+                onClick={() => navigate('/dashboard')}
                 sx={{
                   fontWeight: 'bold',
                   textTransform: 'capitalize',
