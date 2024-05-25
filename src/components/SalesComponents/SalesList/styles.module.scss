@@ -1,31 +1,30 @@
 .box_main {
   width: 100%;
-  min-height: 88vh;
+  height: 100vh;
   display: flex;
+  justify-content: flex-start;
   align-items: center;
   flex-direction: column;
 
-  @media (max-width: 768px) {
+  @media (max-width: 820px) {
     width: 100%;
     min-height: 100vh;
     display: flex;
-    align-items: center;
     justify-content: flex-start;
+    align-items: center;
     flex-direction: column;
   }
 
   .box_table {
     width: 100%;
-    min-height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
 
-    @media (max-width: 768px) {
-      width: 100%;
-      min-height: 100vh;
+    @media (max-width: 820px) {
+      width: 90%;
       display: flex;
-      justify-content: flex-start;
+      justify-content: center;
       align-items: center;
       flex-direction: column;
     }
