@@ -1,0 +1,41 @@
+@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;700&display=swap');
+.box_main {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+
+  .card {
+    width: 30%;
+    margin-top: 20px;
+    margin-left: 20px;
+
+    .main_title {
+      width: 100%;
+      display: flex;
+      justify-content: flex-start;
+      color: #666666;
+      margin-bottom: 10px;
+      font-family: 'Baloo 2', cursive;
+    }
+
+    .date_title {
+      width: 100%;
+      display: flex;
+      justify-content: flex-start;
+      color: black;
+      font-family: 'Baloo 2', cursive;
+    }
+
+    .sales_title {
+      width: 100%;
+      display: flex;
+      justify-content: flex-start;
+      font-family: 'Baloo 2', cursive;
+    }
+    .button {
+      font-family: 'Baloo 2', cursive;
+      font-size: 18px;
+    }
+  }
+}
