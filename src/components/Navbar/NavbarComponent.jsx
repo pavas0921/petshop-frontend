@@ -157,6 +157,9 @@ const NavbarComponent = () => {
                 <MenuItem onClick={() => navigate('/basic-sale')}>
                   Venta Básica
                 </MenuItem>
+                <MenuItem onClick={() => navigate('/sales')}>
+                  Listado de Ventas
+                </MenuItem>
               </Menu>
 
               <Button
