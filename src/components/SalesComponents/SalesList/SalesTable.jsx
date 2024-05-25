@@ -11,10 +11,10 @@ const SalesTable = () => {
   const { httpStatus, ventas, loading } = ventasResponse
 
   const columns = [
-    { field: 'date', headerName: 'Fecha', width: 300 },
-    { field: 'payMethod', headerName: 'Metodo de pago', width: 300 },
-    { field: 'saleType', headerName: 'Estado del pago', width: 300 },
-    { field: 'totalVenta', headerName: 'Total Venta', width: 300 },
+    { field: 'date', headerName: 'Fecha', width: 110 },
+    { field: 'payMethod', headerName: 'Metodo de pago', width: 110 },
+    { field: 'saleType', headerName: 'Estado del pago', width: 110 },
+    { field: 'totalVenta', headerName: 'Total Venta', width: 110 },
 
     // {
     //   field: "actions",
