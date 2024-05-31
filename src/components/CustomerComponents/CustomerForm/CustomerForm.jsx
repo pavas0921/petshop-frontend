@@ -49,7 +49,7 @@ const CustomerForm = ({ item }) => {
   return (
     <Box className={styles.box_main}>
       <Box>
-        <Typography variant="h5" color="initial" sx={{ fontFamily: 'Atma' }}>
+        <Typography variant="h5" color="initial" sx={{ fontFamily: 'Baloo 2' }}>
           Registro de Clientes
         </Typography>
       </Box>

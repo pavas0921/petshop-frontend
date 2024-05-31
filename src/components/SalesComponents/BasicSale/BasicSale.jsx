@@ -1,14 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import {
-  Box,
-  Typography,
-  TextField,
-  IconButton,
-  FormControl,
-  Autocomplete,
-} from '@mui/material'
-import { Button } from '@mui/material'
-import { useForm, FormProvider } from 'react-hook-form'
+import { Box, Typography, IconButton } from '@mui/material'
+import { useMediaQuery, useTheme } from '@mui/material'
 import { Table } from '../../Table'
 import AddIcon from '@mui/icons-material/Add'
 import RemoveIcon from '@mui/icons-material/Remove'
@@ -23,19 +15,10 @@ import {
   getCustomersByCompany,
 } from '../../../features/customer/customerSlice'
 import Loader from '../../LoaderComponent/Loader'
-import { CardForm } from '../../CardForm'
 import { verifyTokenExpiration } from '../../../helpers/verifyToken'
 import {
-  // verifyStock,
-  calculateProductDetails,
-  AddProductQty,
-  reduceProductQty,
-} from '../../../helpers/salesUtils'
-import {
   selectVentasState,
-  createVenta,
   clearState,
-  addSelectedProduct,
   setMessage,
 } from '../../../features/venta/ventaSlice'
 import ToastAlert from '../../Alerts/'
@@ -46,11 +29,12 @@ const BasicSale = () => {
   const [selectedProduct, setSelectedProduct] = useState(null)
   const [totalSaleValue, setTotalSaleValue] = useState(0)
   const [qty, setQty] = useState(0)
-  const [statusButton, setStatusButton] = useState(true)
-  const [errorStatus, setErrorStatus] = useState()
   const [productDetails, setProductDetails] = useState([])
   const tokenData = verifyTokenExpiration()
-  const { status, companyId, rolId, userId } = tokenData
+  const { companyId } = tokenData
+  const theme = useTheme()
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm')) // Ajusta 'sm' según el punto de quiebre que necesites
+
   const { verifyStock, validateProductExists, reduceProductQty } =
     productsActions()
 
@@ -76,7 +60,7 @@ const BasicSale = () => {
   const ventaResponse = useSelector(selectVentasState)
   const {
     salesMessage,
-    httpStatus,
+    salesHttpStatus,
     loading,
     salesFlag,
     saleDetail,
@@ -87,17 +71,17 @@ const BasicSale = () => {
     {
       field: 'productName',
       headerName: 'Producto',
-      width: 300,
+      width: isMobile ? 150 : 220, // Ajuste dinámico
     },
     {
       field: 'unitPrice',
       headerName: 'Precio Unitario',
-      width: 130,
+      width: isMobile ? 100 : 150,
     },
     {
       field: 'qty',
       headerName: 'Cantidad',
-      width: 180,
+      width: isMobile ? 100 : 100,
       renderCell: (params) => (
         <Box>
           <IconButton onClick={() => validateProductExists(params.row, +1)}>
@@ -114,7 +98,7 @@ const BasicSale = () => {
       field: 'totalPrice',
       headerName: 'Precio Total',
       type: 'number',
-      width: 90,
+      width: isMobile ? 100 : 150,
     },
   ]
 
@@ -125,41 +109,11 @@ const BasicSale = () => {
 
   useEffect(() => {
     setTotalSaleValue(
-      productDetails.reduce((counter, item) => {
+      saleDetail.reduce((counter, item) => {
         return counter + item.totalPrice
       }, 0)
     )
-  }, [productDetails])
-
-  const onSubmit = (body) => {
-    body.detalleVenta = productDetails
-    body.totalVenta = totalSaleValue
-    body.companyId = companyId
-    dispatch(createVenta(body)).then(() => {
-      // Llamar a resetForm después de que la venta sea exitosa
-      resetForm()
-    })
-  }
-
-  const resetForm = () => {
-    reset({
-      idCliente: '',
-      date: null,
-      detalleVenta: null,
-      payMethod: '',
-      saleType: '',
-      totalVenta: 0,
-    })
-    setProductDetails([])
-    setTotalSaleValue(0)
-    setErrorStatus(null)
-    setQty(0)
-    setSelectedProduct(null)
-  }
-
-  // const handleAdd = (row) => {
-  //   validateProductExists(row, +1)
-  // }
+  }, [saleDetail])
 
   const handleReduce = (row) => {
     validateProductExists(row, -1)
@@ -210,18 +164,20 @@ const BasicSale = () => {
               qty={qty}
               setQty={setQty}
             />
-            <Typography variant="h6" color="initial" sx={{ marginTop: 2 }}>
-              <p>Total Venta: ${totalSaleValue}</p>
-            </Typography>
+            <Box className={styles.totalSale}>
+              <Typography
+                className={styles.typography}
+                variant="h6"
+                color="initial"
+                sx={{ marginTop: 2 }}
+              >
+                <p>Total Venta: ${totalSaleValue}</p>
+              </Typography>
+            </Box>
           </Box>
         )}
       </Box>
       <Box className={styles.box_form}>
-        <Box className={styles.box_title}>
-          <Typography variant="h4" component="h2">
-            Formulario de Venta
-          </Typography>
-        </Box>
         <Box className={styles.box_form}>
           <SaleForm
             saleTypes={saleTypes}
@@ -238,6 +194,7 @@ const BasicSale = () => {
             totalSaleValue={totalSaleValue}
             companyId={companyId}
             salesFlag={salesFlag}
+            setTotalSaleValue={setTotalSaleValue}
           />
         </Box>
       </Box>

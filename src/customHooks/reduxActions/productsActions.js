@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import React, { useState } from 'react'
 import { selectProductState } from '../../features/producto/productoSlice'
 import {
   selectVentasState,
@@ -7,16 +7,18 @@ import {
   addSelectedProduct,
   updateProductQty,
   removeSelectedProduct,
+  createVenta,
+  clearSaleDetail,
 } from '../../features/venta/ventaSlice'
 import { useDispatch, useSelector } from 'react-redux'
-import { validateProductExists } from '../../helpers/salesUtils'
+import { verifyTokenExpiration } from '../../helpers/verifyToken'
 
 const productsActions = () => {
   const dispatch = useDispatch()
   const { products } = useSelector(selectProductState)
   const { saleDetail } = useSelector(selectVentasState)
-  const [isUpdate, setIsUpdate] = useState(false)
-  const isUpdateRef = useRef(isUpdate)
+  const tokenData = verifyTokenExpiration()
+  const { status, companyId, rolId, userId } = tokenData
 
   const verifyStock = (qty, selectedProduct, index) => {
     const productIndex = searchedProduct(selectedProduct, products)
@@ -54,23 +56,35 @@ const productsActions = () => {
   }
 
   const validateProductExists = (selectedProduct, qty) => {
-    console.log('pr', selectedProduct)
     const index = searchedProduct(selectedProduct, saleDetail)
-    const product = saleDetail[index]
-    const computedProduct = {
-      _id: product._id,
-      productName: product.productName,
-      image: product.image,
-      qty: +qty,
-      salePrice: +product.unitPrice,
-      totalPrice: +product.totalPrice,
-    }
-    const newQty = +product.qty + +qty
-    if (selectedProduct.qty === 1) {
-      dispatch(removeSelectedProduct(computedProduct))
+    if (index >= 0) {
+      const product = saleDetail[index]
+      const computedProduct = {
+        _id: product._id,
+        productName: product.productName,
+        image: product.image,
+        qty: +qty,
+        salePrice: +product.unitPrice,
+        totalPrice: +product.totalPrice,
+      }
+      const newQty = +product.qty + +qty
+      if (selectedProduct.qty === 1 && qty === -1) {
+        dispatch(removeSelectedProduct(computedProduct))
+      } else {
+        verifyStock(newQty, computedProduct, index)
+      }
     } else {
-      verifyStock(newQty, computedProduct, index)
+      verifyStock(qty, selectedProduct, index)
     }
+  }
+
+  const registerSale = (body, totalSaleValue) => {
+    body.detalleVenta = saleDetail
+    body.totalVenta = +totalSaleValue
+    body.companyId = companyId
+    dispatch(createVenta(body)).then(() => {
+      dispatch(clearSaleDetail())
+    })
   }
 
   const searchedProduct = (productToFind, productList) => {
@@ -80,7 +94,7 @@ const productsActions = () => {
     return index
   }
 
-  return { verifyStock, validateProductExists }
+  return { verifyStock, validateProductExists, registerSale }
 }
 
 export default productsActions
