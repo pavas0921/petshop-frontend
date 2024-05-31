@@ -1,11 +1,26 @@
+@import url('https://fonts.googleapis.com/css2?family=Baloo+2&display=swap');
+
 .box_main {
   width: 100%;
   height: auto;
   display: flex;
   justify-content: center;
+  flex-direction: column;
 
   @media (max-width: 820px) {
+    width: 100%;
     height: auto;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+  }
+
+  .box_title {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+    margin-bottom: -12px;
   }
 
   .box_form {
@@ -22,16 +37,65 @@
       width: 100%;
       height: auto;
       display: flex;
-      flex-direction: column;
+      flex-direction: row;
+      flex-wrap: wrap;
     }
 
     .textField {
       width: 85%;
+      & input {
+        font-family: 'Baloo 2', sans-serif;
+      }
+      & label {
+        font-family: 'Baloo 2', sans-serif;
+      }
 
       .select {
         width: 100%;
         margin-bottom: 20px;
+
+        @media (max-width: 820px) {
+          width: 94%;
+        }
+      }
+      @media (max-width: 820px) {
+        width: 50%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-direction: column;
       }
     }
   }
+}
+
+.balooFont {
+  font-family: 'Baloo 2', sans-serif;
+}
+
+.box_buttons {
+  width: 60%;
+  display: flex;
+  justify-content: space-around;
+  font-family: 'Baloo 2', sans-serif;
+  margin-top: -25px;
+
+  @media (max-width: 820px) {
+    margin-top: -25px;
+    padding-bottom: 25px;
+  }
+}
+
+.btn {
+  & p {
+    font-size: 100px;
+  }
+  font-family: 'Baloo 2', sans-serif;
+}
+
+.form {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;700&display=swap');
 .box_main {
   width: 100%;
   height: auto;
@@ -9,6 +10,7 @@
   .box_title {
     margin-top: 30px;
     margin-bottom: 20px;
+    font-family: 'Baloo 2', cursive;
   }
 
   .box_table {
@@ -19,6 +21,5 @@
     border-radius: 10px;
     box-shadow: 2px 2px 5px 0px rgba(50, 115, 220, 0.5);
     margin-bottom: 30px;
-    background-color: white;
   }
 }

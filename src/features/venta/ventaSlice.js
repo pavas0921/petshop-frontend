@@ -59,17 +59,28 @@ export const VentaSlice = createSlice({
       state.salesMessage = null
       state.salesFlag = false
     },
+    clearSaleDetail: (state) => {
+      state.saleDetail = []
+    },
 
     addSelectedProduct: (state, action) => {
       state.saleDetail.push(action.payload) // Agregar un nuevo producto seleccionado al array
     },
     updateProductQty: (state, action) => {
-      state.saleDetail[action.payload.index].qty = action.payload.qty
+      const index = state.saleDetail.findIndex(
+        (item) => item._id === action.payload._id
+      )
+      if (index >= 0) {
+        state.saleDetail[index] = action.payload
+      }
     },
     removeSelectedProduct: (state, action) => {
-      state.saleDetail = state.saleDetail.filter(
-        (product) => product.id !== action.payload.id
-      ) // Remover un producto seleccionado del array
+      const index = state.saleDetail.findIndex(
+        (item) => item._id === action.payload._id
+      )
+      if (index >= 0) {
+        state.saleDetail.splice(index, 1)
+      }
     },
     setMessage: (state, action) => {
       state.salesStatus = action.payload.error
@@ -109,10 +120,11 @@ export const VentaSlice = createSlice({
           action.payload.status === 'success'
         ) {
           state.ventas = action.payload.venta
-          state.httpStatus = action.payload.httpStatus
-          state.message = action.payload.message
-          state.status = action.payload.status
+          state.salesHttpStatus = action.payload.httpStatus
+          state.salesMessage = action.payload.message
+          state.salesStatus = action.payload.status
           state.salesFlag = true
+          console.log('hola', action.payload)
         }
       })
       .addCase(getDailySalesCount.pending, (state) => {
@@ -132,7 +144,13 @@ export const VentaSlice = createSlice({
   },
 })
 
-export const { clearState, addSelectedProduct, updateProductQty, setMessage } =
-  VentaSlice.actions
+export const {
+  clearState,
+  addSelectedProduct,
+  updateProductQty,
+  setMessage,
+  removeSelectedProduct,
+  clearSaleDetail,
+} = VentaSlice.actions
 export const selectVentasState = (state) => state.ventas
 export default VentaSlice.reducer

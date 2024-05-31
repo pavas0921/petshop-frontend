@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { Button, FormControl, Autocomplete, TextField } from '@mui/material'
-import { useForm } from 'react-hook-form'
+import { Controller, useForm } from 'react-hook-form'
 import styles from './styles.module.scss'
-import { Box } from '@mui/material'
-import useSalesActions from '../../../../customHooks/reduxActions/salesActions'
+import { Box, Typography } from '@mui/material'
+import productsActions from '../../../../customHooks/reduxActions/productsActions'
+import { useSelector } from 'react-redux'
+import { selectVentasState } from '../../../../features/venta/ventaSlice'
+import Select from 'react-select'
+import { width } from '@fortawesome/free-solid-svg-icons/fa0'
 
 const SaleForm = ({
   products,
@@ -18,77 +22,102 @@ const SaleForm = ({
   productDetails,
   setProductDetails,
   totalSaleValue,
+  setTotalSaleValue,
   companyId,
-  salesFlag,
 }) => {
-  //   const [selectedProduct, setSelectedProduct] = useState({})
-  //   const [qty, setQty] = useState(0)
+  const [key, setKey] = useState(Date.now())
+  const today = new Date().toISOString().split('T')[0]
+  const ventaResponse = useSelector(selectVentasState)
+  const {
+    salesMessage,
+    salesHttpStatus,
+    loading,
+    salesFlag,
+    saleDetail,
+    salesStatus,
+  } = ventaResponse
+
   const {
     register,
     handleSubmit,
     setValue,
+    getValues,
+    reset,
     formState: { errors },
-  } = useForm()
+  } = useForm({
+    defaultValues: {
+      date: today,
+    },
+  })
 
-  const { registerSale } = useSalesActions()
+  useEffect(() => {
+    if (
+      salesMessage === 'Venta registrada con éxito e inventario actualizado.' &&
+      salesHttpStatus === 200 &&
+      !loading &&
+      salesFlag &&
+      saleDetail.length === 0 &&
+      salesStatus === 'success'
+    ) {
+      reset()
+      setKey(Date.now())
+    }
+  }, [ventaResponse])
+
+  const { registerSale } = productsActions()
 
   const onSubmit = (body) => {
-    body.detalleVenta = productDetails
-    body.totalVenta = totalSaleValue
-    body.companyId = companyId
-    //console.log(body)
-    registerSale(body)
+    registerSale(body, totalSaleValue)
   }
-
-  const handleAddProduct = () => {
-    addProduct()
-  }
-
-
 
   return (
     <Box className={styles.box_main}>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <Box className={styles.box_title}>
+        <Typography
+          className={styles.typography}
+          sx={{ fontSize: 35 }}
+          variant="h4"
+        >
+          <p>Formulario de Venta</p>
+        </Typography>
+      </Box>
+      <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
         <Box className={styles.box_form}>
-          <FormControl className={styles.textField}>
-            <Autocomplete
-              name="idCliente"
-              {...register('idCliente', {
-                required: 'Debe seleccionar un metodo de pago',
-              })}
-              disablePortal
-              options={customers}
-              className={styles.select}
-              size="small"
-              onChange={(event, newValue) => {
-                setValue('idCliente', newValue?._id)
-              }}
-              getOptionLabel={(option) =>
-                `${option.firstName} ${option.lastName} ${option.cedula}`
-              }
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label="Clientes"
-                  id="idCliente"
-                  InputLabelProps={{
-                    htmlFor: 'idCliente',
-                  }}
-                  // helperText={errors.IdCliente && errors.IdCliente.message}
-                />
-              )}
-              isOptionEqualToValue={(option, value) => option._id === value._id} // Aseguramos la comparación correcta de valores // Aseguramos la comparación correcta de valores
-            />
-          </FormControl>
-
           <Box className={styles.textField}>
+            <Select
+              name="idCliente"
+              {...register('idCliente', { required: true })}
+              className={styles.select}
+              classNamePrefix="select"
+              placeholder="Clientes"
+              key={key}
+              onChange={(selectedOption) =>
+                setValue(
+                  'idCliente',
+                  selectedOption ? selectedOption.value : null
+                )
+              }
+              options={customers.map((customer) => ({
+                value: customer._id,
+                label: `${customer.firstName} ${customer.lastName} ${customer.cedula}`,
+              }))}
+              menuPlacement="bottom"
+              menuPortalTarget={document.body}
+              styles={{
+                menuPortal: (base) => ({ ...base, zIndex: 9999 }),
+              }}
+            />
+          </Box>
+
+          <Box className={`${styles.textField} ${styles.balooFont}`}>
             <TextField
               InputLabelProps={{ shrink: true }}
               name="date"
+              defaultValue={today}
               {...register('date', {
                 required: 'Debe seleccionar una fecha para continuar',
               })}
-              label="Seleccione una Fecha"
+              label="Seleccionar Fecha"
               size="small"
               type="date"
               className={styles.select}
@@ -96,81 +125,78 @@ const SaleForm = ({
             />
           </Box>
 
-          <FormControl className={styles.textField}>
-            <Autocomplete
+          <Box className={styles.textField}>
+            <Select
               name="payMethod"
-              //   {...register('payMethod', {
-              //     required: 'Debe seleccionar un metodo de pago',
-              //   })}
-              disablePortal
-              options={paymentMethods}
+              {...register('payMethod', {
+                required: 'Debe seleccionar un metodo de pago',
+              })}
               className={styles.select}
-              size="small"
-              onChange={(event, newValue) => {
-                setValue('payMethod', newValue?.code || '') // Establecer el valor del campo con setValue
-              }}
-              isOptionEqualToValue={(option, value) =>
-                option?.code === value?.code
+              classNamePrefix="select"
+              placeholder="Metodo de pago"
+              key={key}
+              //defaultValue={getValues('payMethod')}
+              onChange={(selectedOption) =>
+                setValue('payMethod', selectedOption.value)
               }
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label="Método de pago"
-                  variant="outlined"
-                  //helperText={errors.payMethod ? errors.payMethod.message : ''}
-                />
-              )}
+              options={paymentMethods.map((item) => ({
+                value: item.code,
+                label: item.label,
+              }))}
+              menuPlacement="bottom"
+              menuPortalTarget={document.body}
+              styles={{
+                menuPortal: (base) => ({ ...base, zIndex: 9999 }),
+              }}
             />
-          </FormControl>
+          </Box>
 
-          <FormControl className={styles.textField}>
-            <Autocomplete
+          <Box className={styles.textField}>
+            <Select
               name="saleType"
-              //   {...register('saleType', {
-              //     required: 'Debe seleccionar un tipo de venta',
-              //   })}
-              disablePortal
-              options={saleTypes}
-              size="small"
-              onChange={(event, newValue) => {
-                setValue('saleType', newValue?.code || '') // Establecer el valor del campo con setValue
-              }}
-              isOptionEqualToValue={(option, value) =>
-                option?.code === value?.code
+              {...register('saleType', {
+                required: 'Debe seleccionar un tipo de venta',
+              })}
+              className={styles.select}
+              classNamePrefix="select"
+              placeholder="Estado del pago"
+              key={key}
+              onChange={(selectedOption) =>
+                setValue('saleType', selectedOption.value)
               }
-              renderInput={(params) => (
-                <TextField
-                  className={styles.select}
-                  {...params}
-                  label="Tipo de Venta"
-                  variant="outlined"
-                  // helperText={errors.saleType ? errors.saleType.message : ''}
-                />
-              )}
-            />
-          </FormControl>
-
-          <FormControl className={styles.textField}>
-            <Autocomplete
-              disablePortal
-              name="product"
-              value={selectedProduct}
-              options={products}
-              size="small"
-              getOptionLabel={(option) => option.productName}
-              isOptionEqualToValue={(option, value) => option._id === value._id}
-              renderInput={(params) => (
-                <TextField
-                  className={styles.select}
-                  {...params}
-                  label="Productos"
-                />
-              )}
-              onChange={(event, value) => {
-                setSelectedProduct(value)
+              options={saleTypes.map((item) => ({
+                value: item.code,
+                label: item.label,
+              }))}
+              menuPlacement="bottom"
+              menuPortalTarget={document.body}
+              styles={{
+                menuPortal: (base) => ({ ...base, zIndex: 9999 }),
               }}
             />
-          </FormControl>
+          </Box>
+
+          <Box className={styles.textField}>
+            <Select
+              className={styles.select}
+              classNamePrefix="select"
+              placeholder="Productos"
+              name="product"
+              key={key}
+              onChange={(selectedOption) =>
+                setSelectedProduct(selectedOption.value)
+              }
+              options={products.map((product) => ({
+                value: product,
+                label: product.productName,
+              }))}
+              menuPlacement="top"
+              menuPortalTarget={document.body}
+              styles={{
+                menuPortal: (base) => ({ ...base, zIndex: 9999 }),
+              }}
+            />
+          </Box>
 
           <Box className={styles.textField}>
             <TextField
@@ -186,15 +212,23 @@ const SaleForm = ({
               }}
             />
           </Box>
+        </Box>
 
-          <Box className={styles.box_buttons}>
-            <Button variant="contained" onClick={handleAddProduct}>
+        <Box className={styles.box_buttons}>
+          <Button
+            className={styles.btn}
+            variant="contained"
+            onClick={addProduct}
+          >
+            <Typography variant="p" sx={{ fontSize: 17 }}>
               Agregar
-            </Button>
-            <Button type="submit" variant="contained">
+            </Typography>
+          </Button>
+          <Button className={styles.btn} type="submit" variant="contained">
+            <Typography variant="p" sx={{ fontSize: 17 }}>
               Finalizar
-            </Button>
-          </Box>
+            </Typography>
+          </Button>
         </Box>
       </form>
     </Box>

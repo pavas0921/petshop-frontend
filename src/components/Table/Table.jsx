@@ -18,7 +18,7 @@ const Table = ({
       {loading && <Loader />}
       <Box className={styles.box_title}>
         <Typography variant="h4" color="initial">
-          {title}
+          <p>{title}</p>
         </Typography>
       </Box>
       {rows && rows.length > 0 ? (
@@ -43,7 +43,6 @@ const Table = ({
                 paginationModel: { page: 0, pageSize: 5 },
               },
             }}
-            
             pageSizeOptions={[5, 10, 15]}
           />
         </Box>

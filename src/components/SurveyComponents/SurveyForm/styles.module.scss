@@ -1,5 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;700&display=swap');
 body {
-  font-family: "Atma", Arial, sans-serif;
+  font-family: 'Baloo 2', cursive;
   margin: 0;
   padding: 0;
   display: flex;
@@ -48,7 +49,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  
+
   @media (max-width: 800px) {
     width: 50%;
     height: auto;
@@ -124,7 +125,6 @@ button:hover {
   background-color: #6e62a0;
 }
 
-
 form {
   width: 100%;
   height: 100%;
@@ -147,5 +147,3 @@ form {
     align-items: center;
   }
 }
-
-
