@@ -67,7 +67,6 @@ const SaleForm = ({
   const { registerSale } = productsActions()
 
   const onSubmit = (body) => {
-    console.log('quiero limpiar el formulario aqui', body)
     registerSale(body, totalSaleValue)
   }
 
@@ -160,7 +159,7 @@ const SaleForm = ({
               })}
               className={styles.select}
               classNamePrefix="select"
-              placeholder="Tipo de venta"
+              placeholder="Estado del pago"
               key={key}
               onChange={(selectedOption) =>
                 setValue('saleType', selectedOption.value)

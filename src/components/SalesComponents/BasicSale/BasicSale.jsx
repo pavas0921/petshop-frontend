@@ -46,8 +46,8 @@ const BasicSale = () => {
   ]
 
   const saleTypes = [
-    { label: 'Contado', code: 'contado' },
-    { label: 'Crédito', code: 'credito' },
+    { label: 'Pagada', code: 'contado' },
+    { label: 'Pendiende', code: 'pendiente' },
   ]
   const dispatch = useDispatch()
   const productResponse = useSelector(selectProductState)
