@@ -46,7 +46,7 @@ const BasicSale = () => {
   ]
 
   const saleTypes = [
-    { label: 'Pagada', code: 'contado' },
+    { label: 'Pagada', code: 'pagada' },
     { label: 'Pendiende', code: 'pendiente' },
   ]
   const dispatch = useDispatch()

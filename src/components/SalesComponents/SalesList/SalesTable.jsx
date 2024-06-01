@@ -11,7 +11,8 @@ const SalesTable = () => {
   const { httpStatus, ventas, loading } = ventasResponse
 
   const columns = [
-    { field: 'date', headerName: 'Fecha', width: 110 },
+    { field: 'date', headerName: 'Fecha', width: 120 },
+    { field: 'fullName', headerName: 'Cliente', width: 150 },
     { field: 'payMethod', headerName: 'Metodo de pago', width: 110 },
     { field: 'saleType', headerName: 'Estado del pago', width: 110 },
     { field: 'totalVenta', headerName: 'Total Venta', width: 110 },
@@ -32,6 +33,10 @@ const SalesTable = () => {
     //   ),
     // },
   ]
+
+  useEffect(() => {
+    console.log(ventas)
+  }, [ventas])
 
   return (
     <Box className={styles.box_main}>
