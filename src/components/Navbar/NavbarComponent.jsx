@@ -110,7 +110,7 @@ const NavbarComponent = () => {
                   fontSize: '1rem',
                 }}
               >
-                Inicio
+                <p>Inicio</p>
               </Button>
 
               <Button
@@ -122,7 +122,7 @@ const NavbarComponent = () => {
                   fontSize: '1rem',
                 }}
               >
-                Administración
+                <p>Administración</p>
               </Button>
 
               <Button
@@ -249,12 +249,12 @@ const NavbarComponent = () => {
                 color="inherit"
                 onClick={handleClickPruebas}
                 sx={{
-                  fontWeight: 'bold',
+                  fontWeight: 'ligth',
                   textTransform: 'capitalize',
-                  fontSize: '1rem',
+                  fontSize: '1.2rem',
                 }}
               >
-                Administración
+                <p>Administración</p>
               </Button>
 
               <Menu
@@ -263,22 +263,24 @@ const NavbarComponent = () => {
                 onClose={handleClosePruebas}
               >
                 <MenuItem onClick={handleClickUsuarios}>
-                  Usuarios
+                  <p>Usuarios</p>
+
                   <ListItemIcon>
                     <ArrowDropDownIcon />
                   </ListItemIcon>
                 </MenuItem>
                 <MenuItem onClick={handleClickClientes}>
-                  Clientes
+                  <p>Clientes</p>
+
                   <ListItemIcon>
                     <ArrowDropDownIcon />
                   </ListItemIcon>
                 </MenuItem>
                 <MenuItem onClick={() => navigate('/categories')}>
-                  Categorias
+                  <p>Categorias</p>
                 </MenuItem>
                 <MenuItem onClick={() => navigate('/species')}>
-                  Especies
+                  <p>Especies</p>
                 </MenuItem>
               </Menu>
 
@@ -328,24 +330,24 @@ const NavbarComponent = () => {
                 color="inherit"
                 onClick={() => navigate('/products')}
                 sx={{
-                  fontWeight: 'bold',
+                  fontWeight: 'ligth',
                   textTransform: 'capitalize',
-                  fontSize: '1rem',
+                  fontSize: '1.2rem',
                 }}
               >
-                Productos
+                <p>Productos</p>
               </Button>
 
               <Button
                 color="inherit"
                 onClick={handleClickVender}
                 sx={{
-                  fontWeight: 'bold',
+                  fontWeight: 'ligth',
                   textTransform: 'capitalize',
-                  fontSize: '1rem',
+                  fontSize: '1.2rem',
                 }}
               >
-                Ventas
+                <p>Ventas</p>
               </Button>
 
               <Menu
@@ -354,10 +356,10 @@ const NavbarComponent = () => {
                 onClose={handleCloseVender}
               >
                 <MenuItem onClick={() => navigate('/basic-sale')}>
-                  Venta Básica
+                  <p>Venta Básica</p>
                 </MenuItem>
                 <MenuItem onClick={() => navigate('/sales')}>
-                  Listado de Ventas
+                  <p>Listado de Ventas</p>
                 </MenuItem>
               </Menu>
 
@@ -365,24 +367,24 @@ const NavbarComponent = () => {
                 color="inherit"
                 onClick={() => navigate('/customer')}
                 sx={{
-                  fontWeight: 'bold',
+                  fontWeight: 'ligth',
                   textTransform: 'capitalize',
-                  fontSize: '1rem',
+                  fontSize: '1.2rem',
                 }}
               >
-                Clientes
+                <p>Clientes</p>
               </Button>
 
               <Button
                 color="inherit"
                 onClick={() => navigate('/supplier')}
                 sx={{
-                  fontWeight: 'bold',
+                  fontWeight: 'ligth',
                   textTransform: 'capitalize',
-                  fontSize: '1rem',
+                  fontSize: '1.2rem',
                 }}
               >
-                Proveedores
+                <p>Proveedores</p>
               </Button>
             </>
           )}

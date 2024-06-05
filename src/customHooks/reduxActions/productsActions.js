@@ -84,6 +84,9 @@ const productsActions = () => {
     body.companyId = companyId
     dispatch(createVenta(body)).then(() => {
       dispatch(clearSaleDetail())
+      const timeoutId = setTimeout(() => {
+        dispatch(clearState())
+      }, 3000)
     })
   }
 

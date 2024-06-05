@@ -19,6 +19,8 @@ const SaleForm = ({
   setQty,
   selectedProduct,
   setSelectedProduct,
+  productKey,
+  setProductKey,
   productDetails,
   setProductDetails,
   totalSaleValue,
@@ -182,7 +184,7 @@ const SaleForm = ({
               classNamePrefix="select"
               placeholder="Productos"
               name="product"
-              key={key}
+              key={productKey}
               onChange={(selectedOption) =>
                 setSelectedProduct(selectedOption.value)
               }
