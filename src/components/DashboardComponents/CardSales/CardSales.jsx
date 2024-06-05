@@ -18,6 +18,7 @@ const CardSales = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const { totalDailySales } = useSelector(selectVentasState)
+  const today = new Date().toISOString().split('T')[0]
 
   useEffect(() => {
     const isValidToken = verifyTokenExpiration()
@@ -25,9 +26,10 @@ const CardSales = () => {
     dispatch(
       getDailySalesCount({
         idCompany: companyId,
+        date: today,
       })
     )
-  }, [dispatch])
+  }, [])
 
   useEffect(() => {
     console.log(totalDailySales)
