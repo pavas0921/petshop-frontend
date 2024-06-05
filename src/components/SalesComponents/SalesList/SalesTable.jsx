@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Box, Typography } from '@mui/material'
 import styles from './styles.module.scss'
 import { Table } from '../../Table'
@@ -8,6 +8,7 @@ import { MenuFilter } from '../../MenuFilterComponent'
 
 const SalesTable = () => {
   const ventasResponse = useSalesByDate()
+  const [totalSales, setTotalSales] = useState(null)
   const { httpStatus, ventas, loading } = ventasResponse
 
   const columns = [
@@ -34,8 +35,16 @@ const SalesTable = () => {
     // },
   ]
 
+  const calcularTotalVentas = (ventas) => {
+    return ventas.reduce((total, venta) => {
+      return total + venta.totalVenta
+    }, 0)
+  }
+
   useEffect(() => {
-    console.log(ventas)
+    if (ventas.length > 0) {
+      setTotalSales(calcularTotalVentas(ventas))
+    }
   }, [ventas])
 
   return (
@@ -68,6 +77,11 @@ const SalesTable = () => {
               </Typography>
             </Box>
           )
+        )}
+        {totalSales && (
+          <Typography variant="h4" color="initial">
+            <p>Total Ventas: {totalSales}</p>
+          </Typography>
         )}
       </Box>
       <Box className={styles.addButton}>
