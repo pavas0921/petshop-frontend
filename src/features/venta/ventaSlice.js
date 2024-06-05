@@ -58,6 +58,7 @@ export const VentaSlice = createSlice({
       state.salesStatus = null
       state.salesMessage = null
       state.salesFlag = false
+      console.log('limpiar')
     },
     clearSaleDetail: (state) => {
       state.saleDetail = []
@@ -124,7 +125,7 @@ export const VentaSlice = createSlice({
           state.salesMessage = action.payload.message
           state.salesStatus = action.payload.status
           state.salesFlag = true
-          console.log('hola', action.payload)
+          state.saleDetail = []
         }
       })
       .addCase(getDailySalesCount.pending, (state) => {

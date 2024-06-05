@@ -26,6 +26,7 @@ import { SaleForm } from './SaleForm'
 import productsActions from '../../../customHooks/reduxActions/productsActions'
 
 const BasicSale = () => {
+  const [productKey, setProductKey] = useState(Date.now())
   const [selectedProduct, setSelectedProduct] = useState(null)
   const [totalSaleValue, setTotalSaleValue] = useState(0)
   const [qty, setQty] = useState(0)
@@ -34,6 +35,10 @@ const BasicSale = () => {
   const { companyId } = tokenData
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down('sm')) // Ajusta 'sm' según el punto de quiebre que necesites
+
+  useEffect(() => {
+    console.log('selectedProduct', selectedProduct)
+  }, [selectedProduct])
 
   const { verifyStock, validateProductExists, reduceProductQty } =
     productsActions()
@@ -140,7 +145,8 @@ const BasicSale = () => {
         verifyStock(qty, selectedProduct)
       }
     }
-    setSelectedProduct(null)
+    setProductKey(Date.now())
+    setSelectedProduct('')
     setQty(0)
   }
 
@@ -195,6 +201,8 @@ const BasicSale = () => {
             companyId={companyId}
             salesFlag={salesFlag}
             setTotalSaleValue={setTotalSaleValue}
+            setProductKey={setProductKey}
+            productKey={productKey}
           />
         </Box>
       </Box>
