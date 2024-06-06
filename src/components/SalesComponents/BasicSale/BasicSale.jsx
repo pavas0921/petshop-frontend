@@ -134,9 +134,9 @@ const BasicSale = () => {
           flag: true,
         })
       )
-      const timeoutId = setTimeout(() => {
-        dispatch(clearState())
-      }, 3000)
+      // const timeoutId = setTimeout(() => {
+      //   dispatch(clearState())
+      // }, 3000)
     } else {
       //Valida si existe algún producto en la canasta
       if (saleDetail.length > 0) {
@@ -148,6 +148,9 @@ const BasicSale = () => {
     setProductKey(Date.now())
     setSelectedProduct('')
     setQty(0)
+    const timeoutId = setTimeout(() => {
+      dispatch(clearState())
+    }, 3000)
   }
 
   return (

@@ -1,5 +1,8 @@
 import React, { useState } from 'react'
-import { selectProductState } from '../../features/producto/productoSlice'
+import {
+  selectProductState,
+  getProductsByCompany,
+} from '../../features/producto/productoSlice'
 import {
   selectVentasState,
   setMessage,
@@ -21,6 +24,7 @@ const productsActions = () => {
   const { status, companyId, rolId, userId } = tokenData
 
   const verifyStock = (qty, selectedProduct, index) => {
+    dispatch(clearState())
     const productIndex = searchedProduct(selectedProduct, products)
     if (qty > products[productIndex].stock) {
       dispatch(
@@ -84,9 +88,10 @@ const productsActions = () => {
     body.companyId = companyId
     dispatch(createVenta(body)).then(() => {
       dispatch(clearSaleDetail())
+      dispatch(getProductsByCompany(companyId))
       const timeoutId = setTimeout(() => {
         dispatch(clearState())
-      }, 3000)
+      }, 3500)
     })
   }
 
