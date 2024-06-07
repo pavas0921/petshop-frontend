@@ -14,13 +14,20 @@ import {
 import { verifyTokenExpiration } from '../../../helpers/verifyToken'
 import styles from './styles.module.scss'
 
+const getLocalDate = () => {
+  const date = new Date()
+  date.setMinutes(date.getMinutes() - date.getTimezoneOffset())
+  return date.toISOString().split('T')[0]
+}
+
 const CardSales = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const { totalDailySales } = useSelector(selectVentasState)
-  const today = new Date().toISOString().split('T')[0]
+  const today = getLocalDate()
 
   useEffect(() => {
+    console.log('Hoy', today)
     const isValidToken = verifyTokenExpiration()
     const { status, companyId, rolId, userId } = isValidToken
     dispatch(
