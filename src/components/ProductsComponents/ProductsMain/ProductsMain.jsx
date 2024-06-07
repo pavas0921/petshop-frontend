@@ -51,6 +51,10 @@ const ProductsMain = () => {
     setSearchTerm(event.target.value)
   }
 
+  useEffect(() => {
+    console.log(openModal)
+  }, [openModal])
+
   return (
     <Box className={styles.box_main}>
       <Box className={styles.box_inputs}>
@@ -100,6 +104,7 @@ const ProductsMain = () => {
       <Box className={styles.boxAdd}>
         <AddComponent openModal={openModal} setOpenModal={setOpenModal} />
       </Box>
+
       {openModal && (
         <ModalComponent
           open={openModal}
