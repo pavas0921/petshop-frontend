@@ -9,8 +9,8 @@ import NavigationIcon from '@mui/icons-material/Navigation'
 const AddComponent = ({ setOpenModal }) => {
   return (
     <Box>
-      <Fab color="primary" aria-label="add">
-        <AddIcon onClick={() => setOpenModal(true)} />
+      <Fab color="primary" aria-label="add" onClick={() => setOpenModal(true)}>
+        <AddIcon />
       </Fab>
     </Box>
   )
