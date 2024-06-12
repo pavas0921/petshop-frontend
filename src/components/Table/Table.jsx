@@ -22,7 +22,7 @@ const Table = ({
         </Typography>
       </Box>
       {rows && rows.length > 0 ? (
-        <Box className={styles.box_table}>
+        <Box>
           <DataGrid
             sx={{
               width: '100%',

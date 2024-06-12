@@ -63,7 +63,7 @@ const ProductsMain = () => {
       width: 80,
       renderCell: (params) => (
         <Box>
-          <IconButton>
+          <IconButton onClick={handleOpen}>
             <VisibilityIcon />
           </IconButton>
         </Box>
@@ -78,17 +78,9 @@ const ProductsMain = () => {
     }
   }, [])
 
-  useEffect(() => {
-    console.log('view', viewType)
-  }, [viewType])
-
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value)
   }
-
-  useEffect(() => {
-    console.log(openModal)
-  }, [openModal])
 
   const filteredProducts = products
     .filter(
