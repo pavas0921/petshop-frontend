@@ -59,14 +59,18 @@ const ViewSwitcher = ({ viewType, setViewType }) => {
   }
 
   return (
-    <FormGroup>
-      <FormControlLabel
-        control={<MaterialUISwitch sx={{ m: 1 }} defaultChecked />}
-        onChange={handleChange}
-        label="Vista"
-        labelPlacement="start" // Coloca el label a la izquierda del switch
-      />
-    </FormGroup>
+    <FormControlLabel
+      control={
+        <MaterialUISwitch
+          sx={{ m: 1, marginTop: '20px' }}
+          checked={viewType}
+          onChange={handleChange}
+          defaultChecked
+        />
+      }
+      //label="Vista"
+      //labelPlacement="start" // Coloca el label a la izquierda del switch
+    />
   )
 }
 
