@@ -1,9 +1,21 @@
 @import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;700&display=swap');
+
 .div_main {
   width: 100%;
-  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   font-family: 'Baloo 2', cursive;
+  flex-direction: column;
+
   .div_navbar {
     width: 100%;
+  }
+
+  .div_supplier {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 }

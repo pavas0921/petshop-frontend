@@ -68,8 +68,6 @@ const ViewSwitcher = ({ viewType, setViewType }) => {
           defaultChecked
         />
       }
-      //label="Vista"
-      //labelPlacement="start" // Coloca el label a la izquierda del switch
     />
   )
 }

@@ -129,7 +129,7 @@ const ProductsMain = () => {
             )}
           </>
         ) : (
-          <Box sx={{ width: '80%', marginTop: '-30px' }}>
+          <Box className={styles.box_table}>
             <Table
               columns={columns}
               rows={filteredProducts}

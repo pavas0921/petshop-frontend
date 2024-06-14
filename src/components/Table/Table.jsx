@@ -15,14 +15,13 @@ const Table = ({
 }) => {
   return (
     <Box className={styles.box_main}>
-      {loading && <Loader />}
       <Box className={styles.box_title}>
         <Typography variant="h4" color="initial">
           <p>{title}</p>
         </Typography>
       </Box>
       {rows && rows.length > 0 ? (
-        <Box>
+        <Box className={styles.box_table}>
           <DataGrid
             sx={{
               width: '100%',
@@ -53,6 +52,7 @@ const Table = ({
           </Typography>
         </Box>
       )}
+      {loading && <Loader />}
     </Box>
   )
 }

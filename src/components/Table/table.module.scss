@@ -7,20 +7,39 @@
   align-items: center;
   flex-direction: column;
 
+  @media (max-width: 820px) {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+
   .box_title {
-    margin-top: 30px;
-    margin-bottom: 20px;
+    width: 90%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     font-family: 'Baloo 2', cursive;
+    margin-top: 20px;
+    margin-bottom: 20px;
   }
 
   .box_table {
-    width: 100%;
+    width: 90%;
     display: flex;
     justify-content: center;
     align-items: center;
     border-radius: 10px;
     box-shadow: 2px 2px 5px 0px rgba(50, 115, 220, 0.5);
     margin-bottom: 30px;
+
+    @media (max-width: 820px) {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
   }
 }
-

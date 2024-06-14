@@ -22,7 +22,7 @@ const SupplierDashboard = () => {
       <Box className={styles.div_navbar}>
         <NavbarComponent />
       </Box>
-      <Box>
+      <Box className={styles.div_supplier}>
         <SupplierMain />
       </Box>
     </Box>

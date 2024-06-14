@@ -69,7 +69,7 @@ function CustomerTable() {
     {
       field: 'actions',
       headerName: 'Acciones',
-      width: 80,
+      width: 90,
       renderCell: (params) => (
         <Box>
           <IconButton onClick={(event) => handleClick(event, params.row)}>
