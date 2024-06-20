@@ -78,7 +78,7 @@ const SaleForm = ({
       <Box className={styles.box_title}>
         <Typography
           className={styles.typography}
-          sx={{ fontSize: 35 }}
+          sx={{ fontSize: 33 }}
           variant="h4"
         >
           <p>Formulario de Venta</p>
@@ -222,12 +222,18 @@ const SaleForm = ({
             className={styles.btn}
             variant="contained"
             onClick={addProduct}
+            sx={{ backgroundColor: 'black' }}
           >
             <Typography variant="p" sx={{ fontSize: 17 }}>
               Agregar
             </Typography>
           </Button>
-          <Button className={styles.btn} type="submit" variant="contained">
+          <Button
+            className={styles.btn}
+            type="submit"
+            variant="contained"
+            sx={{ backgroundColor: 'black' }}
+          >
             <Typography variant="p" sx={{ fontSize: 17 }}>
               Finalizar
             </Typography>

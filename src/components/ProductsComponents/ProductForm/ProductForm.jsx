@@ -1,39 +1,39 @@
-import React, { useState, useEffect } from "react";
-import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-import DeleteIcon from "@mui/icons-material/Delete";
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import Autocomplete from "@mui/material/Autocomplete";
-import TextField from "@mui/material/TextField";
-import Typography from "@mui/material/Typography";
-import styles from "./styles.module.scss";
-import globalStyles from "../../../styles/global.module.scss";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState, useEffect } from 'react'
+import CloudUploadIcon from '@mui/icons-material/CloudUpload'
+import DeleteIcon from '@mui/icons-material/Delete'
+import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
+import Autocomplete from '@mui/material/Autocomplete'
+import TextField from '@mui/material/TextField'
+import Typography from '@mui/material/Typography'
+import styles from './styles.module.scss'
+import globalStyles from '../../../styles/global.module.scss'
+import { useDispatch, useSelector } from 'react-redux'
 import {
   selectCategoryState,
   getAllCategoryById,
-} from "../../../features/categoria/categoriaSlice";
+} from '../../../features/categoria/categoriaSlice'
 import {
   selectEspecieState,
-  getEspeciesByCompany
-} from "../../../features/especie/especieSlice";
+  getEspeciesByCompany,
+} from '../../../features/especie/especieSlice'
 import {
   selectProductState,
   createProduct,
   clearAlert,
   disableProductById,
   updateProductById,
-} from "../../../features/producto/productoSlice";
+} from '../../../features/producto/productoSlice'
 import {
   uploadImage,
   selectImageState,
   clearImage,
-} from "../../../features/cloudinary/cloudinarySlice";
-import { useForm } from "react-hook-form";
-import { verifyTokenExpiration } from "../../../helpers/verifyToken";
-import { useNavigate } from "react-router-dom";
-import ToastAlert from "../../Alerts/ToastAlert";
-import Loader from "../../LoaderComponent/Loader";
+} from '../../../features/cloudinary/cloudinarySlice'
+import { useForm } from 'react-hook-form'
+import { verifyTokenExpiration } from '../../../helpers/verifyToken'
+import { useNavigate } from 'react-router-dom'
+import ToastAlert from '../../Alerts/ToastAlert'
+import Loader from '../../LoaderComponent/Loader'
 import {
   FormControl,
   FormHelperText,
@@ -42,15 +42,15 @@ import {
   MenuItem,
   NativeSelect,
   Select,
-} from "@mui/material";
-import IconButton from "@mui/material/IconButton";
-import PhotoCameraIcon from "@mui/icons-material/PhotoCamera";
+} from '@mui/material'
+import IconButton from '@mui/material/IconButton'
+import PhotoCameraIcon from '@mui/icons-material/PhotoCamera'
 
 const ProductForm = ({ setAlert, product, update, handleClose }) => {
-  const [productImg, setProductImg] = useState();
-  const navigate = useNavigate();
-  const isValidToken = verifyTokenExpiration();
-  const { status, companyId, rolId, userId } = isValidToken;
+  const [productImg, setProductImg] = useState()
+  const navigate = useNavigate()
+  const isValidToken = verifyTokenExpiration()
+  const { status, companyId, rolId, userId } = isValidToken
   const {
     register,
     handleSubmit,
@@ -68,24 +68,24 @@ const ProductForm = ({ setAlert, product, update, handleClose }) => {
       idCompany: update ? product.idCompany : null,
       createdBy: update ? product.createdBy : null,
     },
-  });
-  const cloudName = "dinxdqo76";
+  })
+  const cloudName = 'dinxdqo76'
 
   useEffect(() => {
     if (status) {
-      setValue("idCompany", companyId);
-      setValue("createdBy", userId);
+      setValue('idCompany', companyId)
+      setValue('createdBy', userId)
     }
-  }, [companyId, userId]);
+  }, [companyId, userId])
 
-  const dispatch = useDispatch();
-  const categoryResponse = useSelector(selectCategoryState);
-  const { categories, categoryLoading, httpStatus } = categoryResponse;
+  const dispatch = useDispatch()
+  const categoryResponse = useSelector(selectCategoryState)
+  const { categories, categoryLoading, httpStatus } = categoryResponse
 
-  const especiesResponse = useSelector(selectEspecieState);
-  const { especies, especiesLoading } = especiesResponse;
+  const especiesResponse = useSelector(selectEspecieState)
+  const { especies, especiesLoading } = especiesResponse
 
-  const productResponse = useSelector(selectProductState);
+  const productResponse = useSelector(selectProductState)
   const {
     productHttpStatus,
     productMessage,
@@ -93,116 +93,116 @@ const ProductForm = ({ setAlert, product, update, handleClose }) => {
     products,
     productsLoading,
     productFlag,
-  } = productResponse || {};
+  } = productResponse || {}
 
-  const ImageResponse = useSelector(selectImageState);
-  const { flag, statusCode, images, photoLoading } = ImageResponse;
+  const ImageResponse = useSelector(selectImageState)
+  const { flag, statusCode, images, photoLoading } = ImageResponse
 
   useEffect(() => {
-    dispatch(clearAlert());
-    dispatch(clearImage());
+    dispatch(clearAlert())
+    dispatch(clearImage())
     if (especies && especies.length === 0) {
-      dispatch(getEspeciesByCompany(companyId));
+      dispatch(getEspeciesByCompany(companyId))
     }
     if (categories && categories.length === 0) {
       console.log(companyId)
-      dispatch(getAllCategoryById(companyId));
+      dispatch(getAllCategoryById(companyId))
     }
-  }, []);
+  }, [])
 
   useEffect(() => {
     if (images && !photoLoading) {
-      setProductImg(images[0]);
-      setValue("image", images[0]);
+      setProductImg(images[0])
+      setValue('image', images[0])
     }
-  }, [images]);
+  }, [images])
 
   useEffect(() => {
     if (
       productFlag &&
       (productHttpStatus === 200 || productHttpStatus === 201) &&
-      productStatus === "success"
+      productStatus === 'success'
     ) {
       setAlert({
         status: productStatus,
         message: productMessage,
-      });
-      handleClose();
+      })
+      handleClose()
     }
-  }, [productResponse]);
+  }, [productResponse])
 
   const messages = {
-    req: "Este campo es obligatorio",
-  };
+    req: 'Este campo es obligatorio',
+  }
 
   const onSubmit = (body) => {
     if (update) {
-      body.image = productImg;
-      dispatch(updateProductById({ body: body, _id: product._id }));
+      body.image = productImg
+      dispatch(updateProductById({ body: body, _id: product._id }))
     } else {
       if (body.image) {
-        dispatch(clearAlert());
-        dispatch(createProduct(body));
+        dispatch(clearAlert())
+        dispatch(createProduct(body))
       } else {
         body.image =
-          "https://static.vecteezy.com/system/resources/thumbnails/004/141/669/small/no-photo-or-blank-image-icon-loading-images-or-missing-image-mark-image-not-available-or-image-coming-soon-sign-simple-nature-silhouette-in-frame-isolated-illustration-vector.jpg";
-        dispatch(clearAlert());
-        dispatch(createProduct(body));
+          'https://static.vecteezy.com/system/resources/thumbnails/004/141/669/small/no-photo-or-blank-image-icon-loading-images-or-missing-image-mark-image-not-available-or-image-coming-soon-sign-simple-nature-silhouette-in-frame-isolated-illustration-vector.jpg'
+        dispatch(clearAlert())
+        dispatch(createProduct(body))
       }
     }
-  };
+  }
 
   const handleDisableProduct = () => {
     if (product.status) {
-      const body = { status: false };
-      dispatch(disableProductById({ body: body, _id: product._id }));
+      const body = { status: false }
+      dispatch(disableProductById({ body: body, _id: product._id }))
     } else {
-      const body = { status: true };
-      dispatch(disableProductById({ status: body, _id: product._id }));
+      const body = { status: true }
+      dispatch(disableProductById({ status: body, _id: product._id }))
     }
-  };
+  }
 
   const handleImageChange = async (event) => {
-    event.preventDefault();
+    event.preventDefault()
     try {
-      const file = event.target.files[0];
+      const file = event.target.files[0]
 
-      const formData = new FormData();
-      formData.append("file", file);
-      formData.append("upload_preset", "m4obnmhx");
-      dispatch(uploadImage(formData));
+      const formData = new FormData()
+      formData.append('file', file)
+      formData.append('upload_preset', 'm4obnmhx')
+      dispatch(uploadImage(formData))
     } catch (error) {
-      console.error("Error en la solicitu de carga de imagen:", error);
+      console.error('Error en la solicitu de carga de imagen:', error)
       // Puedes manejar el error de otra manera, como mostrar un mensaje al usuario
     }
-  };
+  }
 
   useEffect(() => {
     if (update) {
-      if (product && product.image) setProductImg(product.image);
-      setValue("image", productImg);
+      if (product && product.image) setProductImg(product.image)
+      setValue('image', productImg)
     }
     if (flag && statusCode === 200 && images) {
-      setProductImg(images[0]);
-      setValue("image", images[0]);
+      setProductImg(images[0])
+      setValue('image', images[0])
     }
-  }, [images, update, products]);
+  }, [images, update, products])
 
   return (
     <Box className={styles.box_main}>
       <Box className={styles.box_title}>
         <Typography variant="h5" color="initial">
-          {update ? "Actualización de Producto" : "Registro de Productos"}
+          {update ? 'Actualización de Producto' : 'Registro de Productos'}
         </Typography>
         {productImg && (
-          <div style={{ position: "relative" }}>
+          <div style={{ position: 'relative' }}>
             <img
               src={productImg}
               alt="Product Image"
               style={{
-                width: "100px",
-                height: "100px",
-                borderRadius: "50%",
+                width: '100px',
+                height: '100px',
+                borderRadius: '50%',
               }}
             />
           </div>
@@ -212,30 +212,30 @@ const ProductForm = ({ setAlert, product, update, handleClose }) => {
         <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
           <Box
             sx={{
-              width: "100%",
-              display: "flex",
-              justifyContent: "center",
-              spaceAround: "center",
+              width: '100%',
+              display: 'flex',
+              justifyContent: 'center',
+              spaceAround: 'center',
             }}
           >
             <Input
               sx={{}}
-              {...register("image")}
+              {...register('image')}
               type="file"
               accept="image/*"
               id="image-upload"
               name="image"
-              style={{ display: "none" }}
+              style={{ display: 'none' }}
               onChange={handleImageChange}
             />
 
             <label
               style={{
-                width: "100%",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                flexDirection: "column",
+                width: '100%',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                flexDirection: 'column',
               }}
               htmlFor="image-upload"
             >
@@ -244,8 +244,8 @@ const ProductForm = ({ setAlert, product, update, handleClose }) => {
                 aria-label="upload picture"
                 component="span"
                 size="large"
-                style={{ backgroundColor: "#2196f3" }} // Fondo azul
-                sx={{ "& .MuiSvgIcon-root": { color: "#ffffff" } }} // Icono blanco
+                style={{ backgroundColor: '#2196f3' }} // Fondo azul
+                sx={{ '& .MuiSvgIcon-root': { color: '#ffffff' } }} // Icono blanco
               >
                 <PhotoCameraIcon />
               </IconButton>
@@ -255,7 +255,7 @@ const ProductForm = ({ setAlert, product, update, handleClose }) => {
             </label>
           </Box>
           <TextField
-            {...register("productName", { required: messages.req })}
+            {...register('productName', { required: messages.req })}
             label="Nombre del Producto"
             size="small"
             name="productName"
@@ -263,7 +263,7 @@ const ProductForm = ({ setAlert, product, update, handleClose }) => {
             helperText={errors.productName && errors.productName.message}
           />
           <TextField
-            {...register("barCode", { required: messages.req })}
+            {...register('barCode', { required: messages.req })}
             label="SKU"
             size="small"
             name="barCode"
@@ -272,7 +272,7 @@ const ProductForm = ({ setAlert, product, update, handleClose }) => {
           />
 
           <TextField
-            {...register("costPrice", { required: messages.req })}
+            {...register('costPrice', { required: messages.req })}
             label="Precio de Costo"
             size="small"
             name="costPrice"
@@ -281,7 +281,7 @@ const ProductForm = ({ setAlert, product, update, handleClose }) => {
             helperText={errors.costPrice && errors.costPrice.message}
           />
           <TextField
-            {...register("salePrice", { required: messages.req })}
+            {...register('salePrice', { required: messages.req })}
             label="Precio de Venta"
             size="small"
             name="salePrice"
@@ -290,7 +290,7 @@ const ProductForm = ({ setAlert, product, update, handleClose }) => {
             helperText={errors.salePrice && errors.salePrice.message}
           />
           <TextField
-            {...register("stock", { required: messages.req })}
+            {...register('stock', { required: messages.req })}
             label="Cantidad en Stock"
             size="small"
             type="number"
@@ -302,25 +302,29 @@ const ProductForm = ({ setAlert, product, update, handleClose }) => {
           {especies && especies.length > 0 && (
             <FormControl
               sx={{
-                width: "100%",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
+                width: '100%',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
               }}
             >
               <InputLabel
-                sx={{ marginTop: "7px", marginLeft: "27px" }}
+                sx={{ marginTop: '7px', marginLeft: '27px' }}
                 id="demo-simple-select-label"
               >
                 Especie
               </InputLabel>
               <Select
-                {...register("idEspecie", { required: messages.req })}
+                {...register('idEspecie', { required: messages.req })}
                 labelId="idEspecie"
                 name="idEspecie"
                 label="Especie"
                 size="small"
-                defaultValue={update && product.idEspecie._id}
+                defaultValue={
+                  update && product && product.idEspecie
+                    ? product.idEspecie._id
+                    : ''
+                }
                 className={styles.textField}
               >
                 {especies &&
@@ -332,7 +336,7 @@ const ProductForm = ({ setAlert, product, update, handleClose }) => {
                   ))}
               </Select>
               <FormHelperText
-                sx={{ justifyContent: "flex-start" }}
+                sx={{ justifyContent: 'flex-start' }}
                 error={Boolean(errors.image)}
               >
                 {errors.idEspecie && errors.idEspecie.message}
@@ -342,26 +346,30 @@ const ProductForm = ({ setAlert, product, update, handleClose }) => {
           {categories && categories.length > 0 && (
             <FormControl
               sx={{
-                width: "100%",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
+                width: '100%',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
               }}
             >
               <InputLabel
-                sx={{ marginTop: "7px", marginLeft: "27px" }}
+                sx={{ marginTop: '7px', marginLeft: '27px' }}
                 id="idCategoria"
               >
                 Categoria
               </InputLabel>
               <Select
                 className={styles.textField}
-                {...register("idCategoria", { required: messages.req })}
+                {...register('idCategoria', { required: messages.req })}
                 labelId="idCategoria"
                 name="idCategoria"
                 label="Categoria"
                 size="small"
-                defaultValue={update && product.idCategoria._id}
+                defaultValue={
+                  update && product && product.idCategoria
+                    ? product.idCategoria._id
+                    : ''
+                }
               >
                 {categories &&
                   categories.length > 0 &&
@@ -379,7 +387,7 @@ const ProductForm = ({ setAlert, product, update, handleClose }) => {
 
           <Box className={styles.box_button}>
             <Button sx={{ marginTop: 3 }} variant="contained" type="submit">
-              {update ? "Actualizar Producto" : "Agregar Producto"}
+              {update ? 'Actualizar Producto' : 'Agregar Producto'}
             </Button>
             {update && (
               <Button
@@ -399,7 +407,7 @@ const ProductForm = ({ setAlert, product, update, handleClose }) => {
         photoLoading ||
         productsLoading) && <Loader />}
     </Box>
-  );
-};
+  )
+}
 
-export default ProductForm;
+export default ProductForm
