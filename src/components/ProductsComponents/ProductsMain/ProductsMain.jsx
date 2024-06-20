@@ -26,16 +26,21 @@ import { width } from '@fortawesome/free-solid-svg-icons/fa0'
 const ProductsMain = () => {
   const tokenData = verifyTokenExpiration()
   const { status, companyId, rolId, userId } = tokenData
+  const [product, setProduct] = useState({})
   const [viewType, setViewType] = useState(true)
   const [openModal, setOpenModal] = useState(false)
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedCategory, setSelectedCategory] = useState('')
+  const [isUpdate, setIsUpdate] = useState(false)
   const [alert, setAlert] = useState({
     status: null,
     message: null,
   })
   const handleOpen = () => setOpenModal(true)
-  const handleClose = () => setOpenModal(false)
+  const handleClose = () => {
+    setProduct({})
+    setOpenModal(false)
+  }
   const dispatch = useDispatch()
   const productResponse = useSelector(selectProductState)
   const {
@@ -63,7 +68,7 @@ const ProductsMain = () => {
       width: 80,
       renderCell: (params) => (
         <Box>
-          <IconButton onClick={handleOpen}>
+          <IconButton onClick={(event) => openUpdateModal(event, params.row)}>
             <VisibilityIcon />
           </IconButton>
         </Box>
@@ -80,6 +85,13 @@ const ProductsMain = () => {
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value)
+  }
+
+  const openUpdateModal = (event, row) => {
+    console.log(row)
+    setProduct(row)
+    setIsUpdate(true)
+    handleOpen()
   }
 
   const filteredProducts = products
@@ -145,15 +157,30 @@ const ProductsMain = () => {
         <AddComponent openModal={openModal} setOpenModal={setOpenModal} />
       </Box>
 
-      {openModal && (
-        <ModalComponent
-          open={openModal}
-          handleOpen={handleOpen}
-          handleClose={handleClose}
-        >
-          <ProductForm setAlert={setAlert} handleClose={handleClose} />
-        </ModalComponent>
-      )}
+      {openModal &&
+        (isUpdate && product ? (
+          <ModalComponent
+            open={openModal}
+            handleOpen={handleOpen}
+            handleClose={handleClose}
+          >
+            <ProductForm
+              setAlert={setAlert}
+              handleClose={handleClose}
+              product={product}
+              update={isUpdate}
+            />
+          </ModalComponent>
+        ) : (
+          <ModalComponent
+            open={openModal}
+            handleOpen={handleOpen}
+            handleClose={handleClose}
+            update={false}
+          >
+            <ProductForm setAlert={setAlert} handleClose={handleClose} />
+          </ModalComponent>
+        ))}
       {productFlag &&
         (productHttpStatus === 201 || productHttpStatus === 200) &&
         productStatus === 'success' && (
