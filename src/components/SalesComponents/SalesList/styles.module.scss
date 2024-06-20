@@ -38,3 +38,59 @@
     right: 20px;
   }
 }
+
+.tableSalesDetail {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-right: 53px;
+}
+
+.salesHeader {
+  width: 92%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.title {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.box_container {
+  width: 100%;
+  max-height: 80vh;
+  overflow-y: auto;
+  padding-right: 0px; /* Añade padding a la derecha para que el scrollbar esté más pegado al borde derecho */
+  margin-right: -65px; /* Ajusta el margen para pegar más el scrollbar al borde derecho */
+
+  /* Estilo del scrollbar en WebKit */
+  &::-webkit-scrollbar {
+    width: 10px; /* Ancho de la barra de desplazamiento */
+    height: 100%;
+  }
+
+  /* Fondo de la barra de desplazamiento */
+  &::-webkit-scrollbar-track {
+    background: #ffffff;
+  }
+
+  /* Estilo del thumb (la parte que se desplaza) */
+  &::-webkit-scrollbar-thumb {
+    background: #000000;
+    border-radius: 10px;
+  }
+
+  /* Estilo del thumb al pasar el mouse por encima */
+  &::-webkit-scrollbar-thumb:hover {
+    background: #535252;
+  }
+}
