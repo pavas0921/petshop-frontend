@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Box, Typography, IconButton } from '@mui/material'
+import { Box, Typography, IconButton, TextField } from '@mui/material'
 import VisibilityIcon from '@mui/icons-material/Visibility'
 import styles from './styles.module.scss'
 import { Table } from '../../Table'
@@ -13,12 +13,12 @@ import { saleDetailsColumns } from '../../../helpers/tableColumns/saleDetailsCol
 const SalesTable = () => {
   const ventasResponse = useSalesByDate()
   const [totalSales, setTotalSales] = useState(null)
-  const [saleDetail, setSaleDetail] = useState([])
+  const [saleDetail, setSaleDetail] = useState({})
   const [openModal, setOpenModal] = useState(false)
   const { httpStatus, ventas, loading } = ventasResponse
 
   const handleClose = () => {
-    setSaleDetail([])
+    setSaleDetail({})
     setOpenModal(false)
   }
 
@@ -46,9 +46,9 @@ const SalesTable = () => {
   ]
 
   const handleClick = (event, row) => {
-    console.log(row.detalleVenta)
+    console.log(row)
     setOpenModal(true)
-    setSaleDetail(row.detalleVenta)
+    setSaleDetail(row)
   }
   const calcularTotalVentas = (ventas) => {
     return ventas.reduce((total, venta) => {
@@ -104,18 +104,79 @@ const SalesTable = () => {
       </Box>
 
       {openModal && (
-        <Box>
-          <ModalDetails open={openModal} handleClose={handleClose}>
-            <Table
-              columns={saleDetailsColumns}
-              rows={saleDetail}
-              loading={loading}
-              rowHeight={56}
-              columnHeaderHeight={56}
-              title={'Detalle de Venta'}
-            />
-          </ModalDetails>
-        </Box>
+        <ModalDetails
+          className={styles.modalContainer}
+          open={openModal}
+          handleClose={handleClose}
+        >
+          <Box className={styles.box_container}>
+            <Box className={styles.title}>
+              <Typography variant="h4" color="initial">
+                <p>Detalle de Venta</p>
+              </Typography>
+            </Box>
+            <Box className={styles.salesHeader}>
+              <TextField
+                disabled
+                id="outlined-disabled"
+                label="Venta #"
+                defaultValue={saleDetail._id}
+                size="small"
+                sx={{ width: '31.8%' }}
+              />
+              <TextField
+                disabled
+                id="outlined-disabled"
+                label="Cliente"
+                defaultValue={saleDetail.fullName}
+                size="small"
+                sx={{ width: '31.8%' }}
+              />
+              <TextField
+                disabled
+                id="outlined-disabled"
+                label="Método de Pago"
+                defaultValue={saleDetail.payMethod}
+                size="small"
+                sx={{ width: '31.8%' }}
+              />
+              <TextField
+                disabled
+                id="outlined-disabled"
+                label="Estado del Pago"
+                defaultValue={saleDetail.saleType}
+                size="small"
+                sx={{ width: '31.8%' }}
+              />
+              <TextField
+                disabled
+                id="outlined-disabled"
+                label="Total Venta"
+                defaultValue={saleDetail.totalVenta}
+                size="small"
+                sx={{ width: '31.8%' }}
+              />
+              <TextField
+                disabled
+                id="outlined-disabled"
+                label="Fecha"
+                defaultValue={saleDetail.date}
+                size="small"
+                sx={{ width: '31.8%' }}
+              />
+            </Box>
+            <Box className={styles.tableSalesDetail}>
+              <Table
+                columns={saleDetailsColumns}
+                rows={saleDetail.detalleVenta}
+                loading={loading}
+                rowHeight={56}
+                columnHeaderHeight={56}
+                title={'Listado de Productos'}
+              />
+            </Box>
+          </Box>
+        </ModalDetails>
       )}
     </Box>
   )

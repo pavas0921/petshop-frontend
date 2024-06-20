@@ -13,21 +13,25 @@ const ModalDetails = (props) => {
     transform: 'translate(-50%, -50%)',
     width: '60%',
     bgcolor: 'background.paper',
-    border: '2px solid #000',
+    border: '2px solid #000000',
     boxShadow: 24,
     p: 4,
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: '20px',
   }
   return (
-    <div>
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={style}>{children}</Box>
-      </Modal>
-    </div>
+    <Modal
+      open={open}
+      onClose={handleClose}
+      aria-labelledby="modal-modal-title"
+      aria-describedby="modal-modal-description"
+      sx={{ minHeigth: '80vh' }}
+    >
+      <Box sx={style}>{children}</Box>
+    </Modal>
   )
 }
 
