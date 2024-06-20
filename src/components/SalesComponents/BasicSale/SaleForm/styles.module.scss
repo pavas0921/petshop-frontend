@@ -74,7 +74,7 @@
 }
 
 .box_buttons {
-  width: 60%;
+  width: 80%;
   display: flex;
   justify-content: space-around;
   font-family: 'Baloo 2', sans-serif;
@@ -89,8 +89,10 @@
 .btn {
   & p {
     font-size: 100px;
+    background-color: black;
   }
   font-family: 'Baloo 2', sans-serif;
+  background-color: black;
 }
 
 .form {
