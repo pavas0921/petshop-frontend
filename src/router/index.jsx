@@ -17,6 +17,7 @@ import CompanyDashboard from '../pages/CompaniesPages/CompanyDashboard'
 import { SpeciesDashboard } from '../pages/Species/SpeciesDashboard'
 import { SalesList } from '../pages/SalesPages/SalesDashboard'
 import { SupplierDashboard } from '../pages/SupplierPages/SupplierDashboard'
+import { ExpensesCategoryDashboard } from '../pages/Expenses/ExpensesCategory'
 
 const router = createBrowserRouter([
   {
@@ -107,6 +108,11 @@ const router = createBrowserRouter([
   {
     path: 'supplier',
     element: <SupplierDashboard />,
+    errorElement: <div> Hubo un error!!</div>,
+  },
+  {
+    path: 'expensesCategory',
+    element: <ExpensesCategoryDashboard />,
     errorElement: <div> Hubo un error!!</div>,
   },
 ])

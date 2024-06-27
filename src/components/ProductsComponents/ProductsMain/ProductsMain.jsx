@@ -4,10 +4,8 @@ import { CardComponent } from '../../CardComponent'
 import { useDispatch, useSelector } from 'react-redux'
 import { IconButton } from '@mui/material'
 import VisibilityIcon from '@mui/icons-material/Visibility'
-import DeleteIcon from '@mui/icons-material/Delete'
 import {
   selectProductState,
-  getProducts,
   clearAlert,
   getProductsByCompany,
 } from '../../../features/producto/productoSlice'
