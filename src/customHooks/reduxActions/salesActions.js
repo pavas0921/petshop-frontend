@@ -21,7 +21,6 @@ const useSalesActions = () => {
   }
 
   const registerSale = (body) => {
-    console.log('rs', body)
     const { status } = verifyTokenExpiration()
     if (status) {
       dispatch(clearState())

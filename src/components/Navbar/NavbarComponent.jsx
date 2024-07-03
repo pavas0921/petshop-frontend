@@ -23,6 +23,7 @@ const NavbarComponent = () => {
   const [anchorPruebas, setAnchorPruebas] = React.useState(null)
   const [anchorClientes, setAnchorClientes] = React.useState(null)
   const [anchorUsuarios, setAnchorUsuarios] = React.useState(null)
+  const [anchorExpenses, setAnchorExpenses] = React.useState(null)
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false)
   const [openModal, setOpenModal] = React.useState(false)
   const isValidToken = verifyTokenExpiration()
@@ -44,6 +45,10 @@ const NavbarComponent = () => {
 
   const handleClickVender = (event) => {
     setAnchorVender(event.currentTarget)
+  }
+
+  const handleClickExpenses = (event) => {
+    setAnchorExpenses(event.currentTarget)
   }
 
   const handleClickUsuarios = (event) => {
@@ -72,6 +77,10 @@ const NavbarComponent = () => {
 
   const handleCloseUsuarios = () => {
     setAnchorUsuarios(null)
+  }
+
+  const handleCloseExpenses = () => {
+    setAnchorExpenses(null)
   }
 
   useEffect(() => {
@@ -386,6 +395,31 @@ const NavbarComponent = () => {
               >
                 <p>Proveedores</p>
               </Button>
+
+              <Button
+                color="inherit"
+                onClick={handleClickExpenses}
+                sx={{
+                  fontWeight: 'ligth',
+                  textTransform: 'capitalize',
+                  fontSize: '1.2rem',
+                }}
+              >
+                <p>Gastos</p>
+              </Button>
+
+              <Menu
+                anchorEl={anchorExpenses}
+                open={Boolean(anchorExpenses)}
+                onClose={handleCloseExpenses}
+              >
+                <MenuItem onClick={() => navigate('/expensesCategory')}>
+                  <p>Categorías</p>
+                </MenuItem>
+                <MenuItem onClick={() => navigate('/sales')}>
+                  <p>Listado de Gastos</p>
+                </MenuItem>
+              </Menu>
             </>
           )}
           {/* Resto del código del componente */}
