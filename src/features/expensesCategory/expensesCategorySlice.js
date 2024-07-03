@@ -1,5 +1,8 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { getExpensesByCompanyAPI } from '../../services/expensesCategory'
+import {
+  getExpensesByCompanyAPI,
+  createExpensesCategoryAPI,
+} from '../../services/expensesCategory'
 
 const initialState = {
   expensesCategories: [],
@@ -18,6 +21,14 @@ export const getExpensesCategoriesByCompany = createAsyncThunk(
   }
 )
 
+export const createExpensesCategory = createAsyncThunk(
+  'post/createEspecie',
+  async (body) => {
+    const data = await createExpensesCategoryAPI(body)
+    return data
+  }
+)
+
 export const expensesCategorySlice = createSlice({
   name: 'expensesCategory',
   initialState,
@@ -32,6 +43,18 @@ export const expensesCategorySlice = createSlice({
         state.expensesCategoriesStatus = action.payload.status
         state.expensesCategoriesHttpStatus = action.payload.httpStatus
         state.expensesCategories = action.payload.content
+      })
+      .addCase(createExpensesCategory.pending, (state) => {
+        state.expensesCategoriesLoading = true
+      })
+      .addCase(createExpensesCategory.fulfilled, (state, action) => {
+        state.expensesCategoriesLoading = false
+        if (action.payload.httpStatus === 201) {
+          state.expensesCategories.push(action.payload.category)
+          state.expensesCategoriesHttpStatus = action.payload.httpStatus
+          state.expensesCategoriesMessage = action.payload.message
+          state.expensesCategoriesFlag = true
+        }
       })
   },
 })

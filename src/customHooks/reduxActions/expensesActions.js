@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import {
   getExpensesCategoriesByCompany,
+  createExpensesCategory,
   selectExpensesCategory,
 } from '../../features/expensesCategory/expensesCategorySlice'
 import { useDispatch, useSelector } from 'react-redux'
@@ -24,7 +25,15 @@ const expensesCategoryActions = () => {
     }
   }
 
-  return { useGetExpensesCategories }
+  const useRegisterCategoryExpenses = (body) => {
+    if (status) {
+      body.idCompany = companyId
+      body.status = true
+      dispatch(createExpensesCategory(body))
+    }
+  }
+
+  return { useGetExpensesCategories, useRegisterCategoryExpenses }
 }
 
 export default expensesCategoryActions

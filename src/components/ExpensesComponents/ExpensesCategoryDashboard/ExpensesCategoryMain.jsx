@@ -4,6 +4,7 @@ import { ExpensesList } from '../ExpensesList'
 import { AddComponent } from '../../AddComponent'
 import styles from './styles.module.scss'
 import { ModalComponent } from '../../ModalComponent'
+import { ExpensesCategoryForm } from '../ExpensesCategoryForm'
 
 const ExpensesCategoryMain = () => {
   const [openModal, setOpenModal] = useState(false)
@@ -25,7 +26,7 @@ const ExpensesCategoryMain = () => {
           handleOpen={handleOpen}
           handleClose={handleClose}
         >
-          Formulario
+          <ExpensesCategoryForm />
         </ModalComponent>
       )}
     </Box>
