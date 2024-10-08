@@ -126,10 +126,12 @@ const BasicSale = ({saleType}) => {
   }
 
   const handleClick = () => {
+    console.log(selectedProduct);
+    
     let updatedProduct = selectedProduct;
     if(saleType === "free"){
       const copySelectedProduct = {...selectedProduct}
-      copySelectedProduct.salePrice = +manualValue * +qty
+      copySelectedProduct.salePrice = +manualValue
       setSelectedProduct(copySelectedProduct)     
       updatedProduct = copySelectedProduct;
     }
