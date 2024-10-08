@@ -26,6 +26,8 @@ const SaleForm = ({
   totalSaleValue,
   setTotalSaleValue,
   companyId,
+  saleType,
+  setManualValue
 }) => {
   const [key, setKey] = useState(Date.now())
   const today = new Date().toISOString().split('T')[0]
@@ -70,7 +72,7 @@ const SaleForm = ({
 
   const onSubmit = (body) => {
     console.log('body', body)
-    registerSale(body, totalSaleValue)
+    //registerSale(body, totalSaleValue)
   }
 
   return (
@@ -200,6 +202,23 @@ const SaleForm = ({
               }}
             />
           </Box>
+
+          {saleType === "free" && (
+            <Box className={styles.textField}>
+            <TextField
+              InputLabelProps={{ shrink: true }}
+              name="valor"
+              label="Valor"
+              size="small"
+              type="number"
+              className={styles.select}
+              onChange={(event) => {
+                setManualValue(event.target.value)
+              }}
+              
+            />
+          </Box>
+          )}
 
           <Box className={styles.textField}>
             <TextField

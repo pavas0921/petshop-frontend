@@ -18,6 +18,7 @@ import { SpeciesDashboard } from '../pages/Species/SpeciesDashboard'
 import { SalesList } from '../pages/SalesPages/SalesDashboard'
 import { SupplierDashboard } from '../pages/SupplierPages/SupplierDashboard'
 import { ExpensesCategoryDashboard } from '../pages/Expenses/ExpensesCategory'
+import { ExpensesDashboard } from '../pages/Expenses/ExpensesDashboard'
 
 const router = createBrowserRouter([
   {
@@ -52,7 +53,12 @@ const router = createBrowserRouter([
   },
   {
     path: 'basic-sale',
-    element: <BasicSalePage />,
+    element: <BasicSalePage saleType={"basic"} />,
+    errorElement: <div> Hubo un error!!</div>,
+  },
+  {
+    path: 'free-sale',
+    element: <BasicSalePage saleType={"free"} />,
     errorElement: <div> Hubo un error!!</div>,
   },
   {
@@ -115,6 +121,12 @@ const router = createBrowserRouter([
     element: <ExpensesCategoryDashboard />,
     errorElement: <div> Hubo un error!!</div>,
   },
+  {
+    path: 'expenses',
+    element: <ExpensesDashboard />,
+    errorElement: <div> Hubo un error!!</div>,
+  },
+ 
 ])
 
 export const CustomRouterProvider = () => (

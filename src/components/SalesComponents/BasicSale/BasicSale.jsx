@@ -25,9 +25,10 @@ import ToastAlert from '../../Alerts/'
 import { SaleForm } from './SaleForm'
 import productsActions from '../../../customHooks/reduxActions/productsActions'
 
-const BasicSale = () => {
+const BasicSale = ({saleType}) => {
   const [productKey, setProductKey] = useState(Date.now())
   const [selectedProduct, setSelectedProduct] = useState(null)
+  const [manualValue, setManualValue] = useState(0)
   const [totalSaleValue, setTotalSaleValue] = useState(0)
   const [qty, setQty] = useState(0)
   const [productDetails, setProductDetails] = useState([])
@@ -36,9 +37,9 @@ const BasicSale = () => {
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down('sm')) // Ajusta 'sm' según el punto de quiebre que necesites
 
-  useEffect(() => {
-    console.log('selectedProduct', selectedProduct)
-  }, [selectedProduct])
+  // useEffect(() => {
+  //   console.log('selectedProduct', selectedProduct)
+  // }, [selectedProduct])
 
   const { verifyStock, validateProductExists, reduceProductQty } =
     productsActions()
@@ -125,8 +126,15 @@ const BasicSale = () => {
   }
 
   const handleClick = () => {
-    //Valida que se haya seleccionado un producto y cantidad
-    if (!qty || !selectedProduct) {
+    let updatedProduct = selectedProduct;
+    if(saleType === "free"){
+      const copySelectedProduct = {...selectedProduct}
+      copySelectedProduct.salePrice = +manualValue * +qty
+      setSelectedProduct(copySelectedProduct)     
+      updatedProduct = copySelectedProduct;
+    }
+    //Valida que se haya seleccionado un producto y cantidadde
+    if (!qty || !updatedProduct) {
       dispatch(
         setMessage({
           error: 'error',
@@ -140,13 +148,15 @@ const BasicSale = () => {
     } else {
       //Valida si existe algún producto en la canasta
       if (saleDetail.length > 0) {
-        validateProductExists(selectedProduct, qty)
+        validateProductExists(updatedProduct, qty)
       } else {
-        verifyStock(qty, selectedProduct)
+        verifyStock(qty, updatedProduct)
       }
     }
     setProductKey(Date.now())
     setSelectedProduct('')
+    setManualValue(0);
+    updatedProduct = "";
     setQty(0)
     const timeoutId = setTimeout(() => {
       dispatch(clearState())
@@ -206,6 +216,8 @@ const BasicSale = () => {
             setTotalSaleValue={setTotalSaleValue}
             setProductKey={setProductKey}
             productKey={productKey}
+            saleType={saleType}
+            setManualValue = {setManualValue}
           />
         </Box>
       </Box>

@@ -367,6 +367,9 @@ const NavbarComponent = () => {
                 <MenuItem onClick={() => navigate('/basic-sale')}>
                   <p>Venta Básica</p>
                 </MenuItem>
+                <MenuItem onClick={() => navigate('/free-sale')}>
+                  <p>Venta Libre</p>
+                </MenuItem>
                 <MenuItem onClick={() => navigate('/sales')}>
                   <p>Listado de Ventas</p>
                 </MenuItem>
@@ -416,7 +419,7 @@ const NavbarComponent = () => {
                 <MenuItem onClick={() => navigate('/expensesCategory')}>
                   <p>Categorías</p>
                 </MenuItem>
-                <MenuItem onClick={() => navigate('/sales')}>
+                <MenuItem onClick={() => navigate('/expenses')}>
                   <p>Listado de Gastos</p>
                 </MenuItem>
               </Menu>
