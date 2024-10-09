@@ -71,8 +71,8 @@ const SaleForm = ({
   const { registerSale } = productsActions()
 
   const onSubmit = (body) => {
-    console.log('body', body)
-    //registerSale(body, totalSaleValue)
+    //console.log('body', body)
+    registerSale(body, totalSaleValue)
   }
 
   return (

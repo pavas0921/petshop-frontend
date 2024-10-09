@@ -4,6 +4,7 @@ import { useMediaQuery, useTheme } from '@mui/material'
 import { Table } from '../../Table'
 import AddIcon from '@mui/icons-material/Add'
 import RemoveIcon from '@mui/icons-material/Remove'
+import DeleteIcon from '@mui/icons-material/Delete';
 import styles from './styles.module.scss'
 import { useDispatch, useSelector } from 'react-redux'
 import {
@@ -41,7 +42,7 @@ const BasicSale = ({saleType}) => {
   //   console.log('selectedProduct', selectedProduct)
   // }, [selectedProduct])
 
-  const { verifyStock, validateProductExists, reduceProductQty } =
+  const { verifyStock, validateProductExists, reduceProductQty, deleteProductFromCarList } =
     productsActions()
 
   const paymentMethods = [
@@ -106,7 +107,19 @@ const BasicSale = ({saleType}) => {
       type: 'number',
       width: isMobile ? 100 : 150,
     },
-  ]
+    {
+      field: 'deleteProduct',
+        headerName: 'Eliminar',
+        width: isMobile ? 100 : 120,
+        renderCell: (params) => (
+          <Box>
+            <IconButton onClick={() => deleteProductFromCarList(params.row)}>
+              <DeleteIcon />
+            </IconButton>   
+          </Box>
+        ),
+      },
+    ]
 
   useEffect(() => {
     dispatch(getProductsByCompany(companyId))

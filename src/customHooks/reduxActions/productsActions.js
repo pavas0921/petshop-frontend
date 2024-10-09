@@ -102,7 +102,22 @@ const productsActions = () => {
     return index
   }
 
-  return { verifyStock, validateProductExists, registerSale }
+  const deleteProductFromCarList = (productToDelete) => {
+    const userConfirmed = window.confirm(
+      '¿Estás seguro de que deseas eliminar este producto de la venta?'
+    )
+
+    if (userConfirmed) {
+      dispatch(removeSelectedProduct(productToDelete))
+    }
+  }
+
+  return {
+    verifyStock,
+    validateProductExists,
+    registerSale,
+    deleteProductFromCarList,
+  }
 }
 
 export default productsActions
