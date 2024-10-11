@@ -9,19 +9,31 @@ import {
 import { verifyTokenExpiration } from '../../helpers/verifyToken'
 import { useNavigate } from 'react-router-dom'
 
-const useGetSuppliers = (getSupplier) => {
+const supplierActions = (getSupplier) => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  useEffect(() => {
-    const { status, companyId } = verifyTokenExpiration()
+  const tokenData = verifyTokenExpiration()
+  const { status, companyId, rolId, userId } = tokenData
+
+  const useGetSupplierByCompany = () => {
     if (status) {
-      if (getSupplier) {
-        dispatch(getSupplierByCompany(companyId))
-      }
+      dispatch(getSupplierByCompany(companyId))
     } else {
+      sessionStorage.clear()
+      localStorage.clear()
       navigate('/')
     }
-  }, [dispatch])
+  }
+  // useEffect(() => {
+  //   const { status, companyId } = verifyTokenExpiration()
+  //   if (status) {
+  //     if (getSupplier) {
+  //       dispatch(getSupplierByCompany(companyId))
+  //     }
+  //   } else {
+  //     navigate('/')
+  //   }
+  // }, [dispatch])
 
   //Clear status
   const useClearSupplierState = () => {
@@ -50,7 +62,12 @@ const useGetSuppliers = (getSupplier) => {
     }
   }
 
-  return { useClearSupplierState, useRegisterSupplier, useSupplierUpdate }
+  return {
+    useClearSupplierState,
+    useRegisterSupplier,
+    useSupplierUpdate,
+    useGetSupplierByCompany,
+  }
 }
 
-export default useGetSuppliers
+export default supplierActions

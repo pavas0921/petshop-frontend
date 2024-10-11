@@ -4,6 +4,7 @@ import { AddComponent } from '../../AddComponent'
 import { ModalComponent } from '../../ModalComponent'
 import { ExpensesForm } from '../ExpensesForm'
 
+
 const ExpensesList = () => {
   const [openModal, setOpenModal] = useState(false)
   const handleOpen = () => setOpenModal(true)
@@ -23,6 +24,8 @@ const ExpensesList = () => {
             <ExpensesForm/>
         </ModalComponent>
       )}
+
+
     </Box>
   )
 }

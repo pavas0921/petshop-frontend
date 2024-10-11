@@ -72,7 +72,7 @@ const SaleForm = ({
 
   const onSubmit = (body) => {
     //console.log('body', body)
-    registerSale(body, totalSaleValue)
+  registerSale(body, totalSaleValue)
   }
 
   return (

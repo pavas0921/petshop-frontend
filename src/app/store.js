@@ -14,6 +14,7 @@ import customerReducer from '../features/customer/customerSlice'
 import businessCategoryReducer from '../features/businessCategory/businessCategorySlice'
 import supplierReducer from '../features/supplier/supplierSlice'
 import expensesCategoryReducer from '../features/expensesCategory/expensesCategorySlice'
+import expensesReducer from '../features/expenses/expenseSlice'
 
 export const store = configureStore({
   reducer: {
@@ -32,5 +33,6 @@ export const store = configureStore({
     businessCategories: businessCategoryReducer,
     suppliers: supplierReducer,
     expensesCategory: expensesCategoryReducer,
+    expenses: expensesReducer,
   },
 })

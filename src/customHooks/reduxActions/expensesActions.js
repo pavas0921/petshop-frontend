@@ -4,6 +4,7 @@ import {
   createExpensesCategory,
   selectExpensesCategory,
 } from '../../features/expensesCategory/expensesCategorySlice'
+import { createExpense } from '../../features/expenses/expenseSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { verifyTokenExpiration } from '../../helpers/verifyToken'
 import { useNavigate } from 'react-router-dom'
@@ -25,7 +26,16 @@ const expensesCategoryActions = () => {
     }
   }
 
+  const useRegisterExpense = (body) => {
+    const { status } = verifyTokenExpiration()
+    if (status) {
+      body.idCompany = companyId
+      dispatch(createExpense(body))
+    }
+  }
+
   const useRegisterCategoryExpenses = (body) => {
+    const { status } = verifyTokenExpiration()
     if (status) {
       body.idCompany = companyId
       body.status = true
@@ -33,7 +43,11 @@ const expensesCategoryActions = () => {
     }
   }
 
-  return { useGetExpensesCategories, useRegisterCategoryExpenses }
+  return {
+    useGetExpensesCategories,
+    useRegisterCategoryExpenses,
+    useRegisterExpense,
+  }
 }
 
 export default expensesCategoryActions
