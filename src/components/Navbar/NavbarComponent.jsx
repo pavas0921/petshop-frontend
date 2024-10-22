@@ -231,6 +231,32 @@ const NavbarComponent = () => {
                   Clientes
                 </MenuItem>
               </Menu>
+
+              <Button
+                color="inherit"
+                onClick={handleClickExpenses}
+                sx={{
+                  fontWeight: 'bold',
+                  textTransform: 'capitalize',
+                  fontSize: '1rem',
+                }}
+              >
+                Gastos
+              </Button>
+
+    
+              <Menu
+                anchorEl={anchorExpenses}
+                open={Boolean(anchorExpenses)}
+                onClose={handleCloseExpenses}
+              >
+                <MenuItem onClick={() => navigate('/expensesCategory')}>
+                  <p>Categorías</p>
+                </MenuItem>
+                <MenuItem onClick={() => navigate('/expenses')}>
+                  <p>Listado de Gastos</p>
+                </MenuItem>
+              </Menu>
             </Drawer>
           ) : (
             <>
