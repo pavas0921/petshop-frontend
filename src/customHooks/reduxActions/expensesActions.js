@@ -4,7 +4,10 @@ import {
   createExpensesCategory,
   selectExpensesCategory,
 } from '../../features/expensesCategory/expensesCategorySlice'
-import { createExpense } from '../../features/expenses/expenseSlice'
+import {
+  createExpense,
+  getExpensesByCompany,
+} from '../../features/expenses/expenseSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { verifyTokenExpiration } from '../../helpers/verifyToken'
 import { useNavigate } from 'react-router-dom'
@@ -43,10 +46,18 @@ const expensesCategoryActions = () => {
     }
   }
 
+  const useGetExpensesByCompany = () => {
+    const { status } = verifyTokenExpiration()
+    if (status) {
+      dispatch(getExpensesByCompany(companyId))
+    }
+  }
+
   return {
     useGetExpensesCategories,
     useRegisterCategoryExpenses,
     useRegisterExpense,
+    useGetExpensesByCompany,
   }
 }
 

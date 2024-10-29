@@ -1,5 +1,8 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { createExpenseAPI } from '../../services/expenses'
+import {
+  createExpenseAPI,
+  getExpensesByCompanyAPI,
+} from '../../services/expenses'
 
 const initialState = {
   expenses: [],
@@ -14,6 +17,14 @@ export const createExpense = createAsyncThunk('createExpense', async (body) => {
   const data = await createExpenseAPI(body)
   return data
 })
+
+export const getExpensesByCompany = createAsyncThunk(
+  'get/getExpensesByCompany',
+  async (idCompany) => {
+    const data = await getExpensesByCompanyAPI(idCompany)
+    return data
+  }
+)
 
 export const ExpenseSlice = createSlice({
   name: 'expenses',
@@ -36,6 +47,16 @@ export const ExpenseSlice = createSlice({
           state.expensesMessage = action.payload.message
           state.expensesFlag = true
         }
+      })
+      .addCase(getExpensesByCompany.pending, (state) => {
+        state.expensesLoading = true
+      })
+      .addCase(getExpensesByCompany.fulfilled, (state, action) => {
+        state.expensesLoading = false
+        console.log(action.payload)
+        state.expenses = action.payload.content
+        state.expensesHttpStatus = action.payload.httpStatus
+        state.expensesStatus = action.payload.status
       })
   },
 })
