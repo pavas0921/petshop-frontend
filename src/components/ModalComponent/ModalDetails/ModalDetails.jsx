@@ -1,26 +1,39 @@
 import React from 'react'
-import Box from '@mui/material/Box'
-import Button from '@mui/material/Button'
-import Typography from '@mui/material/Typography'
-import Modal from '@mui/material/Modal'
+import {
+  Button,
+  Modal,
+  Box,
+  Typography,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Grid,
+  useMediaQuery,
+  useTheme
+} from '@mui/material';
 
 const ModalDetails = (props) => {
   const { open, handleClose, setAlert, product, update, children } = props
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const style = {
     position: 'absolute',
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: '60%',
+    width: isMobile ? '95%' : 'auto',
     bgcolor: 'background.paper',
-    border: '2px solid #000000',
     boxShadow: 24,
-    p: 4,
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: '20px',
+    p: isMobile ? 2 : 4,
+    maxHeight: '90vh',
+    overflowY: 'auto',
+    minWidth: isMobile ? '95%' : '80%',
+    maxWidth: '95%',
+    borderRadius: 2,
   }
   return (
     <Modal
@@ -30,7 +43,7 @@ const ModalDetails = (props) => {
       aria-describedby="modal-modal-description"
       sx={{ minHeigth: '80vh' }}
     >
-      <Box sx={style}>{children}</Box>
+     {children}
     </Modal>
   )
 }

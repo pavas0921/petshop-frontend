@@ -9,6 +9,7 @@ import { MenuFilter } from '../../MenuFilterComponent'
 import { ModalComponent } from '../../ModalComponent'
 import { ModalDetails } from '../../ModalComponent/ModalDetails'
 import { saleDetailsColumns } from '../../../helpers/tableColumns/saleDetailsColumns'
+import SaleDetails from '../SaleDetails/SaleDetails'
 
 const SalesTable = () => {
   const ventasResponse = useSalesByDate()
@@ -111,73 +112,7 @@ const SalesTable = () => {
           open={openModal}
           handleClose={handleClose}
         >
-          <Box className={styles.box_container}>
-            <Box className={styles.title}>
-              <Typography variant="h4" color="initial">
-                <p>Detalle de Venta</p>
-              </Typography>
-            </Box>
-            <Box className={styles.salesHeader}>
-              <TextField
-                disabled
-                id="outlined-disabled"
-                label="Venta #"
-                defaultValue={saleDetail._id}
-                size="small"
-                sx={{ width: '31.8%' }}
-              />
-              <TextField
-                disabled
-                id="outlined-disabled"
-                label="Cliente"
-                defaultValue={saleDetail.fullName}
-                size="small"
-                sx={{ width: '31.8%' }}
-              />
-              <TextField
-                disabled
-                id="outlined-disabled"
-                label="Método de Pago"
-                defaultValue={saleDetail.payMethod}
-                size="small"
-                sx={{ width: '31.8%' }}
-              />
-              <TextField
-                disabled
-                id="outlined-disabled"
-                label="Estado del Pago"
-                defaultValue={saleDetail.saleType}
-                size="small"
-                sx={{ width: '31.8%' }}
-              />
-              <TextField
-                disabled
-                id="outlined-disabled"
-                label="Total Venta"
-                defaultValue={saleDetail.totalVenta}
-                size="small"
-                sx={{ width: '31.8%' }}
-              />
-              <TextField
-                disabled
-                id="outlined-disabled"
-                label="Fecha"
-                defaultValue={saleDetail.date}
-                size="small"
-                sx={{ width: '31.8%' }}
-              />
-            </Box>
-            <Box className={styles.tableSalesDetail}>
-              <Table
-                columns={saleDetailsColumns}
-                rows={saleDetail.detalleVenta}
-                loading={loading}
-                rowHeight={56}
-                columnHeaderHeight={56}
-                title={'Listado de Productos'}
-              />
-            </Box>
-          </Box>
+          <SaleDetails />
         </ModalDetails>
       )}
     </Box>
