@@ -93,6 +93,8 @@ const SalesTable = () => {
             </Box>
           )
         )}
+
+        
         {totalSales && (
           <Typography variant="h4" color="initial">
             <p>Total Ventas: {totalSales}</p>
