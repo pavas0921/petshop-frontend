@@ -30,7 +30,7 @@ const SupplierTable = ({ rows, loading, setOpenModal, setItem }) => {
     {
       field: 'actions',
       headerName: 'Acciones',
-      width: 80,
+      width: 100,
       renderCell: (params) => (
         <Box>
           <IconButton onClick={(event) => handleClick(event, params.row)}>

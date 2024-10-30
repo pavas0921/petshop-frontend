@@ -9,7 +9,7 @@ import {
 import { verifyTokenExpiration } from '../../helpers/verifyToken'
 import { useNavigate } from 'react-router-dom'
 
-const supplierActions = (getSupplier) => {
+const supplierActions = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const tokenData = verifyTokenExpiration()

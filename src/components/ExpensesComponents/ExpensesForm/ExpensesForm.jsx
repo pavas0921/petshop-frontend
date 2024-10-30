@@ -9,16 +9,21 @@ import { useSelector } from 'react-redux'
 import { selectExpensesCategory } from '../../../features/expensesCategory/expensesCategorySlice'
 import { selectSupplierState } from '../../../features/supplier/supplierSlice'
 import { selectExpenseState } from '../../../features/expenses/expenseSlice'
-import {Loader} from "../../Loader"
+import ToastAlert from '../../Alerts/'
+import { Loader } from '../../Loader'
 
 const ExpensesForm = () => {
   const { useGetExpensesCategories, useRegisterExpense } = expensesActions()
   const { useGetSupplierByCompany } = supplierActions()
   const { expensesCategories } = useSelector(selectExpensesCategory)
-  const { expensesLoading } = useSelector(selectExpenseState)
+  const { expensesLoading, expensesFlag } = useSelector(selectExpenseState)
   const { suppliers } = useSelector(selectSupplierState)
   const [key, setKey] = useState(Date.now())
   const today = new Date().toISOString().split('T')[0]
+
+  useEffect(() => {
+    console.log('flag', expensesFlag)
+  }, [expensesFlag])
 
   const paymentMethods = [
     { label: 'Efectivo', code: 'Efectivo' },
@@ -33,7 +38,7 @@ const ExpensesForm = () => {
   }, [])
 
   useEffect(() => {
-    console.log(expensesLoading);
+    console.log(expensesLoading)
   }, [expensesLoading])
 
   const onSubmit = (body) => {
@@ -83,10 +88,7 @@ const ExpensesForm = () => {
             placeholder="Categoría"
             key={key}
             onChange={(selectedOption) =>
-              setValue(
-                'category',
-                selectedOption ? selectedOption.value : null
-              )
+              setValue('category', selectedOption ? selectedOption.value : null)
             }
             options={expensesCategories.map((categories) => ({
               value: categories._id,
@@ -100,17 +102,6 @@ const ExpensesForm = () => {
           />
 
           <TextField
-            name="cost"
-            {...register('cost', {
-              required: 'El campo costo es requerido',
-            })}
-            size="small"
-            label="Valor Compra"
-            className={styles.textField}
-            helperText={errors.cost && errors.cost.message}
-          />
-
-          <TextField
             name="description"
             {...register('description', {
               required: 'El campo descripción es requerido',
@@ -119,6 +110,17 @@ const ExpensesForm = () => {
             label="Descripción de la Compra"
             className={styles.textField}
             helperText={errors.description && errors.description.message}
+          />
+
+          <TextField
+            name="cost"
+            {...register('cost', {
+              required: 'El campo costo es requerido',
+            })}
+            size="small"
+            label="Valor Compra"
+            className={styles.textField}
+            helperText={errors.cost && errors.cost.message}
           />
 
           <Select
@@ -181,9 +183,6 @@ const ExpensesForm = () => {
             </Button>
           </Box>
         </form>
-        {expensesLoading &&(
-          <Loader/>
-        )}
       </Box>
     </Box>
   )

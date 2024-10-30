@@ -9,14 +9,14 @@ import { ModalComponent } from '../../ModalComponent'
 import { SupplierForm } from '../SupplierForm'
 import ToastAlert from '../../Alerts/ToastAlert'
 import { Loader } from '../../LoaderComponent'
-import useGetSuppliers from '../../../customHooks/reduxActions/supplierActions'
+import supplierActions from '../../../customHooks/reduxActions/supplierActions'
 import { runTimer } from '../../../helpers/runTimer'
 import Select from 'react-select'
 
 const SupplierMain = () => {
-  //useGetSuppliers()
+  const { useGetSupplierByCompany, useClearSupplierState } = supplierActions();
   const [openModal, setOpenModal] = useState(false)
-  const { useClearSupplierState } = useGetSuppliers(true)
+  //const { useClearSupplierState } = useGetSuppliers(true)
   const [item, setItem] = useState()
   const handleClose = () => {
     setOpenModal(false)
@@ -38,6 +38,10 @@ const SupplierMain = () => {
       handleClose()
     }
   }, [supplierFlag])
+
+  useEffect(() => {
+    useGetSupplierByCompany()
+  }, [])
 
   return (
     <Box className={styles.box_main}>

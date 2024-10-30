@@ -41,7 +41,7 @@ export const ExpenseSlice = createSlice({
           action.payload.httpStatus === 201 &&
           action.payload.status === 'success'
         ) {
-          state.expenses.push(action.payload.expenses)
+          state.expenses.push(action.payload.content)
           state.expensesHttpStatus = action.payload.httpStatus
           state.expensesStatus = action.payload.status
           state.expensesMessage = action.payload.message
@@ -53,10 +53,17 @@ export const ExpenseSlice = createSlice({
       })
       .addCase(getExpensesByCompany.fulfilled, (state, action) => {
         state.expensesLoading = false
-        console.log(action.payload)
-        state.expenses = action.payload.content
-        state.expensesHttpStatus = action.payload.httpStatus
-        state.expensesStatus = action.payload.status
+        state.expensesFlag = false
+        if (action.payload.httpStatus === 204) {
+          state.expenses = []
+          state.expensesHttpStatus = action.payload.httpStatus
+          state.expensesStatus = action.payload.status
+        }
+        if (action.payload.httpStatus === 200) {
+          state.expenses = action.payload.content
+          state.expensesHttpStatus = action.payload.httpStatus
+          state.expensesStatus = action.payload.status
+        }
       })
   },
 })
