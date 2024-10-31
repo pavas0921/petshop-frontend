@@ -27,7 +27,6 @@ const CardSales = () => {
   const today = getLocalDate()
 
   useEffect(() => {
-    console.log('Hoy', today)
     const isValidToken = verifyTokenExpiration()
     const { status, companyId, rolId, userId } = isValidToken
     dispatch(
