@@ -26,7 +26,7 @@ import {
 import SaleHeader from './SaleHeader';
 import SaleProductList from './SaleProductList';
 
-const SaleDetails = () => {
+const SaleDetails = ({saleDetail}) => {
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   return (
@@ -44,19 +44,38 @@ const SaleDetails = () => {
         minWidth: isMobile ? '95%' : '80%',
         maxWidth: '95%',
         borderRadius: 2,
+        
       }}>
       <Typography
         id="modal-modal-title"
-        variant="h6"
+        variant="h4"
         component="h2"
-        sx={{ textAlign: 'center', mb: 3 }}
+        sx={{ textAlign: 'center', mb: 5 }}
+        fontFamily={'Baloo 2'}
       >
         Detalle de Venta
       </Typography>
 
-      <SaleHeader isMobile={isMobile} theme={theme} />
+      <Box sx={{
+        width: '100%',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        flexDirection: 'column',
+      }}>
+        <Box sx={{
+          width: '100%',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
+          <SaleHeader isMobile={isMobile} theme={theme} saleDetail={saleDetail} />
+        </Box>
+   
 
-      <SaleProductList isMobile={isMobile} theme={theme} />
+      <SaleProductList isMobile={isMobile} theme={theme} saleDetail={saleDetail} />
+      </Box>
+
         
     </Box>
   )

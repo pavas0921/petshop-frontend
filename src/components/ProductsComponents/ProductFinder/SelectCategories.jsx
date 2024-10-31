@@ -30,21 +30,23 @@ const SelectCategories = ({ selectedCategory, setSelectedCategory }) => {
       <InputLabel id="idCategoria" sx={{ marginTop: '-7px' }}>
         Filtrar por Categoría
       </InputLabel>
-      <Select
-        value={selectedCategory}
-        onChange={handleCategoryChange}
-        size="small"
-        label="Buscar por Categoría"
-        sx={{ width: '100%', height: 'auto' }}
-        id="idCategoria"
-      >
-        <MenuItem value="">Todas las Categorías</MenuItem>
-        {categories.map((item, index) => (
-          <MenuItem key={index} value={item._id}>
-            {item.name}
-          </MenuItem>
-        ))}
-      </Select>
+      {categories && categories.length > 0 && (
+        <Select
+          value={selectedCategory}
+          onChange={handleCategoryChange}
+          size="small"
+          label="Buscar por Categoría"
+          sx={{ width: '100%', height: 'auto' }}
+          id="idCategoria"
+        >
+          <MenuItem value="">Todas las Categorías</MenuItem>
+          {categories.map((item, index) => (
+            <MenuItem key={index} value={item._id}>
+              {item.name}
+            </MenuItem>
+          ))}
+        </Select>
+      )}
     </FormControl>
   )
 }

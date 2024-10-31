@@ -1,52 +1,51 @@
-//const API_BASE_URL = "https://muezzapets-backend.onrender.com";
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 //const API_BASE_URL = "http://localhost:4000";
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URLs
 
 export const getAllCategoryAPI = async () => {
   try {
-    const url = `${API_BASE_URL}/categoria`;
+    const url = `${API_BASE_URL}/categoria`
     const req = await fetch(url, {
-      method: "GET",
+      method: 'GET',
       headers: {
         //Authorization: `Bearer ${token}`,
       },
-    });
-    const data = await req.json();
-    return Promise.resolve(data);
+    })
+    const data = await req.json()
+    return Promise.resolve(data)
   } catch (error) {
-    return Promise.resolve(error);
+    return Promise.resolve(error)
   }
-};
+}
 
 export const getAllCategoryByIdAPI = async (idCompany) => {
   try {
-    const url = `${API_BASE_URL}/categoria/${idCompany}`;
+    const url = `${API_BASE_URL}/categoria/${idCompany}`
     const req = await fetch(url, {
-      method: "GET",
+      method: 'GET',
       headers: {
         //Authorization: `Bearer ${token}`,
       },
-    });
-    const data = await req.json();
-    return Promise.resolve(data);
+    })
+    const data = await req.json()
+    return Promise.resolve(data)
   } catch (error) {
-    return Promise.resolve(error);
+    return Promise.resolve(error)
   }
-};
+}
 
 export const createCategoryAPI = async (body) => {
   try {
-    const url = `${API_BASE_URL}/categoria`;
+    const url = `${API_BASE_URL}/categoria`
     const req = await fetch(url, {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify(body),
-    });
-    const data = await req.json();
-    return Promise.resolve(data);
+    })
+    const data = await req.json()
+    return Promise.resolve(data)
   } catch (error) {
-    return Promise.resolve(error);
+    return Promise.resolve(error)
   }
-};
+}

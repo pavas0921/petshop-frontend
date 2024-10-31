@@ -1,60 +1,68 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'
 import {
-  Button,
-  Modal,
-  Box,
-  Typography,
   Table,
   TableBody,
-  TableCell,
   TableContainer,
   TableHead,
   TableRow,
   Paper,
-  Grid,
-  useMediaQuery,
-  useTheme
-} from '@mui/material';
-import {
-  Person as PersonIcon,
-  CreditCard as CreditCardIcon,
-  Inventory as InventoryIcon,
-  AttachMoney as AttachMoneyIcon,
-  CalendarToday as CalendarTodayIcon,
-  Receipt as ReceiptIcon
-} from '@mui/icons-material';
+} from '@mui/material'
+import { styled } from '@mui/material/styles'
+import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 
-const SaleProductList = ({isMobile, theme}) => {
-    const productosVendidos = [
-        { id: 1, nombre: 'Producto A', cantidad: 2, precioUnitario: 250, total: 500 },
-        { id: 2, nombre: 'Producto B', cantidad: 1, precioUnitario: 750, total: 750 },
-      ];
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  [`&.${tableCellClasses.head}`]: {
+    backgroundColor: theme.palette.common.black,
+    color: theme.palette.common.white,
+  },
+  [`&.${tableCellClasses.body}`]: {
+    fontSize: 14,
+  },
+}))
+
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+  '&:nth-of-type(odd)': {
+    backgroundColor: theme.palette.action.hover,
+  },
+  // hide last border
+  '&:last-child td, &:last-child th': {
+    border: 0,
+  },
+}))
+
+const SaleProductList = ({ isMobile, theme, saleDetail }) => {
   return (
-         <TableContainer component={Paper}>
-            <Table aria-label="tabla de productos" size={isMobile ? "small" : "medium"}>
-              <TableHead>
-                <TableRow>
-                  <TableCell>Producto</TableCell>
-                  <TableCell align="right">Cantidad</TableCell>
-                  <TableCell align="right">Precio Unitario</TableCell>
-                  <TableCell align="right">Total</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {productosVendidos.map((producto) => (
-                  <TableRow key={producto.id}>
-                    <TableCell component="th" scope="row">
-                      {producto.nombre}
-                    </TableCell>
-                    <TableCell align="right">{producto.cantidad}</TableCell>
-                    <TableCell align="right">${producto.precioUnitario.toFixed(2)}</TableCell>
-                    <TableCell align="right">${producto.total.toFixed(2)}</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-
+    <TableContainer component={Paper} sx={{ mt: 5 }}>
+      <Table
+        aria-label="tabla de productos"
+        size={isMobile ? 'small' : 'medium'}
+      >
+        <TableHead>
+          <TableRow>
+            <StyledTableCell>Producto</StyledTableCell>
+            <StyledTableCell align="right">Cantidad</StyledTableCell>
+            <StyledTableCell align="right">Precio Unitario</StyledTableCell>
+            <StyledTableCell align="right">Total</StyledTableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {saleDetail.detalleVenta.map((producto, index) => (
+            <StyledTableRow key={index}>
+              <StyledTableCell component="th" scope="row">
+                {producto.productName}
+              </StyledTableCell>
+              <StyledTableCell align="right">{producto.qty}</StyledTableCell>
+              <StyledTableCell align="right">
+                ${producto.unitPrice}
+              </StyledTableCell>
+              <StyledTableCell align="right">
+                ${producto.totalPrice}
+              </StyledTableCell>
+            </StyledTableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
   )
 }
 

@@ -47,10 +47,10 @@ const SalesTable = () => {
   ]
 
   const handleClick = (event, row) => {
-    console.log(row)
-    setOpenModal(true)
     setSaleDetail(row)
+    setOpenModal(true)
   }
+
   const calcularTotalVentas = (ventas) => {
     return ventas.reduce((total, venta) => {
       return total + venta.totalVenta
@@ -111,8 +111,9 @@ const SalesTable = () => {
           className={styles.modalContainer}
           open={openModal}
           handleClose={handleClose}
+          
         >
-          <SaleDetails />
+          <SaleDetails saleDetail={saleDetail} />
         </ModalDetails>
       )}
     </Box>
