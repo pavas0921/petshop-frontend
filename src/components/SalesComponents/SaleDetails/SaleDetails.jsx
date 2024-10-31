@@ -74,6 +74,7 @@ const SaleDetails = ({saleDetail}) => {
    
 
       <SaleProductList isMobile={isMobile} theme={theme} saleDetail={saleDetail} />
+      
       </Box>
 
         

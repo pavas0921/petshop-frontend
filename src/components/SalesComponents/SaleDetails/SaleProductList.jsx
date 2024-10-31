@@ -37,6 +37,9 @@ const SaleProductList = ({ isMobile, theme, saleDetail }) => {
         aria-label="tabla de productos"
         size={isMobile ? 'small' : 'medium'}
       >
+         <TableBody>
+          
+         </TableBody>
         <TableHead>
           <TableRow>
             <StyledTableCell>Producto</StyledTableCell>
