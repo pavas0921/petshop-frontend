@@ -7,6 +7,7 @@ import {
 import {
   createExpense,
   getExpensesByCompany,
+  getDailyExpensesCount,
 } from '../../features/expenses/expenseSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { verifyTokenExpiration } from '../../helpers/verifyToken'
@@ -53,11 +54,22 @@ const expensesCategoryActions = () => {
     }
   }
 
+  const useGetDailyExpensesCount = () => {
+    const body = {
+      idCompany: companyId,
+    }
+    const { status } = verifyTokenExpiration()
+    if (status) {
+      dispatch(getDailyExpensesCount(body))
+    }
+  }
+
   return {
     useGetExpensesCategories,
     useRegisterCategoryExpenses,
     useRegisterExpense,
     useGetExpensesByCompany,
+    useGetDailyExpensesCount,
   }
 }
 

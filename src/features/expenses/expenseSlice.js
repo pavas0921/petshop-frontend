@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import {
   createExpenseAPI,
   getExpensesByCompanyAPI,
+  getDailyExpensesCountAPI,
 } from '../../services/expenses'
 
 const initialState = {
@@ -11,6 +12,7 @@ const initialState = {
   expensesHttpStatus: null,
   expensesStatus: null,
   expensesFlag: false,
+  expensesDetail: [],
 }
 
 export const createExpense = createAsyncThunk('createExpense', async (body) => {
@@ -22,6 +24,14 @@ export const getExpensesByCompany = createAsyncThunk(
   'get/getExpensesByCompany',
   async (idCompany) => {
     const data = await getExpensesByCompanyAPI(idCompany)
+    return data
+  }
+)
+
+export const getDailyExpensesCount = createAsyncThunk(
+  'get/getDailyExpensesCount',
+  async (idCompany) => {
+    const data = await getDailyExpensesCountAPI(idCompany)
     return data
   }
 )
@@ -61,6 +71,23 @@ export const ExpenseSlice = createSlice({
         }
         if (action.payload.httpStatus === 200) {
           state.expenses = action.payload.content
+          state.expensesHttpStatus = action.payload.httpStatus
+          state.expensesStatus = action.payload.status
+        }
+      })
+      .addCase(getDailyExpensesCount.pending, (state) => {
+        state.expensesLoading = true
+      })
+      .addCase(getDailyExpensesCount.fulfilled, (state, action) => {
+        state.expensesLoading = false
+        state.expensesFlag = false
+        if (action.payload.httpStatus === 204) {
+          state.expenses = []
+          state.expensesHttpStatus = action.payload.httpStatus
+          state.expensesStatus = action.payload.status
+        }
+        if (action.payload.httpStatus === 200) {
+          state.expensesDetail = action.payload.content
           state.expensesHttpStatus = action.payload.httpStatus
           state.expensesStatus = action.payload.status
         }

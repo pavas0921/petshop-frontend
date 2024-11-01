@@ -34,3 +34,20 @@ export const getExpensesByCompanyAPI = async (companyId) => {
     return error
   }
 }
+
+export const getDailyExpensesCountAPI = async (body) => {
+  try {
+    const url = `${API_BASE_URL}/expense/dailyCount`
+    const req = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body),
+    })
+    const data = await req.json()
+    return Promise.resolve(data)
+  } catch {
+    return Promise.resolve(error)
+  }
+}

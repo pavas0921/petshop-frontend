@@ -31,7 +31,7 @@ const BasicSale = ({saleType}) => {
   const [selectedProduct, setSelectedProduct] = useState(null)
   const [manualValue, setManualValue] = useState(0)
   const [totalSaleValue, setTotalSaleValue] = useState(0)
-  const [qty, setQty] = useState(0)
+  const [qty, setQty] = useState(1)
   const [productDetails, setProductDetails] = useState([])
   const tokenData = verifyTokenExpiration()
   const { companyId } = tokenData
@@ -149,7 +149,7 @@ const BasicSale = ({saleType}) => {
       updatedProduct = copySelectedProduct;
     }
     //Valida que se haya seleccionado un producto y cantidadde
-    if (!qty || !updatedProduct) {
+    if (!qty || qty <= 0 || !updatedProduct) {
       dispatch(
         setMessage({
           error: 'error',

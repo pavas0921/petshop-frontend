@@ -16,6 +16,7 @@ const ExpensesList = () => {
   const { useGetExpensesByCompany } = expensesCategoryActions()
   const [openModal, setOpenModal] = useState(false)
   const [formattedExpenses, setFormattedExpenses] = useState([])
+  const [item, setItem] = useState()
   const { expenses, expensesLoading, expensesFlag, expensesHttpStatus, expensesMessage, expensesStatus } = useSelector(selectExpenseState)
   const handleOpen = () => setOpenModal(true)
   const handleClose = () => {
@@ -36,6 +37,12 @@ const ExpensesList = () => {
       setFormattedExpenses(formatDateExpenses);
     }
   }, [expenses])
+
+  const handleClick = (event, item) => {
+    event.stopPropagation() // Evita que el clic llegue al contenedor padre
+    setOpenModal(true)
+    setItem(item)
+  }
   
 
   const columns = [
@@ -53,7 +60,7 @@ const ExpensesList = () => {
       renderCell: (params) => (
         <Box>
           <IconButton>
-            <VisibilityIcon />
+            <VisibilityIcon onClick={(event) => handleClick(event, params.row)} />
           </IconButton>
           <IconButton>
             <DeleteIcon />
@@ -84,7 +91,7 @@ const ExpensesList = () => {
           handleOpen={handleOpen}
           handleClose={handleClose}
         >
-          <ExpensesForm />
+          <ExpensesForm item={item} />
         </ModalComponent>
       )}
 

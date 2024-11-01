@@ -12,7 +12,7 @@ import { selectExpenseState } from '../../../features/expenses/expenseSlice'
 import ToastAlert from '../../Alerts/'
 import { Loader } from '../../Loader'
 
-const ExpensesForm = () => {
+const ExpensesForm = ({item}) => {
   const { useGetExpensesCategories, useRegisterExpense } = expensesActions()
   const { useGetSupplierByCompany } = supplierActions()
   const { expensesCategories } = useSelector(selectExpensesCategory)
@@ -59,6 +59,18 @@ const ExpensesForm = () => {
     },
   })
 
+  useEffect(() => {
+    console.log(item)
+    if(item){
+      setValue('date', item.date)
+      setValue('category', item.category._id)
+      setValue('supplier', item.supplier)
+      setValue('paymentMethod', item.paymentMethod)
+      setValue('cost', item.cost)
+      setValue('description', item.description)
+    }
+  }, [item])
+
   return (
     <Box className={styles.box_main}>
       <Box>
@@ -83,10 +95,14 @@ const ExpensesForm = () => {
 
           <Select
             name="category"
+            {...register('category', { required: 'Debe seleccionar una categoria para continuar' })}
             className={styles.select}
             classNamePrefix="select"
             placeholder="Categoría"
             key={key}
+            defaultValue={
+              item ? { value: item.category._id, label: item.category?.category_name } : null
+            }
             onChange={(selectedOption) =>
               setValue('category', selectedOption ? selectedOption.value : null)
             }
@@ -132,7 +148,9 @@ const ExpensesForm = () => {
             classNamePrefix="select"
             placeholder="Metodo de pago"
             key={key}
-            //defaultValue={getValues('payMethod')}
+            defaultValue={
+              item ? { value: item.paymentMethod, label: item.paymentMethod } : null
+            }
             onChange={(selectedOption) =>
               setValue('paymentMethod', selectedOption.value)
             }
@@ -163,6 +181,9 @@ const ExpensesForm = () => {
               value: supplier._id,
               label: supplier.companyName,
             }))}
+            defaultValue={
+              item ? { value: item.idSupplier._id, label: item.idSupplier.companyName } : null
+            }
             menuPlacement="top"
             menuPortalTarget={document.body}
             styles={{

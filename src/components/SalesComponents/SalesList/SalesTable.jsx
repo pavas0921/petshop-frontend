@@ -26,14 +26,15 @@ const SalesTable = () => {
   const columns = [
     { field: 'date', headerName: 'Fecha', width: 120 },
     { field: 'fullName', headerName: 'Cliente', width: 150 },
-    { field: 'payMethod', headerName: 'Metodo de pago', width: 110 },
-    { field: 'saleType', headerName: 'Estado del pago', width: 110 },
-    { field: 'totalVenta', headerName: 'Total Venta', width: 110 },
+    { field: 'payMethod', headerName: 'Metodo de pago', width: 150 },
+    { field: 'saleType', headerName: 'Estado del pago', width: 150 },
+    { field: 'totalVenta', headerName: 'Total Venta', width: 150 },
 
     {
       field: 'actions',
       headerName: 'Ver Detalles',
-      width: 90,
+      align: 'left',
+      width: 150,
       renderCell: (params) => (
         <Box>
           <IconButton>

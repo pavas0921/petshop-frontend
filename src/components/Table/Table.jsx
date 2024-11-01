@@ -31,6 +31,16 @@ const Table = ({
                 whiteSpace: 'normal', // Esto permite que el texto se desplace hacia abajo si es necesario
                 lineHeight: 'normal', // Esto también puede ayudar con el desplazamiento del texto
               },
+              '& .MuiDataGrid-columnHeaders': {
+                backgroundColor: '#000000', // Cambia el color a lo que prefieras
+                color: 'white',
+                fontSize: "1rem",           // Tamaño de fuente 
+                fontWeight: "bold",           // Peso de la fuente
+              },
+              '& .MuiDataGrid-row:nth-of-type(odd)': {
+                backgroundColor: '#f5f5f5', // Color para las filas impares
+              },
+              
             }}
             rows={rows}
             columns={columns}
