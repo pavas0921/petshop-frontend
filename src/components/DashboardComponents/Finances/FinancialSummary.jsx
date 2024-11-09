@@ -35,6 +35,7 @@ const FinancialSummary = () => {
   const dispatch = useDispatch()
   const [salesChanePercentage, setSalesChanePercentage] = useState();
   const [expensesChangePercentage, setExpensesChangePercentage] = useState();
+  const [balance, setBalance] = useState();
   const { totalDailySales } = useSelector(selectVentasState)
   const today = getLocalDate()
 
@@ -53,7 +54,10 @@ const FinancialSummary = () => {
   useEffect(() => {
     if(totalDailySales){
       setSalesChanePercentage(calculateSalesChangePercentage(totalDailySales?.totalToday, totalDailySales?.totalYesterday));
-      setExpensesChangePercentage(calculateSalesChangePercentage(expensesDetail?.totalToday, expensesDetail?.totalYesterday));  
+      setExpensesChangePercentage(calculateSalesChangePercentage(expensesDetail?.totalToday, expensesDetail?.totalYesterday));
+      const yesterdayBalance = totalDailySales.totalYesterday - expensesDetail.totalYesterday
+      const todayBalance = totalDailySales.totalToday - expensesDetail.totalToday
+      setBalance(calculateSalesChangePercentage(todayBalance, yesterdayBalance)) 
     }
   }, [totalDailySales, expensesDetail])
 
@@ -84,7 +88,10 @@ const FinancialSummary = () => {
           <CardFinancialHealth
           title={"Gastos del Día"}
           value={expensesDetail?.totalToday > 0 ? expensesDetail.totalToday : 0}  
-          icon={<TrendingUpIcon color="success" />} 
+          icon={
+            salesChanePercentage < 0 ? 
+            <TrendingDownIcon color="error" /> :
+            <TrendingUpIcon color="success" />} 
           change={`${expensesChangePercentage}% del día anterior`}
           />
         </Grid>
@@ -94,7 +101,9 @@ const FinancialSummary = () => {
           title={"Balance del Día"}
           value={totalDailySales?.totalToday - expensesDetail?.totalToday }
           icon={<AccountBalanceIcon color="success" />}
-          change={"+20.1% del día anterior"} />
+          
+          change={`${balance}% del día anterior`}
+          />
         </Grid>
       </Grid>
 
