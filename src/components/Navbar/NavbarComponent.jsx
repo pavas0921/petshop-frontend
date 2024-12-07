@@ -136,6 +136,18 @@ const NavbarComponent = () => {
 
               <Button
                 color="inherit"
+                onClick={() => navigate('/activeProducts')}
+                sx={{
+                  fontWeight: 'bold',
+                  textTransform: 'capitalize',
+                  fontSize: '1rem',
+                }}
+              >
+                Productos Activos
+              </Button>
+
+              <Button
+                color="inherit"
                 onClick={() => navigate('/products')}
                 sx={{
                   fontWeight: 'bold',
@@ -143,7 +155,7 @@ const NavbarComponent = () => {
                   fontSize: '1rem',
                 }}
               >
-                Productos
+                Todos los Productos
               </Button>
 
               <Button

@@ -16,8 +16,8 @@ const initialState = {
   productFlag: false
 };
 
-export const getProducts = createAsyncThunk("get/products", async () => {
-  const data = await getAllProductsAPI();
+export const getProducts = createAsyncThunk("get/products", async (companyId) => {
+  const data = await getAllProductsAPI(companyId);
   return data;
 });
 
@@ -40,6 +40,7 @@ export const createProduct = createAsyncThunk(
 export const disableProductById = createAsyncThunk(
   "delete/disableProductById",
   async ({ body, _id }) => {
+    
     const data = await disableProductByIdAPI(body, _id);
     return data;
   }
@@ -109,14 +110,17 @@ export const ProductSlice = createSlice({
           action.payload.httpStatus === 200 &&
           action.payload.status === "success"
         ) {
+          
           const index = state.products.findIndex(
             (item) => item._id === action.payload.updated._id
           );
+          
           if (index !== -1) {
+            console.log("action", action.payload)
             state.productHttpStatus = action.payload.httpStatus;
             state.productStatus = action.payload.status;
             state.productMessage = action.payload.message;
-            state.products[index].status === action.payload.updated.status;
+            state.products[index] = action.payload.updated;
             state.productFlag = true;
           }
         }
@@ -134,6 +138,7 @@ export const ProductSlice = createSlice({
             (item) => item._id === action.payload.updated._id
           );
           if (index !== -1) {
+            console.log(state.products)
             state.productHttpStatus = action.payload.httpStatus;
             state.productStatus = action.payload.status;
             state.productMessage = action.payload.message;

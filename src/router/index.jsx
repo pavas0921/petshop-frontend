@@ -37,8 +37,13 @@ const router = createBrowserRouter([
     errorElement: <div> Hubo un error!!</div>,
   },
   {
+    path: 'activeProducts',
+    element: <ProductsDashboard getActiveProducts={true} />,
+    errorElement: <div> Hubo un error!!</div>,
+  },
+  {
     path: 'products',
-    element: <ProductsDashboard />,
+    element: <ProductsDashboard getActiveProducts={false} />,
     errorElement: <div> Hubo un error!!</div>,
   },
   {

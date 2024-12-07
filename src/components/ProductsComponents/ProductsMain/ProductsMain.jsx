@@ -8,6 +8,7 @@ import {
   selectProductState,
   clearAlert,
   getProductsByCompany,
+  getProducts,
 } from '../../../features/producto/productoSlice'
 import { AddComponent } from '../../AddComponent'
 import styles from './styles.module.scss'
@@ -21,7 +22,7 @@ import { ViewSwitcher } from '../SelectorProductsView'
 import { Table } from '../../Table'
 import { width } from '@fortawesome/free-solid-svg-icons/fa0'
 
-const ProductsMain = () => {
+const ProductsMain = ({getActiveProducts}) => {
   const tokenData = verifyTokenExpiration()
   const { status, companyId, rolId, userId } = tokenData
   const [product, setProduct] = useState({})
@@ -58,7 +59,9 @@ const ProductsMain = () => {
       field: 'status',
       headerName: 'Estado',
       width: 200,
-      renderCell: (params) => <Box>{status ? 'Activo' : 'Inactivo'}</Box>,
+      renderCell: (params) => (
+        <Box>{params.row.status ? 'Activo' : 'Inactivo'}</Box>
+      ),
     },
 
     {
@@ -77,8 +80,15 @@ const ProductsMain = () => {
   useEffect(() => {
     dispatch(clearAlert())
     if (status) {
-      dispatch(getProductsByCompany(companyId))
-    }
+      //Recuperar unicamente los productos activos
+      if(getActiveProducts){
+        dispatch(getProductsByCompany(companyId))
+      //Recuperar todos los productos
+      }else{
+        dispatch(getProducts(companyId))
+        console.log("traer productos inactivoss");
+        }
+      }
   }, [])
 
   const handleSearchChange = (event) => {
@@ -92,7 +102,7 @@ const ProductsMain = () => {
     handleOpen()
   }
 
-  const filteredProducts = products
+  const filteredProducts = (products || [])
     .filter(
       (product) =>
         !selectedCategory ||

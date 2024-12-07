@@ -105,7 +105,6 @@ const ProductForm = ({ setAlert, product, update, handleClose }) => {
       dispatch(getEspeciesByCompany(companyId))
     }
     if (categories && categories.length === 0) {
-      console.log(companyId)
       dispatch(getAllCategoryById(companyId))
     }
   }, [])
@@ -158,7 +157,7 @@ const ProductForm = ({ setAlert, product, update, handleClose }) => {
       dispatch(disableProductById({ body: body, _id: product._id }))
     } else {
       const body = { status: true }
-      dispatch(disableProductById({ status: body, _id: product._id }))
+      dispatch(disableProductById({ body: body, _id: product._id }))
     }
   }
 
@@ -395,8 +394,7 @@ const ProductForm = ({ setAlert, product, update, handleClose }) => {
                 variant="outlined"
                 startIcon={<DeleteIcon />}
                 onClick={handleDisableProduct}
-              >
-                Desactivar Producto
+              >{product.status ? "Desactivar Producto" : "Activar Producto"}
               </Button>
             )}
           </Box>

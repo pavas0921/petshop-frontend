@@ -4,14 +4,14 @@ import globalStyles from "../../styles/global.module.scss";
 import { Box } from "@mui/material";
 import { ProductsMain } from "../../components/ProductsComponents/ProductsMain";
 import styles from "./styles.module.scss";
-const ProductsDashboard = () => {
+const ProductsDashboard = ({getActiveProducts}) => {
   return (
     <Box className={globalStyles.box_main}>
       <Box sx={{ width: "100%" }}>
         <NavbarComponent />
       </Box>
       <Box className={styles.productsMain}>
-        <ProductsMain />
+        <ProductsMain getActiveProducts={getActiveProducts}/>
       </Box>
     </Box>
   );
