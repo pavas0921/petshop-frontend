@@ -172,7 +172,7 @@ const BasicSale = ({saleType}) => {
     setSelectedProduct('')
     setManualValue(0);
     updatedProduct = "";
-    setQty(0)
+    setQty(1)
     const timeoutId = setTimeout(() => {
       dispatch(clearState())
     }, 3000)
