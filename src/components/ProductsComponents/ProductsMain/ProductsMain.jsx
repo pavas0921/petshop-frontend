@@ -39,6 +39,7 @@ const ProductsMain = ({getActiveProducts}) => {
   const handleClose = () => {
     setProduct({})
     setOpenModal(false)
+    setIsUpdate(false)
   }
   const dispatch = useDispatch()
   const productResponse = useSelector(selectProductState)
@@ -177,6 +178,7 @@ const ProductsMain = ({getActiveProducts}) => {
               handleClose={handleClose}
               product={product}
               update={isUpdate}
+              setIsUpdate={setIsUpdate}
             />
           </ModalComponent>
         ) : (

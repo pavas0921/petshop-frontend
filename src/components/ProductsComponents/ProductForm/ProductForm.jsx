@@ -45,8 +45,9 @@ import {
 } from '@mui/material'
 import IconButton from '@mui/material/IconButton'
 import PhotoCameraIcon from '@mui/icons-material/PhotoCamera'
+import { set } from 'date-fns'
 
-const ProductForm = ({ setAlert, product, update, handleClose }) => {
+const ProductForm = ({ setAlert, product, update, handleClose, setIsUpdate }) => {
   const [productImg, setProductImg] = useState()
   const navigate = useNavigate()
   const isValidToken = verifyTokenExpiration()
@@ -126,7 +127,6 @@ const ProductForm = ({ setAlert, product, update, handleClose }) => {
         status: productStatus,
         message: productMessage,
       })
-      handleClose()
     }
   }, [productResponse])
 
@@ -138,6 +138,8 @@ const ProductForm = ({ setAlert, product, update, handleClose }) => {
     if (update) {
       body.image = productImg
       dispatch(updateProductById({ body: body, _id: product._id }))
+      setIsUpdate(false)
+      handleClose()
     } else {
       if (body.image) {
         dispatch(clearAlert())
