@@ -5,7 +5,7 @@
   .box_customSpeedDial {
     position: relative;
     margin-top: 3px;
-    height: 320px;
+    height: 300px;
   }
 }
 
@@ -14,9 +14,5 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
-
-  .button {
-    margin-top: 2px;
-  }
+  flex-direction: column;  
 }

@@ -1,48 +1,17 @@
 import React, { useState } from 'react'
 import Box from '@mui/material/Box'
-import Button from '@mui/material/Button'
-import SaveIcon from '@mui/icons-material/Save'
-import PrintIcon from '@mui/icons-material/Print'
-import ShareIcon from '@mui/icons-material/Share'
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth'
-import { ModalComponent } from '../ModalComponent'
-import { CalendarPicker } from '../DateComponents/CalendarPicker'
-import { useDispatch, useSelector } from 'react-redux'
-import { getVentasByDateRange } from '../../features/venta/ventaSlice'
-import { formatDateIsoToString } from '../../helpers/dateUtils/convertDates'
-import { CustomSpeedDial } from '../CustomSpeedDialComponent'
-import { verifyTokenExpiration } from '../../helpers/verifyToken'
-import styles from './styles.module.scss'
-import useSalesActions from '../../customHooks/reduxActions/salesActions'
 
-const MenuFilter = () => {
-  const isValidToken = verifyTokenExpiration()
-  const { status, companyId, rolId, userId } = isValidToken
+import { ModalComponent } from '../ModalComponent'
+import { CustomSpeedDial } from '../CustomSpeedDialComponent'
+import styles from './styles.module.scss'
+
+const MenuFilter = ({actions, components}) => {
   const [direction, setDirection] = React.useState('up')
   const [hidden, setHidden] = React.useState(false)
   const [openModal, setOpenModal] = useState(false)
+  const [activeComponent, setActiveComponent] = useState(null)
   const handleOpen = () => setOpenModal(true)
   const handleClose = () => setOpenModal(false)
-  const dispatch = useDispatch()
-  const { searchByDate } = useSalesActions()
-  const [state, setState] = useState([
-    {
-      startDate: new Date(),
-      endDate: new Date(),
-      key: 'selection',
-    },
-  ])
-
-  const actions = [
-    {
-      icon: <CalendarMonthIcon />,
-      name: 'Buscar por Fechas',
-      event: 'searchByDates',
-    },
-    { icon: <SaveIcon />, name: 'Save' },
-    { icon: <PrintIcon />, name: 'Print' },
-    { icon: <ShareIcon />, name: 'Share' },
-  ]
 
   const handleDirectionChange = (event) => {
     setDirection(event.target.value)
@@ -53,15 +22,8 @@ const MenuFilter = () => {
   }
 
   const handleActionClick = (event, eventName) => {
-    if (eventName === 'searchByDates') {
-      setOpenModal(true)
-    }
-  }
-
-  const handleSearch = () => {
-    const formatedStartDate = formatDateIsoToString(state[0].startDate)
-    const formatedEndDate = formatDateIsoToString(state[0].endDate)
-    searchByDate(formatedStartDate, formatedEndDate, companyId)
+    setActiveComponent(eventName)
+    setOpenModal(true)
   }
 
   return (
@@ -81,14 +43,7 @@ const MenuFilter = () => {
           handleClose={handleClose}
         >
           <Box className={styles.box_calendarPicker}>
-            <CalendarPicker state={state} setState={setState} />
-            <Button
-              className={styles.button}
-              variant="contained"
-              onClick={handleSearch}
-            >
-              Buscar
-            </Button>
+            {activeComponent && components[activeComponent] }
           </Box>
         </ModalComponent>
       )}

@@ -1,6 +1,6 @@
 .box_main {
   width: 100%;
-  height: 100vh;
+  height: 86vh;
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -32,8 +32,10 @@
   }
 
   .addButton {
+    height: auto;
     position: fixed;
-    bottom: 20px;
-    right: 10px;
+    bottom: -90px; /* Fija el botón cerca del borde inferior */
+    right: 20px;  /* Fija el botón cerca del borde derecho */
+    z-index: 1000; /* Asegúrate de que esté por encima de otros elementos */
   }
 }

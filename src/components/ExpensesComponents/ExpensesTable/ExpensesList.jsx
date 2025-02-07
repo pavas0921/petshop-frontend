@@ -1,7 +1,6 @@
 import { Box, IconButton } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { AddComponent } from '../../AddComponent'
 import { ModalComponent } from '../../ModalComponent'
 import { ExpensesForm } from '../ExpensesForm'
 import { Table } from '../../Table'
@@ -11,13 +10,21 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import DeleteIcon from '@mui/icons-material/Delete'
 import styles from './styles.module.scss'
 import ToastAlert from '../../Alerts'
+import { MenuFilter } from '../../MenuFilterComponent'
+import  menuActions  from "../../../helpers/speedDialActions";
+import { CalendarPicker } from '../../DateComponents/CalendarPicker'
 
+
+const components = {
+  searchByDates:  <CalendarPicker />,
+}
 const ExpensesList = () => {
   const { useGetExpensesByCompany } = expensesCategoryActions()
   const [openModal, setOpenModal] = useState(false)
   const [formattedExpenses, setFormattedExpenses] = useState([])
   const [item, setItem] = useState()
   const { expenses, expensesLoading, expensesFlag, expensesHttpStatus, expensesMessage, expensesStatus } = useSelector(selectExpenseState)
+  const {expensesActions} = menuActions();
   const handleOpen = () => setOpenModal(true)
   const handleClose = () => {
     setOpenModal(false)
@@ -83,7 +90,9 @@ const ExpensesList = () => {
         />
       </Box>
       <Box className={styles.addButton}>
-        <AddComponent openModal={openModal} setOpenModal={setOpenModal} />
+      <Box className={styles.addButton}>
+        <MenuFilter actions={expensesActions} components={components}  />
+      </Box>
       </Box>
       {openModal && (
         <ModalComponent

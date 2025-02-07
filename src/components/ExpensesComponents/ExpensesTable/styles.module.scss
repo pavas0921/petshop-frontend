@@ -31,11 +31,12 @@
           flex-direction: column;
         }
       }
-
       .addButton {
+        height: auto;
         position: fixed;
-        bottom: 20px;
-        right: 20px;
+        bottom: -90px; /* Fija el botón cerca del borde inferior */
+        right: 20px;  /* Fija el botón cerca del borde derecho */
+        z-index: 1000; /* Asegúrate de que esté por encima de otros elementos */
       }
 }  
 

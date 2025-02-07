@@ -10,6 +10,12 @@ import { ModalComponent } from '../../ModalComponent'
 import { ModalDetails } from '../../ModalComponent/ModalDetails'
 import { saleDetailsColumns } from '../../../helpers/tableColumns/saleDetailsColumns'
 import SaleDetails from '../SaleDetails/SaleDetails'
+import  menuActions  from "../../../helpers/speedDialActions";
+import { CalendarPicker } from '../../DateComponents/CalendarPicker'
+
+const components = {
+  searchByDates:  <CalendarPicker />,
+}
 
 const SalesTable = () => {
   const ventasResponse = useSalesByDate()
@@ -17,6 +23,9 @@ const SalesTable = () => {
   const [saleDetail, setSaleDetail] = useState({})
   const [openModal, setOpenModal] = useState(false)
   const { httpStatus, ventas, loading } = ventasResponse
+
+
+  const {salesActions} = menuActions();
 
   const handleClose = () => {
     setSaleDetail({})
@@ -104,7 +113,7 @@ const SalesTable = () => {
         )}
       </Box>
       <Box className={styles.addButton}>
-        <MenuFilter />
+        <MenuFilter actions={salesActions} components={components}  />
       </Box>
 
       {openModal && (
