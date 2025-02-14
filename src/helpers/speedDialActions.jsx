@@ -20,7 +20,7 @@ const menuActions = () => {
       name: 'Buscar por Fechas',
       event: 'searchByDates',
     },
-    { icon: <AddIcon />, name: 'Agregar Gasto' },
+    { icon: <AddIcon />, name: 'Agregar Gasto', event: 'addExpenses' },
   ]
 
   return { salesActions, expensesActions }

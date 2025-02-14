@@ -3,6 +3,7 @@ import {
   createExpenseAPI,
   getExpensesByCompanyAPI,
   getDailyExpensesCountAPI,
+  getExpensesByDateRangeAPI
 } from '../../services/expenses'
 
 const initialState = {
@@ -32,6 +33,14 @@ export const getDailyExpensesCount = createAsyncThunk(
   'get/getDailyExpensesCount',
   async (idCompany) => {
     const data = await getDailyExpensesCountAPI(idCompany)
+    return data
+  }
+)
+
+export const getExpensesByDateRange = createAsyncThunk(
+  'post/getExpensesByDateRangeAPI',
+  async (body) => {
+    const data = await getExpensesByDateRangeAPI(body)
     return data
   }
 )

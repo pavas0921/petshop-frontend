@@ -7,7 +7,7 @@ import { formatDateIsoToString } from '../../../helpers/dateUtils/convertDates'
 import useSalesActions from '../../../customHooks/reduxActions/salesActions'
 import styles from './styles.module.scss'
 
-const CalendarPicker = () => {
+const CalendarPicker = ({module}) => {
   const [state, setState] = useState([
     {
       startDate: new Date(),
@@ -15,14 +15,20 @@ const CalendarPicker = () => {
       key: 'selection',
     },
   ])
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
   const isValidToken = verifyTokenExpiration()
   const { status, companyId, rolId, userId } = isValidToken
   const { searchByDate } = useSalesActions()
+  const moduleActions = {
+    sales: ()=> searchByDate(startDate, endDate, companyId)
+  }
 
   const handleSearch = () => {
-      const formatedStartDate = formatDateIsoToString(state[0].startDate)
-      const formatedEndDate = formatDateIsoToString(state[0].endDate)
-      searchByDate(formatedStartDate, formatedEndDate, companyId)
+      setStartDate(formatDateIsoToString(state[0].startDate)) 
+      setEndDate(formatDateIsoToString(state[0].endDate))
+      const action = moduleActions[module];
+      action();
     }
 
   return (

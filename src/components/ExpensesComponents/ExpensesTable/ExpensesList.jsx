@@ -14,10 +14,11 @@ import { MenuFilter } from '../../MenuFilterComponent'
 import  menuActions  from "../../../helpers/speedDialActions";
 import { CalendarPicker } from '../../DateComponents/CalendarPicker'
 
-
 const components = {
-  searchByDates:  <CalendarPicker />,
+  searchByDates:  <CalendarPicker module={"expenses"} />,
+  addExpenses: <ExpensesForm />
 }
+
 const ExpensesList = () => {
   const { useGetExpensesByCompany } = expensesCategoryActions()
   const [openModal, setOpenModal] = useState(false)
@@ -76,6 +77,8 @@ const ExpensesList = () => {
       ),
     },
   ]
+
+ 
 
   return (
     <Box className={styles.box_main}>

@@ -14,7 +14,7 @@ import  menuActions  from "../../../helpers/speedDialActions";
 import { CalendarPicker } from '../../DateComponents/CalendarPicker'
 
 const components = {
-  searchByDates:  <CalendarPicker />,
+  searchByDates:  <CalendarPicker module={"sales"} />,
 }
 
 const SalesTable = () => {
