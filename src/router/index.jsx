@@ -19,6 +19,7 @@ import { SalesList } from '../pages/SalesPages/SalesDashboard'
 import { SupplierDashboard } from '../pages/SupplierPages/SupplierDashboard'
 import { ExpensesCategoryDashboard } from '../pages/Expenses/ExpensesCategory'
 import { ExpensesDashboard } from '../pages/Expenses/ExpensesDashboard'
+import { SalesPdfReport } from '../components/PdfComponent/SalesPdfReport'
 
 const router = createBrowserRouter([
   {
@@ -129,6 +130,11 @@ const router = createBrowserRouter([
   {
     path: 'expenses',
     element: <ExpensesDashboard />,
+    errorElement: <div> Hubo un error!!</div>,
+  },
+  {
+    path: 'pdfReport',
+    element: <SalesPdfReport />,
     errorElement: <div> Hubo un error!!</div>,
   },
  

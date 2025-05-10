@@ -15,6 +15,7 @@ import {
 } from '../../features/venta/ventaSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { verifyTokenExpiration } from '../../helpers/verifyToken'
+import { generatePdf } from '../../helpers/pdfUtils/pdfGenerator'
 
 const productsActions = () => {
   const dispatch = useDispatch()
@@ -87,6 +88,8 @@ const productsActions = () => {
     body.totalVenta = +totalSaleValue
     body.companyId = companyId
     dispatch(createVenta(body)).then(() => {
+      body.customer = JSON.parse(sessionStorage.getItem("customer"));
+      generatePdf("salesReport", body);
       dispatch(clearSaleDetail())
       dispatch(getProductsByCompany(companyId))
       const timeoutId = setTimeout(() => {

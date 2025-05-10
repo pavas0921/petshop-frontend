@@ -120,6 +120,7 @@ export const VentaSlice = createSlice({
           action.payload.httpStatus === 200 &&
           action.payload.status === 'success'
         ) {
+          sessionStorage.setItem("customer", JSON.stringify(action.payload.customer))
           state.ventas = action.payload.venta
           state.salesHttpStatus = action.payload.httpStatus
           state.salesMessage = action.payload.message

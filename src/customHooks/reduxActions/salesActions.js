@@ -5,6 +5,7 @@ import {
   clearState,
 } from '../../features/venta/ventaSlice'
 import { verifyTokenExpiration } from '../../helpers/verifyToken'
+import { generatePdf } from '../../helpers/pdfUtils/pdfGenerator'
 import { useNavigate } from 'react-router-dom'
 
 const useSalesActions = () => {
@@ -20,11 +21,13 @@ const useSalesActions = () => {
     )
   }
 
-  const registerSale = (body) => {
+  const registerSale = async (body) => {
+    console.log("hola")
     const { status } = verifyTokenExpiration()
     if (status) {
       dispatch(clearState())
-      dispatch(createVenta(body))
+      await dispatch(createVenta(body)).unwrap();  // <-- Espera la respuesta
+      generatePdf("salesReport", body);
     } else {
       sessionStorage.clear()
       localStorage.clear()
